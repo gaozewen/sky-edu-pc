@@ -5,13 +5,25 @@
   :global(.ant-pro-form-login-page-notice) {
     display: none;
   }
+  :global(.ant-pro-form-login-page-container) {
+    background-image: none;
+  }
   // 设置 LOGO 样式
   :global(.ant-pro-form-login-page-header) {
     height: auto;
     line-height: normal;
   }
   :global(.ant-pro-form-login-page-logo) {
-    width: 150px;
+    width: 160px;
     height: 150px;
+    margin: 0;
+  }
+
+  .forgetPwd {
+    float: right;
+    color: #00c6a8;
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }

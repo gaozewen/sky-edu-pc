@@ -19,7 +19,7 @@ const Page = () => {
   return (
     <div className={styles.container}>
       <LoginFormPage
-        logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
+        logo="https://cdn.gaozewen.com/images/logo_sky_edu.png"
         backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
         containerStyle={{
           backgroundColor: 'rgba(0, 0, 0,0.65)',
@@ -53,13 +53,7 @@ const Page = () => {
           <ProFormCheckbox noStyle name="autoLogin">
             自动登录
           </ProFormCheckbox>
-          <a
-            style={{
-              float: 'right',
-            }}
-          >
-            忘记密码
-          </a>
+          <a className={styles.forgetPwd}>忘记密码</a>
         </div>
       </LoginFormPage>
     </div>
