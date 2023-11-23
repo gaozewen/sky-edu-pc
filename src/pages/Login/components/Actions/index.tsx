@@ -1,14 +1,8 @@
 import { WechatOutlined } from '@ant-design/icons'
 import { Divider, Space, theme } from 'antd'
-import type { CSSProperties } from 'react'
 
 import styles from './index.module.scss'
 
-const iconStyles: CSSProperties = {
-  fontSize: '28px',
-  verticalAlign: 'middle',
-  cursor: 'pointer',
-}
 /**
  * LoginFormPage 的属性 actions
  */
@@ -29,7 +23,25 @@ const Actions = () => {
         </span>
       </Divider>
       <Space align="center" size={24}>
-        <WechatOutlined style={{ ...iconStyles, color: token.colorPrimary }} />
+        <div
+          className={styles.iconWrapper}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            height: 40,
+            width: 40,
+          }}
+        >
+          <WechatOutlined
+            style={{
+              fontSize: '28px',
+              verticalAlign: 'middle',
+              cursor: 'pointer',
+            }}
+          />
+        </div>
       </Space>
     </div>
   )

@@ -3,4 +3,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .iconWrapper {
+    color: #00c6a8;
+    &:hover {
+      color: #28eec6;
+    }
+  }
 }
