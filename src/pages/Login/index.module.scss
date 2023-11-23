@@ -1,0 +1,17 @@
+.container {
+  height: 100vh;
+  background-color: white;
+  // 将登录表单居中
+  :global(.ant-pro-form-login-page-notice) {
+    display: none;
+  }
+  // 设置 LOGO 样式
+  :global(.ant-pro-form-login-page-header) {
+    height: auto;
+    line-height: normal;
+  }
+  :global(.ant-pro-form-login-page-logo) {
+    width: 150px;
+    height: 150px;
+  }
+}
