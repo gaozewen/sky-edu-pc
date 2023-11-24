@@ -33,14 +33,14 @@ const Page = () => {
           onChange={activeKey => setLoginType(activeKey as LoginType)}
           items={[
             {
-              key: 'account',
-              label: '账号密码登录',
-              children: <AccountLoginForm />,
+              key: 'mobile',
+              label: '登录/注册',
+              children: <MobileLoginForm />,
             },
             {
-              key: 'mobile',
-              label: '手机号登录',
-              children: <MobileLoginForm />,
+              key: 'account',
+              label: '密码登录',
+              children: <AccountLoginForm />,
             },
           ]}
         ></Tabs>
@@ -53,7 +53,7 @@ const Page = () => {
           <ProFormCheckbox noStyle name="autoLogin">
             自动登录
           </ProFormCheckbox>
-          <a className={styles.forgetPwd}>忘记密码</a>
+          {loginType === 'account' && <a className={styles.forgetPwd}>忘记密码</a>}
         </div>
       </LoginFormPage>
     </div>

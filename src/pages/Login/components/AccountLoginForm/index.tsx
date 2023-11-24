@@ -23,11 +23,11 @@ const AccountLoginForm = () => {
             />
           ),
         }}
-        placeholder={'用户名'}
+        placeholder={'请输入登录手机号'}
         rules={[
           {
             required: true,
-            message: '请输入用户名!',
+            message: '请输入登录手机号!',
           },
         ]}
       />
@@ -44,7 +44,7 @@ const AccountLoginForm = () => {
             />
           ),
         }}
-        placeholder={'密码'}
+        placeholder={'请输入密码'}
         rules={[
           {
             required: true,
