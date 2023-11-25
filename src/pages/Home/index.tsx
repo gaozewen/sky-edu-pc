@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useUserContext } from '@/hooks/useUserHooks'
 
 import styles from './index.module.scss'
 
@@ -6,11 +6,9 @@ import styles from './index.module.scss'
  *  首页
  */
 const Home = () => {
-  const [state, setState] = useState()
-  useEffect(() => {
-    console.log(state, setState)
-  }, [])
-  return <div className={styles.container}>sss</div>
+  const { store } = useUserContext()
+  console.log('gzw====>store', store)
+  return <div className={styles.container}>{store.tel}</div>
 }
 
 export default Home
