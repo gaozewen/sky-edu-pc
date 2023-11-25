@@ -29,6 +29,8 @@ const MobileLoginForm = () => {
             />
           ),
         }}
+        // TODO: 开发用，上线注释掉
+        initialValue="13815013866"
         name="tel"
         placeholder={'请输入手机号'}
         rules={[

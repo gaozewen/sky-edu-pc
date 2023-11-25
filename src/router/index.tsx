@@ -28,6 +28,10 @@ const router = createBrowserRouter([
 
 export default router
 
+export const isLoginRouter = (pathname: string) => {
+  return [PN_LOGIN].includes(pathname)
+}
+
 // PN: pathname
 export const PN_HOME = '/'
 export const PN_LOGIN = '/login'

@@ -6,10 +6,12 @@ import {
 import { useMutation } from '@apollo/client'
 import { ConfigProvider, message, Tabs } from 'antd'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { SUCCESS } from '@/constants/code'
 import { ADMIN_LOGIN } from '@/graphql/auth'
+import { useTitle } from '@/hooks/useTitle'
+import { useUserContext } from '@/hooks/useUserHooks'
 import { PN_HOME } from '@/router'
 import { setToken } from '@/utils/userToken'
 
@@ -32,10 +34,13 @@ interface IValue {
 }
 
 const Page = () => {
+  useTitle('登录')
   const [loginType, setLoginType] = useState<LoginType>(LoginType.MOBILE)
   const [adminLogin, { loading, client }] = useMutation(ADMIN_LOGIN)
   const [messageApi, contextHolder] = message.useMessage()
   const nav = useNavigate()
+  const [params] = useSearchParams()
+  const { store: userStore } = useUserContext()
 
   const onFinish = async (value: IValue) => {
     const { tel, code, account, password, autoLogin } = value
@@ -54,10 +59,12 @@ const Page = () => {
         // TODO: 登出之后也要做同样的处理
         // https://www.apollographql.com/docs/react/networking/authentication
         // 登录成功后清空阿波罗之前的缓存
-        client.clearStore()
+        await client.clearStore()
         setToken(res.data.adminLogin.data, autoLogin)
+        // 更新用户信息 (为了解决跳转页面后 GET_USER_BY_JWT 接口不触发的问题)
+        userStore.refetchHandler()
         messageApi.success(res.data.adminLogin.message)
-        nav(PN_HOME)
+        nav(params.get('orgUrl') || PN_HOME)
         return
       }
       messageApi.error(res.data.adminLogin.message)
@@ -107,7 +114,7 @@ const Page = () => {
               marginBlockEnd: 24,
             }}
           >
-            <ProFormCheckbox noStyle name="autoLogin">
+            <ProFormCheckbox noStyle name="autoLogin" initialValue={true}>
               自动登录
             </ProFormCheckbox>
             {loginType === 'account' && <a className={styles.forgetPwd}>忘记密码</a>}

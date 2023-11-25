@@ -4,6 +4,6 @@ export interface IUser {
   nickname: string
   desc: string
   avatar: string
-  refetchHandler?: () => void
+  refetchHandler: () => void
   currentOrg?: string
 }
