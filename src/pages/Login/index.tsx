@@ -6,9 +6,11 @@ import {
 import { useMutation } from '@apollo/client'
 import { ConfigProvider, message, Tabs } from 'antd'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { SUCCESS } from '@/constants/code'
 import { ADMIN_LOGIN } from '@/graphql/auth'
+import { PN_HOME } from '@/router'
 import { setToken } from '@/utils/userToken'
 
 import AccountLoginForm from './components/AccountLoginForm'
@@ -33,6 +35,7 @@ const Page = () => {
   const [loginType, setLoginType] = useState<LoginType>(LoginType.MOBILE)
   const [adminLogin, { loading, client }] = useMutation(ADMIN_LOGIN)
   const [messageApi, contextHolder] = message.useMessage()
+  const nav = useNavigate()
 
   const onFinish = async (value: IValue) => {
     const { tel, code, account, password, autoLogin } = value
@@ -54,6 +57,7 @@ const Page = () => {
         client.clearStore()
         setToken(res.data.adminLogin.data, autoLogin)
         messageApi.success(res.data.adminLogin.message)
+        nav(PN_HOME)
         return
       }
       messageApi.error(res.data.adminLogin.message)
