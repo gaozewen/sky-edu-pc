@@ -9,6 +9,7 @@ import { useState } from 'react'
 
 import { SUCCESS } from '@/constants/code'
 import { ADMIN_LOGIN } from '@/graphql/auth'
+import { setToken } from '@/utils/userToken'
 
 import AccountLoginForm from './components/AccountLoginForm'
 import Actions from './components/Actions'
@@ -30,11 +31,11 @@ interface IValue {
 
 const Page = () => {
   const [loginType, setLoginType] = useState<LoginType>(LoginType.MOBILE)
-  const [adminLogin, { loading }] = useMutation(ADMIN_LOGIN)
+  const [adminLogin, { loading, client }] = useMutation(ADMIN_LOGIN)
   const [messageApi, contextHolder] = message.useMessage()
 
   const onFinish = async (value: IValue) => {
-    const { tel, code, account, password } = value
+    const { tel, code, account, password, autoLogin } = value
     try {
       const res = await adminLogin({
         variables: {
@@ -47,6 +48,11 @@ const Page = () => {
         },
       })
       if (res.data.adminLogin.code === SUCCESS) {
+        // TODO: 登出之后也要做同样的处理
+        // https://www.apollographql.com/docs/react/networking/authentication
+        // 登录成功后清空阿波罗之前的缓存
+        client.clearStore()
+        setToken(res.data.adminLogin.data, autoLogin)
         messageApi.success(res.data.adminLogin.message)
         return
       }

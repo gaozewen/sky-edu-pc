@@ -5,7 +5,6 @@ export const SEND_AUTH_SMS = gql`
     sendAuthSMS(tel: $tel) {
       code
       message
-      data
     }
   }
 `
