@@ -12,7 +12,7 @@ import { SEND_AUTH_SMS } from '@/graphql/auth'
 const MobileLoginForm = () => {
   const { token } = theme.useToken()
   const [messageApi, contextHolder] = message.useMessage()
-  const [run] = useMutation(SEND_AUTH_SMS)
+  const [sendAuthSMS] = useMutation(SEND_AUTH_SMS)
 
   return (
     <>
@@ -29,7 +29,7 @@ const MobileLoginForm = () => {
             />
           ),
         }}
-        name="mobile"
+        name="tel"
         placeholder={'请输入手机号'}
         rules={[
           {
@@ -64,16 +64,16 @@ const MobileLoginForm = () => {
           }
           return '获取验证码'
         }}
-        name="captcha"
         rules={[
           {
             required: true,
             message: '请输入验证码！',
           },
         ]}
-        phoneName="mobile"
+        name="code"
+        phoneName="tel"
         onGetCaptcha={async (tel: string) => {
-          const res = await run({
+          const res = await sendAuthSMS({
             variables: {
               tel,
             },

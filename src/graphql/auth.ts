@@ -15,3 +15,13 @@ export const UPDATE = gql`
     update(id: $id, params: $params)
   }
 `
+
+export const ADMIN_LOGIN = gql`
+  mutation adminLogin($params: AdminLoginInput!) {
+    adminLogin(params: $params) {
+      code
+      message
+      data
+    }
+  }
+`
