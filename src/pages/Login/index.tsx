@@ -4,7 +4,7 @@ import {
   ProFormCheckbox,
 } from '@ant-design/pro-components'
 import { useMutation } from '@apollo/client'
-import { message, Tabs } from 'antd'
+import { ConfigProvider, message, Tabs } from 'antd'
 import { useState } from 'react'
 
 import { SUCCESS } from '@/constants/code'
@@ -15,28 +15,32 @@ import Actions from './components/Actions'
 import MobileLoginForm from './components/MobileLoginForm'
 import styles from './index.module.scss'
 
-type LoginType = 'mobile' | 'account'
+enum LoginType {
+  MOBILE = 'mobile',
+  ACCOUNT = 'account',
+}
 
 interface IValue {
   tel: string
   code: string
+  account: string
   password: string
   autoLogin: boolean
 }
 
 const Page = () => {
-  const [loginType, setLoginType] = useState<LoginType>('mobile')
+  const [loginType, setLoginType] = useState<LoginType>(LoginType.MOBILE)
   const [adminLogin, { loading }] = useMutation(ADMIN_LOGIN)
   const [messageApi, contextHolder] = message.useMessage()
 
   const onFinish = async (value: IValue) => {
-    const { tel, code, password } = value
+    const { tel, code, account, password } = value
     try {
       const res = await adminLogin({
         variables: {
           params: {
             loginType,
-            tel,
+            tel: loginType === LoginType.MOBILE ? tel : account,
             code,
             password,
           },
@@ -76,12 +80,12 @@ const Page = () => {
             onChange={activeKey => setLoginType(activeKey as LoginType)}
             items={[
               {
-                key: 'mobile',
+                key: LoginType.MOBILE,
                 label: '登录/注册',
                 children: <MobileLoginForm />,
               },
               {
-                key: 'account',
+                key: LoginType.ACCOUNT,
                 label: '密码登录',
                 children: <AccountLoginForm />,
               },
@@ -106,9 +110,19 @@ const Page = () => {
 
 const Login = () => {
   return (
-    <ProConfigProvider dark>
-      <Page />
-    </ProConfigProvider>
+    <ConfigProvider
+      theme={{
+        // algorithm: theme.darkAlgorithm,
+        // algorithm: theme.defaultAlgorithm,
+        token: {
+          colorPrimary: '#00C6A8',
+        },
+      }}
+    >
+      <ProConfigProvider dark>
+        <Page />
+      </ProConfigProvider>
+    </ConfigProvider>
   )
 }
 

@@ -11,7 +11,7 @@ const AccountLoginForm = () => {
   return (
     <>
       <ProFormText
-        name="tel"
+        name="account"
         fieldProps={{
           size: 'large',
           prefix: (

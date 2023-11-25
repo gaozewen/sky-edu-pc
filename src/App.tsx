@@ -1,24 +1,9 @@
-import {
-  ConfigProvider,
-  // theme
-} from 'antd'
+import { RouterProvider } from 'react-router-dom'
 
-import Login from './pages/Login'
+import router from './router'
 
 function App() {
-  return (
-    <ConfigProvider
-      theme={{
-        // algorithm: theme.darkAlgorithm,
-        // algorithm: theme.defaultAlgorithm,
-        token: {
-          colorPrimary: '#00C6A8',
-        },
-      }}
-    >
-      <Login />
-    </ConfigProvider>
-  )
+  return <RouterProvider router={router}></RouterProvider>
 }
 
 export default App
