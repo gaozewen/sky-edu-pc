@@ -1,9 +1,11 @@
+import { PoweroffOutlined, UnlockOutlined, UserOutlined } from '@ant-design/icons'
 import {
   MenuDataItem,
   PageContainer,
   ProConfigProvider,
   ProLayout,
 } from '@ant-design/pro-components'
+import { Dropdown, Space } from 'antd'
 import { Link, Outlet } from 'react-router-dom'
 
 import { IMG } from '@/constants/image'
@@ -17,15 +19,12 @@ import { removeToken } from '@/utils/userToken'
  */
 const SkyLayout = () => {
   const { store: userStore } = useUserContext()
-  const { tel } = userStore
+
   const { goTo } = useGoTo()
 
   const onLogout = () => {
     removeToken()
-    goTo({
-      pathname: PN.LOGIN,
-      replace: true,
-    })
+    userStore.refetchHandler()
   }
 
   return (
@@ -37,12 +36,51 @@ const SkyLayout = () => {
         title={false}
         //用户信息
         avatarProps={{
-          src: IMG.LOGO,
-          title: tel,
+          src: userStore.avatar,
+          title: userStore.nickname,
           size: 'small',
-          // TODO: 后期改成修改跳转个人信息页
-          onClick: onLogout,
+          render(props, defaultDom) {
+            return (
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: '1',
+                      label: (
+                        <Space size={20} onClick={() => goTo({ pathname: PN.PROFILE })}>
+                          <UserOutlined />
+                          个人信息
+                        </Space>
+                      ),
+                    },
+                    {
+                      key: '2',
+                      label: (
+                        <Space size={20} onClick={onLogout}>
+                          <UnlockOutlined />
+                          修改密码
+                        </Space>
+                      ),
+                    },
+                    {
+                      key: '3',
+                      label: (
+                        <Space size={20} onClick={onLogout}>
+                          <PoweroffOutlined />
+                          退出登录
+                        </Space>
+                      ),
+                    },
+                  ],
+                }}
+                placement="bottom"
+              >
+                {defaultDom}
+              </Dropdown>
+            )
+          },
         }}
+        hasSiderMenu={true}
         siderWidth={188}
         // 左侧菜单路由
         route={{

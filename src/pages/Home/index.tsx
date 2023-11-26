@@ -7,7 +7,6 @@ import styles from './index.module.scss'
  */
 const Home = () => {
   const { store } = useUserContext()
-  console.log('gzw====>store', store)
   return <div className={styles.container}>{store.tel}</div>
 }
 

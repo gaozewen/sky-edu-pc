@@ -75,20 +75,25 @@ const MobileLoginForm = () => {
         name="code"
         phoneName="tel"
         onGetCaptcha={async (tel: string) => {
-          const res = await sendAuthSMS({
-            variables: {
-              tel,
-            },
-          })
-          const { code, message: msg } = res.data.sendAuthSMS
-          if (code === SUCCESS) {
-            messageApi.success('获取验证码成功！')
-          } else if (code === AUTH_SMS_NOT_EXPIRED) {
-            messageApi.warning('验证码尚未过期！')
-          } else if (code === GET_AUTH_SMS_FAILED) {
-            messageApi.error('获取验证码失败！')
-          } else {
-            messageApi.error(msg)
+          try {
+            const res = await sendAuthSMS({
+              variables: {
+                tel,
+              },
+            })
+            const { code, message: msg } = res.data.sendAuthSMS
+            if (code === SUCCESS) {
+              messageApi.success('获取验证码成功！')
+            } else if (code === AUTH_SMS_NOT_EXPIRED) {
+              messageApi.warning('验证码尚未过期！')
+            } else if (code === GET_AUTH_SMS_FAILED) {
+              messageApi.error('获取验证码失败！')
+            } else {
+              messageApi.error(msg)
+            }
+          } catch (error) {
+            console.error('【sendAuthSMS】Error:')
+            messageApi.error('获取验证码失败！服务器忙，请稍后再试！')
           }
         }}
       />

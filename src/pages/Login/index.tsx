@@ -6,14 +6,12 @@ import {
 import { useMutation } from '@apollo/client'
 import { ConfigProvider, message, Tabs } from 'antd'
 import { useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { SUCCESS } from '@/constants/code'
 import { IMG } from '@/constants/image'
 import { ADMIN_LOGIN } from '@/graphql/auth'
 import { useTitle } from '@/hooks/useTitle'
 import { useUserContext } from '@/hooks/useUserHooks'
-import { PN } from '@/router'
 import { setToken } from '@/utils/userToken'
 
 import AccountLoginForm from './components/AccountLoginForm'
@@ -39,8 +37,6 @@ const Page = () => {
   const [loginType, setLoginType] = useState<LoginType>(LoginType.MOBILE)
   const [adminLogin, { loading, client }] = useMutation(ADMIN_LOGIN)
   const [messageApi, contextHolder] = message.useMessage()
-  const nav = useNavigate()
-  const [params] = useSearchParams()
   const { store: userStore } = useUserContext()
 
   const onFinish = async (value: IValue) => {
@@ -67,8 +63,8 @@ const Page = () => {
         // UserInfoLayout 组件不会重新渲染，所以也不会加载获取用户信息的请求
         // 所以需要们手动触发
         userStore.refetchHandler()
+        // 路由跳转交由 useAutoNavigate 统一控制
         messageApi.success(res.data.adminLogin.message)
-        nav(params.get('orgUrl') || PN.HOME)
         return
       }
       messageApi.error(res.data.adminLogin.message)

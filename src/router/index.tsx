@@ -7,13 +7,15 @@ import UserInfoLayout from '@/layouts/UserInfoLayout'
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
+import Profile from '@/pages/Profile'
 // PN: pathname
 export const PN = {
   HOME: '/',
   LOGIN: '/login',
+  PROFILE: '/profile',
 }
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: '/',
     element: <UserInfoLayout />,
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
             element: <Home />,
           },
           {
+            path: PN.PROFILE,
+            element: <Profile />,
+          },
+          {
             path: '*',
             element: <NotFound />,
           },
@@ -46,10 +52,14 @@ export const isLoginRouter = (pathname: string) => {
 
 export const Menus: MenuDataItem[] = [
   {
-    key: 'home',
     path: PN.HOME,
     name: '首页',
     icon: <HomeOutlined />,
+  },
+  {
+    path: PN.PROFILE,
+    name: '个人信息',
+    hideInMenu: true,
   },
 ]
 

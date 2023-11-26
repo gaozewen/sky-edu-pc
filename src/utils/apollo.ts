@@ -30,6 +30,12 @@ const authLink = new ApolloLink((operation, forward) => {
 
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
+  defaultOptions: {
+    watchQuery: {
+      // https://www.apollographql.com/docs/react/data/queries#supported-fetch-policies
+      fetchPolicy: 'no-cache',
+    },
+  },
   // httpLink 必须放在末尾，否则浏览器控制台报错
   link: from([
     // logoutLink,
