@@ -9,10 +9,11 @@ import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { SUCCESS } from '@/constants/code'
+import { IMG } from '@/constants/image'
 import { ADMIN_LOGIN } from '@/graphql/auth'
 import { useTitle } from '@/hooks/useTitle'
 import { useUserContext } from '@/hooks/useUserHooks'
-import { PN_HOME } from '@/router'
+import { PN } from '@/router'
 import { setToken } from '@/utils/userToken'
 
 import AccountLoginForm from './components/AccountLoginForm'
@@ -62,9 +63,12 @@ const Page = () => {
         await client.clearStore()
         setToken(res.data.adminLogin.data, autoLogin)
         // 更新用户信息 (为了解决跳转页面后 GET_USER_BY_JWT 接口不触发的问题)
+        // 原因是：由于 UserInfoLayout 是左右页面的 layout，所以当登录成功跳转其他页面后
+        // UserInfoLayout 组件不会重新渲染，所以也不会加载获取用户信息的请求
+        // 所以需要们手动触发
         userStore.refetchHandler()
         messageApi.success(res.data.adminLogin.message)
-        nav(params.get('orgUrl') || PN_HOME)
+        nav(params.get('orgUrl') || PN.HOME)
         return
       }
       messageApi.error(res.data.adminLogin.message)
@@ -79,7 +83,7 @@ const Page = () => {
       {contextHolder}
       <div className={styles.container}>
         <LoginFormPage
-          logo="https://cdn.gaozewen.com/images/logo_sky_edu.png"
+          logo={IMG.LOGO}
           backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
           containerStyle={{
             backgroundColor: 'rgba(0, 0, 0,0.65)',

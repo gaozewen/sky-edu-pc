@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { GET_USER_BY_JWT } from '@/graphql/user'
-import { isLoginRouter, PN_HOME, PN_LOGIN } from '@/router'
+import { isLoginRouter, PN } from '@/router'
 import { IUser } from '@/types'
 import { connectFactory, useContextFactory } from '@/utils/contextFactory'
 
@@ -27,7 +27,7 @@ export const useLoadUserData = () => {
       // 跳转登录页
       nav(
         {
-          pathname: PN_LOGIN,
+          pathname: PN.LOGIN,
           search: `orgUrl=${pathname}`,
         },
         { replace: true }
@@ -47,7 +47,7 @@ export const useLoadUserData = () => {
         if (isLoginRouter(pathname)) {
           nav(
             {
-              pathname: PN_HOME,
+              pathname: PN.HOME,
             },
             { replace: true }
           )

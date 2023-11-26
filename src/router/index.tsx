@@ -1,9 +1,17 @@
+import { HomeOutlined } from '@ant-design/icons'
+import { MenuDataItem } from '@ant-design/pro-components'
 import { createBrowserRouter } from 'react-router-dom'
 
+import SkyLayout from '@/layouts/SkyLayout'
 import UserInfoLayout from '@/layouts/UserInfoLayout'
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import NotFound from '@/pages/NotFound'
+// PN: pathname
+export const PN = {
+  HOME: '/',
+  LOGIN: '/login',
+}
 
 const router = createBrowserRouter([
   {
@@ -11,27 +19,38 @@ const router = createBrowserRouter([
     element: <UserInfoLayout />,
     children: [
       {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: '/login',
+        path: PN.LOGIN,
         element: <Login />,
       },
       {
-        path: '*',
-        element: <NotFound />,
+        path: '/',
+        element: <SkyLayout />,
+        children: [
+          {
+            path: PN.HOME,
+            element: <Home />,
+          },
+          {
+            path: '*',
+            element: <NotFound />,
+          },
+        ],
       },
     ],
   },
 ])
 
-export default router
-
 export const isLoginRouter = (pathname: string) => {
-  return [PN_LOGIN].includes(pathname)
+  return [PN.LOGIN].includes(pathname)
 }
 
-// PN: pathname
-export const PN_HOME = '/'
-export const PN_LOGIN = '/login'
+export const Menus: MenuDataItem[] = [
+  {
+    key: 'home',
+    path: PN.HOME,
+    name: '首页',
+    icon: <HomeOutlined />,
+  },
+]
+
+export default router

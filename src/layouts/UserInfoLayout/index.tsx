@@ -11,7 +11,7 @@ const UserInfo = () => {
   useLoadUserData()
   return (
     <Layout>
-      <Content style={{ width: '100vw', height: '100vh' }}>
+      <Content style={{ height: '100vh' }}>
         <Outlet />
       </Content>
     </Layout>

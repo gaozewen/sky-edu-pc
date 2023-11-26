@@ -8,7 +8,7 @@ const NotFound = () => {
   const nav = useNavigate()
   return (
     <Result
-      style={{ marginTop: '14vh' }}
+      style={{ marginTop: '8vh' }}
       status={404}
       title="404"
       subTitle="您访问的页面不存在"
