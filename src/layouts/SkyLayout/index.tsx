@@ -4,9 +4,10 @@ import {
   ProConfigProvider,
   ProLayout,
 } from '@ant-design/pro-components'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 import { IMG } from '@/constants/image'
+import { useGoTo } from '@/hooks/useGoTo'
 import { useUserContext } from '@/hooks/useUserHooks'
 import { Menus, PN } from '@/router'
 import { removeToken } from '@/utils/userToken'
@@ -17,18 +18,14 @@ import { removeToken } from '@/utils/userToken'
 const SkyLayout = () => {
   const { store: userStore } = useUserContext()
   const { tel } = userStore
-  const nav = useNavigate()
+  const { goTo } = useGoTo()
 
   const onLogout = () => {
     removeToken()
-    nav(
-      {
-        pathname: PN.LOGIN,
-      },
-      {
-        replace: true,
-      }
-    )
+    goTo({
+      pathname: PN.LOGIN,
+      replace: true,
+    })
   }
 
   return (

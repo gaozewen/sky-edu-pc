@@ -1,10 +1,12 @@
 import { useQuery } from '@apollo/client'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { GET_USER_BY_JWT } from '@/graphql/user'
 import { isLoginRouter, PN } from '@/router'
 import { IUser } from '@/types'
 import { connectFactory, useContextFactory } from '@/utils/contextFactory'
+
+import { useGoTo } from './useGoTo'
 
 const KEY = 'user'
 const DEFAULT_VALUE = {}
@@ -18,20 +20,18 @@ export const useUserContext = () => useContextFactory<IUser>(KEY)
 export const useLoadUserData = () => {
   const { setStore } = useUserContext()
   const { pathname } = useLocation()
-  const nav = useNavigate()
+  const { goTo } = useGoTo()
 
   // 页面跳转处理器
   const navHandler = () => {
     // 未登录且不是登录页
     if (!isLoginRouter(pathname)) {
       // 跳转登录页
-      nav(
-        {
-          pathname: PN.LOGIN,
-          search: `orgUrl=${pathname}`,
-        },
-        { replace: true }
-      )
+      goTo({
+        pathname: PN.LOGIN,
+        search: `orgUrl=${pathname}`,
+        replace: true,
+      })
     }
   }
 
@@ -45,12 +45,10 @@ export const useLoadUserData = () => {
         setStore({ id, nickname, tel, refetchHandler: refetch })
         // 当前在登录页面，直接跳到首页
         if (isLoginRouter(pathname)) {
-          nav(
-            {
-              pathname: PN.HOME,
-            },
-            { replace: true }
-          )
+          goTo({
+            pathname: PN.HOME,
+            replace: true,
+          })
         }
         return
       }
