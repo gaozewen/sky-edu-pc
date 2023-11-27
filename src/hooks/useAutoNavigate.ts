@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 
 import { isLoginRouter, PN } from '@/router'
 
@@ -9,6 +9,7 @@ import { useUserContext } from './useUserHooks'
 // 根据不同情况处理当前页面路由的自动跳转
 const useAutoNavigate = (loadingUserData: boolean) => {
   const { pathname } = useLocation()
+  const [params] = useSearchParams()
   const { store } = useUserContext()
   const { goTo } = useGoTo()
 
@@ -21,9 +22,15 @@ const useAutoNavigate = (loadingUserData: boolean) => {
 
     // 已登陆
     if (store.tel) {
-      // 如果当前路由是登录或注册页时，跳转我的问卷页
+      // 如果当前路由是登录页时，跳转 orgUrl 页，否则跳转主页
       if (isLoginRouter(pathname)) {
-        goTo({ pathname: PN.HOME })
+        const orgUrlPathname = params.get('orgUrl')
+        if (orgUrlPathname === PN.PASSWORD) {
+          // 如果是修改密码后的登录跳转，直接去首页
+          goTo({ pathname: PN.HOME })
+          return
+        }
+        goTo({ pathname: orgUrlPathname || PN.HOME })
       }
       return
     }

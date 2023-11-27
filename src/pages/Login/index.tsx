@@ -99,15 +99,18 @@ const Page = () => {
               {
                 key: LoginType.MOBILE,
                 label: '登录/注册',
-                children: <MobileLoginForm />,
               },
               {
                 key: LoginType.ACCOUNT,
                 label: '密码登录',
-                children: <AccountLoginForm />,
               },
             ]}
           ></Tabs>
+
+          {/* 必须把表单放在外面，如果放在 Tabs 中的 children 中，切换 tab 后 onFinish 会失效 */}
+          {loginType === LoginType.MOBILE && <MobileLoginForm />}
+
+          {loginType === LoginType.ACCOUNT && <AccountLoginForm />}
 
           <div
             style={{

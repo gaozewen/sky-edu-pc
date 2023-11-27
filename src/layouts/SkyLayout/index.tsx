@@ -10,9 +10,9 @@ import { Link, Outlet } from 'react-router-dom'
 
 import { IMG } from '@/constants/image'
 import { useGoTo } from '@/hooks/useGoTo'
+import { useLogout } from '@/hooks/useLogout'
 import { useUserContext } from '@/hooks/useUserHooks'
 import { Menus, PN } from '@/router'
-import { removeToken } from '@/utils/userToken'
 
 /**
  * 天空教育页面统一 Layout
@@ -22,10 +22,7 @@ const SkyLayout = () => {
 
   const { goTo } = useGoTo()
 
-  const onLogout = () => {
-    removeToken()
-    userStore.refetchHandler()
-  }
+  const { onLogout } = useLogout()
 
   return (
     <ProConfigProvider>
@@ -56,7 +53,10 @@ const SkyLayout = () => {
                     {
                       key: '2',
                       label: (
-                        <Space size={20} onClick={onLogout}>
+                        <Space
+                          size={20}
+                          onClick={() => goTo({ pathname: PN.PASSWORD })}
+                        >
                           <UnlockOutlined />
                           修改密码
                         </Space>

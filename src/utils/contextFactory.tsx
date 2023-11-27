@@ -12,6 +12,7 @@ interface IStore<T> {
   // T 表示存储数据的类型
   store: T
   setStore: (payload: Partial<T>) => void
+  resetStore: (payload: Partial<T>) => void
 }
 
 const cxtCache: Record<string, Cxt> = {}
@@ -30,6 +31,11 @@ function getCxtProvider<T>(
         setStore: (payload = {}) =>
           setStore(state => ({
             ...state,
+            ...payload,
+          })),
+        resetStore: (payload = {}) =>
+          setStore(() => ({
+            ...defaultValue,
             ...payload,
           })),
       }),
@@ -52,6 +58,7 @@ class Cxt<T = any> {
       key,
       store: defaultValue,
       setStore: () => {},
+      resetStore: () => {},
     }
     this.AppContext = createContext(this.defaultStore)
     this.Provider = getCxtProvider(key, defaultValue, this.AppContext)
@@ -65,6 +72,7 @@ export function useContextFactory<T>(key: string) {
   return {
     store: app.store,
     setStore: app.setStore,
+    resetStore: app.resetStore,
   }
 }
 

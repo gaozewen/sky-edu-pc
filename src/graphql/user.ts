@@ -19,3 +19,12 @@ export const UPDATE_USER_PROFILE = gql`
     }
   }
 `
+
+export const RESET_PWD = gql`
+  mutation resetPwd($params: ResetPwdInput!) {
+    resetPwd(params: $params) {
+      code
+      message
+    }
+  }
+`
