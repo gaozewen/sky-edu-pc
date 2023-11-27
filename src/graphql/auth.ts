@@ -10,13 +10,13 @@ export const SEND_AUTH_SMS = gql`
 `
 
 export const UPDATE = gql`
-  mutation update($id: String!, $params: UserInput!) {
+  mutation update($id: String!, $params: UserDTO!) {
     update(id: $id, params: $params)
   }
 `
 
 export const ADMIN_LOGIN = gql`
-  mutation adminLogin($params: AdminLoginInput!) {
+  mutation adminLogin($params: AdminLoginDTO!) {
     adminLogin(params: $params) {
       code
       message

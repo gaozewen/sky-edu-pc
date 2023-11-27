@@ -34,7 +34,8 @@ const SkyLayout = () => {
         //用户信息
         avatarProps={{
           src: userStore.avatar,
-          title: userStore.nickname,
+          // 优先展示昵称，昵称没有展示手机号
+          title: userStore.nickname || userStore.tel,
           size: 'small',
           render(props, defaultDom) {
             return (
