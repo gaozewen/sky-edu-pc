@@ -51,3 +51,16 @@ export type TStoreQuery = {
     data: IStore
   }
 }
+
+export type TStoreMutation = {
+  commitStore: {
+    __typename?: 'Mutation'
+    code: number
+    message: string
+  }
+}
+
+export type IResult = {
+  code: number | undefined
+  message: string | undefined
+}

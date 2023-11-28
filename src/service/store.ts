@@ -1,8 +1,8 @@
-import { useLazyQuery, useQuery } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
-import { GET_STORE, GET_STORES } from '@/graphql/store'
-import { TStoreQuery, TStoresQuery } from '@/types'
+import { COMMIT_STORE, GET_STORE, GET_STORES } from '@/graphql/store'
+import { IResult, IStore, TStoreMutation, TStoreQuery, TStoresQuery } from '@/types'
 
 /**
  * 获取门店列表
@@ -36,6 +36,32 @@ export const useGetStoreService = () => {
   return {
     getStore,
     loading,
-    data: data?.getStore.data,
+    data: data?.getStore.data as IStore,
+  }
+}
+
+/**
+ * 提交门店信息（新建和编辑门店）
+ */
+export const useCommitStoreService = (): {
+  onCommitStore: (id: string, params: Partial<IStore>) => Promise<IResult>
+  loading: boolean
+} => {
+  const [commitStore, { loading }] = useMutation<TStoreMutation>(COMMIT_STORE)
+
+  const onCommitStore = async (id: string, params: Partial<IStore>) => {
+    const res = await commitStore({
+      variables: {
+        id,
+        params,
+      },
+    })
+    const { code, message } = res.data?.commitStore || {}
+    return { code, message }
+  }
+
+  return {
+    onCommitStore,
+    loading,
   }
 }

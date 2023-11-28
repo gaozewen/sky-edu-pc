@@ -69,7 +69,7 @@ const ImageUpload: React.FC<IProps> = props => {
       })
     }
 
-    console.log('gzw==>willFileList', willFileList)
+    // console.log('gzw==>willFileList', willFileList)
     onChange(willFileList)
   }
 
@@ -84,13 +84,13 @@ const ImageUpload: React.FC<IProps> = props => {
       <ImgCrop rotationSlider aspect={imgCropAspect}>
         <Upload
           listType="picture-card"
-          fileList={value}
+          fileList={value || []}
           onPreview={handlePreview}
           onChange={handleChange}
           multiple={multiple}
           customRequest={customRequest}
         >
-          {value.length >= max ? null : uploadButton}
+          {value?.length >= max ? null : uploadButton}
         </Upload>
       </ImgCrop>
       <Modal

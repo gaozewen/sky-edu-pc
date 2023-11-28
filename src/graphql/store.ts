@@ -26,7 +26,38 @@ export const GET_STORE = gql`
     getStore(id: $id) {
       code
       message
-      data
+      data {
+        id
+        logo
+        name
+        tags
+        tel
+        longitude
+        latitude
+        address
+        description
+        businessLicense
+        identityCardFrontImg
+        identityCardBackImg
+        frontImgs {
+          url
+        }
+        roomImgs {
+          url
+        }
+        otherImgs {
+          url
+        }
+      }
+    }
+  }
+`
+
+export const COMMIT_STORE = gql`
+  mutation commitStore($params: StoreDTO!, $id: String) {
+    commitStore(params: $params, id: $id) {
+      code
+      message
     }
   }
 `

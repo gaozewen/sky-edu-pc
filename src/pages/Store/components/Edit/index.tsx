@@ -6,12 +6,14 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Divider, Form, message } from 'antd'
+import { Divider, Form, message, UploadFile } from 'antd'
 import { useEffect, useRef } from 'react'
 
 import ImageUpload from '@/components/ImageUpload'
 import MobileForm from '@/components/MobileForm'
-import { useGetStoreService } from '@/service/store'
+import { SUCCESS } from '@/constants/code'
+import { useCommitStoreService, useGetStoreService } from '@/service/store'
+import { IStore } from '@/types'
 
 interface IProps {
   showEdit: boolean
@@ -24,18 +26,39 @@ const StoreEdit = (props: IProps) => {
   const [messageApi, contextHolder] = message.useMessage()
   const formRef = useRef<ProFormInstance>()
   const { getStore, loading, data } = useGetStoreService()
+  const { onCommitStore, loading: commitStoreLoading } = useCommitStoreService()
 
   useEffect(() => {
     // 门店编辑抽屉打开状态，且 id 存在时才获取门店接口数据
-    if (showEdit && id) {
-      getStore({ variables: { id } })
+    if (showEdit) {
+      // 编辑门店
+      if (id) {
+        getStore({ variables: { id } })
+        return
+      }
+      // 创建门店，清空表单值
+      formRef.current?.resetFields()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showEdit])
 
   useEffect(() => {
     // 设置表单初始值
-    formRef.current?.setFieldsValue(data || {})
+    const { logo, tags, businessLicense, identityCardFrontImg, identityCardBackImg } =
+      data || {}
+
+    formRef.current?.setFieldsValue(
+      data
+        ? {
+            ...data,
+            tags: tags?.split(','),
+            logo: [{ url: logo }],
+            businessLicense: [{ url: businessLicense }],
+            identityCardFrontImg: [{ url: identityCardFrontImg }],
+            identityCardBackImg: [{ url: identityCardBackImg }],
+          }
+        : {}
+    )
   }, [data])
 
   return (
@@ -49,6 +72,9 @@ const StoreEdit = (props: IProps) => {
             display: 'none',
           },
         },
+        submitButtonProps: {
+          loading: commitStoreLoading,
+        },
         searchConfig: {
           submitText: '保存',
         },
@@ -58,8 +84,34 @@ const StoreEdit = (props: IProps) => {
       loading={loading}
       onFinish={async values => {
         console.log('gzww====>values', values)
-        messageApi.success('提交成功')
-        return true
+        try {
+          const formData = {
+            ...values,
+            logo: values.logo[0].url,
+            tags: values.tags.join(','),
+            identityCardBackImg: values.identityCardBackImg[0].url,
+            identityCardFrontImg: values.identityCardFrontImg[0].url,
+            businessLicense: values.businessLicense[0].url,
+            frontImgs: values?.frontImgs?.map((item: UploadFile) => ({
+              url: item.url,
+            })),
+            roomImgs: values?.roomImgs?.map((item: UploadFile) => ({
+              url: item.url,
+            })),
+            otherImgs: values?.otherImgs?.map((item: UploadFile) => ({
+              url: item.url,
+            })),
+          } as IStore
+          const { code, message } = await onCommitStore(id, formData)
+          if (code === SUCCESS) {
+            messageApi.success(message)
+            return
+          }
+          messageApi.error(message)
+        } catch (error) {
+          messageApi.error('操作失败，服务器忙，请稍后再试')
+          console.error('【onCommitStore】Error：', error)
+        }
       }}
     >
       {contextHolder}
