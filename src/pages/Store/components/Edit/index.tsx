@@ -9,7 +9,7 @@ import {
 import { Divider, Form, message } from 'antd'
 import { useEffect, useRef } from 'react'
 
-import AvatarUpload from '@/components/AvatarUpload'
+import ImageUpload from '@/components/ImageUpload'
 import MobileForm from '@/components/MobileForm'
 import { useGetStoreService } from '@/service/store'
 
@@ -72,7 +72,7 @@ const StoreEdit = (props: IProps) => {
           label="Logo"
           rules={[{ required: true }]}
         >
-          <AvatarUpload />
+          <ImageUpload />
         </Form.Item>
 
         <ProFormText
@@ -138,7 +138,7 @@ const StoreEdit = (props: IProps) => {
           label="营业执照"
           rules={[{ required: true }]}
         >
-          <AvatarUpload />
+          <ImageUpload imgCropAspect={3 / 2} />
         </Form.Item>
 
         <Form.Item
@@ -147,7 +147,7 @@ const StoreEdit = (props: IProps) => {
           label="身份证人像面"
           rules={[{ required: true }]}
         >
-          <AvatarUpload />
+          <ImageUpload imgCropAspect={3 / 2} />
         </Form.Item>
 
         <Form.Item
@@ -156,26 +156,26 @@ const StoreEdit = (props: IProps) => {
           label="身份证国徽面"
           rules={[{ required: true }]}
         >
-          <AvatarUpload />
+          <ImageUpload imgCropAspect={3 / 2} />
         </Form.Item>
       </ProForm.Group>
 
       {/* 6 */}
       <Divider>门店顶部图：图片长宽要求比例为 2:1，最多上传 5 张 </Divider>
       <Form.Item name="frontImgs">
-        <AvatarUpload />
+        <ImageUpload max={5} imgCropAspect={2 / 1} />
       </Form.Item>
 
       {/* 7 */}
       <Divider>门店室内图：图片长宽要求比例为 2:1，最多上传 5 张 </Divider>
       <Form.Item name="roomImgs">
-        <AvatarUpload />
+        <ImageUpload max={5} imgCropAspect={2 / 1} />
       </Form.Item>
 
       {/* 8 */}
       <Divider>门店其他图：图片长宽要求比例为 2:1，最多上传 5 张 </Divider>
       <Form.Item name="otherImgs">
-        <AvatarUpload />
+        <ImageUpload max={5} imgCropAspect={2 / 1} />
       </Form.Item>
     </DrawerForm>
   )
