@@ -1,6 +1,9 @@
-import { LockOutlined, MobileOutlined } from '@ant-design/icons'
+import { LockOutlined } from '@ant-design/icons'
 import { ProFormText } from '@ant-design/pro-components'
 import { theme } from 'antd'
+
+import MobileForm from '@/components/MobileForm'
+import { SizeType } from '@/constants/enum'
 
 /**
  * 用户名密码登录表单
@@ -10,32 +13,11 @@ const AccountLoginForm = () => {
 
   return (
     <>
-      <ProFormText
-        fieldProps={{
-          size: 'large',
-          prefix: (
-            <MobileOutlined
-              style={{
-                color: token.colorText,
-              }}
-              className={'prefixIcon'}
-            />
-          ),
-        }}
-        // TODO: 开发用，上线注释掉
-        initialValue="13815013866"
+      <MobileForm
+        placeholder="请输入登录手机号"
+        size={SizeType.LARGE}
+        showPrefix
         name="account"
-        placeholder={'请输入登录手机号'}
-        rules={[
-          {
-            required: true,
-            message: '请输入登录手机号！',
-          },
-          {
-            pattern: /^1\d{10}$/,
-            message: '手机号格式错误！',
-          },
-        ]}
       />
 
       <ProFormText.Password

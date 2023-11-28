@@ -1,10 +1,5 @@
 import { PoweroffOutlined, UnlockOutlined, UserOutlined } from '@ant-design/icons'
-import {
-  MenuDataItem,
-  PageContainer,
-  ProConfigProvider,
-  ProLayout,
-} from '@ant-design/pro-components'
+import { MenuDataItem, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
 import { Dropdown, Space } from 'antd'
 import { Link, Outlet } from 'react-router-dom'
 
@@ -93,9 +88,7 @@ const SkyLayout = () => {
           <Link to={item.path || PN.HOME}>{dom}</Link>
         )}
       >
-        <PageContainer>
-          <Outlet />
-        </PageContainer>
+        <Outlet />
       </ProLayout>
     </ProConfigProvider>
   )

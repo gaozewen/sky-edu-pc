@@ -4,9 +4,8 @@ import { useMutation } from '@apollo/client'
 import { message, theme } from 'antd'
 
 import { AUTH_SMS_NOT_EXPIRED, GET_AUTH_SMS_FAILED, SUCCESS } from '@/constants/code'
+import { SizeType } from '@/constants/enum'
 import { SEND_AUTH_SMS } from '@/graphql/auth'
-
-import { SizeType } from './type'
 
 interface IProps {
   showLabel?: boolean
