@@ -1,7 +1,7 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
-import { COMMIT_STORE, GET_STORE, GET_STORES } from '@/graphql/store'
+import { COMMIT_STORE, DELETE_STORE, GET_STORE, GET_STORES } from '@/graphql/store'
 import { IResult, IStore, TStoreMutation, TStoreQuery, TStoresQuery } from '@/types'
 
 /**
@@ -62,6 +62,31 @@ export const useCommitStoreService = (): {
 
   return {
     onCommitStore,
+    loading,
+  }
+}
+
+/**
+ * 删除门店
+ */
+export const useDeleteStoreService = (): {
+  onDeleteStore: (id: string) => Promise<IResult>
+  loading: boolean
+} => {
+  const [deleteStore, { loading }] = useMutation<TStoreMutation>(DELETE_STORE)
+
+  const onDeleteStore = async (id: string) => {
+    const res = await deleteStore({
+      variables: {
+        id,
+      },
+    })
+    const { code, message } = res.data?.deleteStore || {}
+    return { code, message }
+  }
+
+  return {
+    onDeleteStore,
     loading,
   }
 }

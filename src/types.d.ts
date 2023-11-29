@@ -39,22 +39,31 @@ export interface IStore {
 
 export type TStoresQuery = {
   getStores: {
-    __typename?: 'Query'
+    __typename?: 'StoreResultsVO'
     data: IStore[]
     pageInfo: IPageInfo
+    code: number
+    message: string
   }
 }
 
 export type TStoreQuery = {
   getStore: {
-    __typename?: 'Query'
+    __typename?: 'StoreResultVO'
     data: IStore
+    code: number
+    message: string
   }
 }
 
 export type TStoreMutation = {
-  commitStore: {
-    __typename?: 'Mutation'
+  commitStore?: {
+    __typename?: 'ResultVO'
+    code: number
+    message: string
+  }
+  deleteStore?: {
+    __typename?: 'ResultVO'
     code: number
     message: string
   }

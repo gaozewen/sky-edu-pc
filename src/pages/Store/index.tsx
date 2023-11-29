@@ -1,11 +1,10 @@
 import { PageContainer, ProList } from '@ant-design/pro-components'
-import { Button, Popconfirm, Space, Tag } from 'antd'
+import { Button, message, Popconfirm, Space, Tag } from 'antd'
 import { useState } from 'react'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
-import { SizeType } from '@/constants/enum'
-import { useGetStoresService } from '@/service/store'
-import { IStore } from '@/types'
+import { SUCCESS } from '@/constants/code'
+import { useDeleteStoreService, useGetStoresService } from '@/service/store'
 
 import StoreEdit from './components/Edit'
 
@@ -15,18 +14,34 @@ import StoreEdit from './components/Edit'
 const Store = () => {
   const { loading, data: storeList, pageInfo, refetch } = useGetStoresService()
 
-  const { loading: deleteLoading } = { loading: false }
+  const { loading: deleteLoading, onDeleteStore } = useDeleteStoreService()
 
   const [showEdit, setShowEdit] = useState(false)
 
   const [curStoreId, setCurStoreId] = useState('')
+
+  const [messageApi, contextHolder] = message.useMessage()
 
   const onEdit = (id?: string) => {
     setCurStoreId(id || '')
     setShowEdit(true)
   }
 
-  const onDelete = (id?: string) => {}
+  const onDelete = async (id?: string) => {
+    try {
+      const res = await onDeleteStore(id || '')
+      if (res.code === SUCCESS) {
+        // 刷新当前列表页
+        refetch()
+        messageApi.success(res.message)
+        return
+      }
+      messageApi.error(res.message)
+    } catch (error) {
+      messageApi.error('删除失败，服务器忙，请稍后再试')
+      console.error('【onDeleteStore】Error:', error)
+    }
+  }
 
   const onPageChange = (pageNum: number, pageSize: number) => {
     refetch({
@@ -35,6 +50,24 @@ const Store = () => {
         pageSize,
       },
     })
+  }
+
+  const editSuccessHandler = () => {
+    // 关闭门店新建/编辑抽屉
+    setShowEdit(false)
+    // 新建, 将页面重置到第一页，展示最新生成的门店卡片
+    if (!curStoreId) {
+      refetch({
+        pageInfo: {
+          pageNum: 1,
+          pageSize: DEFAULT_PAGE_SIZE,
+        },
+      })
+      return
+    }
+
+    // 编辑，刷新当前门店列表页
+    refetch()
   }
 
   return (
@@ -46,10 +79,11 @@ const Store = () => {
         </Button>,
       ]}
     >
+      {contextHolder}
       <ProList
         rowKey="id"
         dataSource={storeList}
-        grid={{ gutter: 16, column: 2 }}
+        grid={{ gutter: 12, column: 2 }}
         metas={{
           avatar: {
             dataIndex: 'logo',
@@ -106,7 +140,12 @@ const Store = () => {
         }}
       />
 
-      <StoreEdit id={curStoreId} showEdit={showEdit} setShowEdit={setShowEdit} />
+      <StoreEdit
+        id={curStoreId}
+        showEdit={showEdit}
+        setShowEdit={setShowEdit}
+        editSuccessHandler={editSuccessHandler}
+      />
     </PageContainer>
   )
 }

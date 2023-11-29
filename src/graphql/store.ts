@@ -61,3 +61,12 @@ export const COMMIT_STORE = gql`
     }
   }
 `
+
+export const DELETE_STORE = gql`
+  mutation deleteStore($id: String!) {
+    deleteStore(id: $id) {
+      code
+      message
+    }
+  }
+`

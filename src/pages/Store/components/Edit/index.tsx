@@ -19,10 +19,11 @@ interface IProps {
   showEdit: boolean
   setShowEdit: (isShow: boolean) => void
   id: string
+  editSuccessHandler: () => void
 }
 
 const StoreEdit = (props: IProps) => {
-  const { showEdit, setShowEdit, id } = props
+  const { showEdit, setShowEdit, id, editSuccessHandler } = props
   const [messageApi, contextHolder] = message.useMessage()
   const formRef = useRef<ProFormInstance>()
   const { getStore, loading, data } = useGetStoreService()
@@ -83,7 +84,7 @@ const StoreEdit = (props: IProps) => {
       formRef={formRef}
       loading={loading}
       onFinish={async values => {
-        console.log('gzww====>values', values)
+        console.log('gzw====>values', values)
         try {
           const formData = {
             ...values,
@@ -104,6 +105,7 @@ const StoreEdit = (props: IProps) => {
           } as IStore
           const { code, message } = await onCommitStore(id, formData)
           if (code === SUCCESS) {
+            editSuccessHandler()
             messageApi.success(message)
             return
           }
