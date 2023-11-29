@@ -59,7 +59,7 @@ const Page = () => {
         await client.clearStore()
         setToken(res.data.adminLogin.data, autoLogin)
         // 更新用户信息 (为了解决跳转页面后 GET_USER_BY_JWT 接口不触发的问题)
-        // 原因是：由于 UserInfoLayout 是左右页面的 layout，所以当登录成功跳转其他页面后
+        // 原因是：由于 UserInfoLayout 是所有页面的 layout，所以当登录成功跳转其他页面后
         // UserInfoLayout 组件不会重新渲染，所以也不会加载获取用户信息的请求
         // 所以需要们手动触发
         userStore.refetchHandler()
