@@ -1,0 +1,18 @@
+.container {
+  .card {
+    float: left;
+    width: 200px;
+    margin: 5px;
+    .avatar {
+      height: 200px;
+      background-size: 100% auto;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+  }
+  .page {
+    float: right;
+    padding-top: 30px;
+    clear: both;
+  }
+}

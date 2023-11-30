@@ -73,3 +73,19 @@ export type IResult = {
   code: number | undefined
   message: string | undefined
 }
+
+export interface IStudent {
+  id: string
+  account: string
+  avatar: string
+  nickname: string
+  tel: string
+}
+
+export type TStudentQuery = {
+  getStudents?: {
+    __typename?: 'StudentResultsVO'
+    data: IStudent[]
+    pageInfo: IPageInfo
+  }
+}

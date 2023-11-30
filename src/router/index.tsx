@@ -1,4 +1,4 @@
-import { HomeOutlined, ShopOutlined } from '@ant-design/icons'
+import { HomeOutlined, ShopOutlined, TeamOutlined } from '@ant-design/icons'
 import { MenuDataItem } from '@ant-design/pro-components'
 import { createBrowserRouter } from 'react-router-dom'
 
@@ -10,6 +10,7 @@ import NotFound from '@/pages/NotFound'
 import Password from '@/pages/Password'
 import Profile from '@/pages/Profile'
 import Store from '@/pages/Store'
+import Student from '@/pages/Student'
 // PN: pathname
 export const PN = {
   HOME: '/',
@@ -17,6 +18,7 @@ export const PN = {
   PROFILE: '/profile',
   PASSWORD: '/password',
   STORE: '/store',
+  STUDENT: '/student',
 }
 
 export const router = createBrowserRouter([
@@ -47,6 +49,10 @@ export const router = createBrowserRouter([
           {
             path: PN.STORE,
             element: <Store />,
+          },
+          {
+            path: PN.STUDENT,
+            element: <Student />,
           },
           {
             path: '*',
@@ -82,6 +88,11 @@ export const Menus: MenuDataItem[] = [
     path: PN.STORE,
     name: '门店管理',
     icon: <ShopOutlined />,
+  },
+  {
+    path: PN.STUDENT,
+    name: '学员管理',
+    icon: <TeamOutlined />,
   },
 ]
 
