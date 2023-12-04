@@ -1,9 +1,15 @@
-import { HomeOutlined, ShopOutlined, TeamOutlined } from '@ant-design/icons'
+import {
+  HomeOutlined,
+  PicRightOutlined,
+  ShopOutlined,
+  TeamOutlined,
+} from '@ant-design/icons'
 import { MenuDataItem } from '@ant-design/pro-components'
 import { createBrowserRouter } from 'react-router-dom'
 
 import SkyLayout from '@/layouts/SkyLayout'
 import UserInfoLayout from '@/layouts/UserInfoLayout'
+import Course from '@/pages/Course'
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
 import NoStore from '@/pages/NoStore'
@@ -21,6 +27,7 @@ export const PN = {
   STORE: '/store',
   STUDENT: '/student',
   NOSTORE: '/nostore',
+  COURSE: '/course',
 }
 
 export const router = createBrowserRouter([
@@ -61,6 +68,10 @@ export const router = createBrowserRouter([
             element: <NoStore />,
           },
           {
+            path: PN.COURSE,
+            element: <Course />,
+          },
+          {
             path: '*',
             element: <NotFound />,
           },
@@ -95,6 +106,11 @@ export const Menus: MenuDataItem[] = [
     name: '门店管理',
     icon: <ShopOutlined />,
     hideInMenu: true,
+  },
+  {
+    path: PN.COURSE,
+    name: '课程管理',
+    icon: <PicRightOutlined />,
   },
   {
     path: PN.STUDENT,

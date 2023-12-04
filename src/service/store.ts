@@ -8,14 +8,14 @@ import {
   GET_STORE_SELECT_STORES,
   GET_STORES,
 } from '@/graphql/store'
-import { IResult, IStore, TStoreMutation, TStoreQuery, TStoresQuery } from '@/types'
+import { IResult, IStore, TStoreMutation, TStoreQuery } from '@/types'
 
 /**
  * 获取门店列表
- * @returns {TStoresQuery}
+ * @returns {TStoreQuery}
  */
 export const useGetStoresService = () => {
-  const { loading, data, refetch } = useQuery<TStoresQuery>(GET_STORES, {
+  const { loading, data, refetch } = useQuery<TStoreQuery>(GET_STORES, {
     variables: {
       pageInfo: {
         pageNum: 1,
@@ -34,10 +34,10 @@ export const useGetStoresService = () => {
 
 /**
  * 获取门店选择器门店列表
- * @returns {TStoresQuery}
+ * @returns {TStoreQuery}
  */
 export const useGetStoreSelectStoresService = () => {
-  const { loading, data, refetch } = useQuery<TStoresQuery>(GET_STORE_SELECT_STORES, {
+  const { loading, data, refetch } = useQuery<TStoreQuery>(GET_STORE_SELECT_STORES, {
     variables: {
       pageInfo: {
         pageNum: 1,

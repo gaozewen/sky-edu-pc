@@ -37,7 +37,7 @@ export interface IStore {
   businessLicense: string
 }
 
-export type TStoresQuery = {
+export type TStoreQuery = {
   getStores: {
     __typename?: 'StoreResultsVO'
     data: IStore[]
@@ -45,9 +45,6 @@ export type TStoresQuery = {
     code: number
     message: string
   }
-}
-
-export type TStoreQuery = {
   getStore: {
     __typename?: 'StoreResultVO'
     data: IStore
@@ -86,6 +83,28 @@ export type TStudentQuery = {
   getStudents?: {
     __typename?: 'StudentResultsVO'
     data: IStudent[]
+    pageInfo: IPageInfo
+  }
+}
+
+export interface ICourse {
+  id: string
+  name: string // 标题
+  desc?: string
+  group?: string // 适龄人群
+  baseAbility?: string
+  limitNumber: number // 限制人数
+  duration: number // 持续时长
+  reserveInfo?: string
+  refundInfo?: string
+  otherInfo?: string
+  reducibleTime: IWeekCourse[]
+}
+
+export type TCourseQuery = {
+  getCourses: {
+    __typename?: 'CourseResultsVO'
+    data: ICourse[]
     pageInfo: IPageInfo
   }
 }
