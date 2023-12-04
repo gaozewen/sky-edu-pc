@@ -6,6 +6,7 @@ import SkyLayout from '@/layouts/SkyLayout'
 import UserInfoLayout from '@/layouts/UserInfoLayout'
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
+import NoStore from '@/pages/NoStore'
 import NotFound from '@/pages/NotFound'
 import Password from '@/pages/Password'
 import Profile from '@/pages/Profile'
@@ -19,6 +20,7 @@ export const PN = {
   PASSWORD: '/password',
   STORE: '/store',
   STUDENT: '/student',
+  NOSTORE: '/nostore',
 }
 
 export const router = createBrowserRouter([
@@ -55,6 +57,10 @@ export const router = createBrowserRouter([
             element: <Student />,
           },
           {
+            path: PN.NOSTORE,
+            element: <NoStore />,
+          },
+          {
             path: '*',
             element: <NotFound />,
           },
@@ -88,6 +94,7 @@ export const Menus: MenuDataItem[] = [
     path: PN.STORE,
     name: '门店管理',
     icon: <ShopOutlined />,
+    hideInMenu: true,
   },
   {
     path: PN.STUDENT,

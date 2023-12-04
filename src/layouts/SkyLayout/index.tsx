@@ -1,8 +1,14 @@
-import { PoweroffOutlined, UnlockOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  PoweroffOutlined,
+  ShopOutlined,
+  UnlockOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { MenuDataItem, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
-import { Dropdown, Space } from 'antd'
+import { Dropdown, Space, Tooltip } from 'antd'
 import { Link, Outlet } from 'react-router-dom'
 
+import StoreSelect from '@/components/StoreSelect'
 import { IMG } from '@/constants/image'
 import { useGoTo } from '@/hooks/useGoTo'
 import { useLogout } from '@/hooks/useLogout'
@@ -26,7 +32,14 @@ const SkyLayout = () => {
         logo={<img src={IMG.LOGO_TEXT} style={{ height: 40, marginLeft: 24 }} />}
         // logo 右侧的文字
         title={false}
-        //用户信息
+        // 门店选择器
+        actionsRender={() => [
+          <StoreSelect key="selector" />,
+          <Tooltip key="storeManage" title="门店管理">
+            <ShopOutlined onClick={() => goTo({ pathname: PN.STORE })} />
+          </Tooltip>,
+        ]}
+        // 用户信息
         avatarProps={{
           src: userStore.avatar,
           // 优先展示昵称，昵称没有展示手机号

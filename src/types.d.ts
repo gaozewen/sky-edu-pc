@@ -5,7 +5,7 @@ export interface IUser {
   nickname: string
   desc: string
   refetchHandler: () => void
-  currentOrg?: string
+  currentStoreId?: string
 }
 
 export interface IPageInfo {

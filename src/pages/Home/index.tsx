@@ -7,7 +7,7 @@ import styles from './index.module.scss'
  */
 const Home = () => {
   const { store } = useUserContext()
-  return <div className={styles.container}>{store.tel}</div>
+  return <div className={styles.container}>{store.currentStoreId}</div>
 }
 
 export default Home

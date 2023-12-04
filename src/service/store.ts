@@ -1,7 +1,13 @@
 import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
-import { COMMIT_STORE, DELETE_STORE, GET_STORE, GET_STORES } from '@/graphql/store'
+import {
+  COMMIT_STORE,
+  DELETE_STORE,
+  GET_STORE,
+  GET_STORE_SELECT_STORES,
+  GET_STORES,
+} from '@/graphql/store'
 import { IResult, IStore, TStoreMutation, TStoreQuery, TStoresQuery } from '@/types'
 
 /**
@@ -21,6 +27,27 @@ export const useGetStoresService = () => {
   return {
     loading,
     pageInfo: data?.getStores.pageInfo,
+    data: data?.getStores.data,
+    refetch,
+  }
+}
+
+/**
+ * 获取门店选择器门店列表
+ * @returns {TStoresQuery}
+ */
+export const useGetStoreSelectStoresService = () => {
+  const { loading, data, refetch } = useQuery<TStoresQuery>(GET_STORE_SELECT_STORES, {
+    variables: {
+      pageInfo: {
+        pageNum: 1,
+        pageSize: DEFAULT_PAGE_SIZE,
+      },
+    },
+  })
+
+  return {
+    loading,
     data: data?.getStores.data,
     refetch,
   }

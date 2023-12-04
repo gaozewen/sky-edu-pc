@@ -21,6 +21,19 @@ export const GET_STORES = gql`
   }
 `
 
+export const GET_STORE_SELECT_STORES = gql`
+  query getStores($pageInfo: PageInfoDTO!, $name: String) {
+    getStores(pageInfo: $pageInfo, name: $name) {
+      code
+      message
+      data {
+        id
+        name
+      }
+    }
+  }
+`
+
 export const GET_STORE = gql`
   query getStore($id: String!) {
     getStore(id: $id) {
