@@ -8,6 +8,7 @@ import { useGetCoursesService } from '@/service/course'
 import { ICourse } from '@/types'
 
 import CourseEdit from './components/Edit'
+import CourseOrder from './components/Order'
 import { genColumns } from './utils'
 
 /**
@@ -18,6 +19,7 @@ const Course = () => {
   const [showEdit, setShowEdit] = useState(false)
   const [curCourseId, setCurCourseId] = useState('')
   const actionRef = useRef<ActionType>()
+  const [showOrder, setShowOrder] = useState(false)
 
   const onEdit = (id?: string) => {
     setCurCourseId(id || '')
@@ -37,7 +39,10 @@ const Course = () => {
     actionRef.current?.reload()
   }
 
-  const onOrderTime = () => {}
+  const onOrderTime = (id?: string) => {
+    setCurCourseId(id || '')
+    setShowOrder(true)
+  }
 
   return (
     <PageContainer
@@ -69,6 +74,13 @@ const Course = () => {
         id={curCourseId}
         showEdit={showEdit}
         setShowEdit={setShowEdit}
+        editSuccessHandler={editSuccessHandler}
+      />
+
+      <CourseOrder
+        id={curCourseId}
+        showOrder={showOrder}
+        setShowOrder={setShowOrder}
         editSuccessHandler={editSuccessHandler}
       />
     </PageContainer>

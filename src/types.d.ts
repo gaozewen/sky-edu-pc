@@ -87,6 +87,17 @@ export type TStudentQuery = {
   }
 }
 
+export interface IOrderTime {
+  id: string
+  startTime: string
+  endTime: string
+}
+
+export interface IWeekOrderTime {
+  week: Week
+  orderTimes: IOrderTime[]
+}
+
 export interface ICourse {
   id: string
   name: string // 标题
@@ -98,7 +109,8 @@ export interface ICourse {
   reserveInfo?: string
   refundInfo?: string
   otherInfo?: string
-  reducibleTime: IWeekCourse[]
+  // 持续一周的可预约时间
+  weeklyOrderTimes: IWeekOrderTime[]
 }
 
 export type TCourseQuery = {

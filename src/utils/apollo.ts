@@ -29,7 +29,9 @@ const authLink = new ApolloLink((operation, forward) => {
 // })
 
 export const apolloClient = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    addTypename: false,
+  }),
   defaultOptions: {
     watchQuery: {
       // https://www.apollographql.com/docs/react/data/queries#supported-fetch-policies

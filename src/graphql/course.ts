@@ -37,13 +37,21 @@ export const GET_COURSE = gql`
         reserveInfo
         refundInfo
         otherInfo
+        weeklyOrderTimes {
+          week
+          orderTimes {
+            id
+            startTime
+            endTime
+          }
+        }
       }
     }
   }
 `
 
 export const COMMIT_COURSE = gql`
-  mutation commitCourse($params: CourseDTO!, $id: String) {
+  mutation commitCourse($params: PartialCourseDTO!, $id: String) {
     commitCourse(params: $params, id: $id) {
       code
       message

@@ -52,12 +52,13 @@ export const useGetCoursesService = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE) 
  * @returns {TCourseQuery}
  */
 export const useGetCourseService = () => {
-  const [getCourse, { loading, data }] = useLazyQuery<TCourseQuery>(GET_COURSE)
+  const [getCourse, { loading, data, refetch }] = useLazyQuery<TCourseQuery>(GET_COURSE)
 
   return {
     getCourse,
     loading,
     data: data?.getCourse.data as ICourse,
+    refetch,
   }
 }
 
