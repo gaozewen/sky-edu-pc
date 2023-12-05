@@ -8,7 +8,7 @@ export const setCurrentStore = (currentStoreStr: string) => {
   localStorage.setItem(KEY, currentStoreStr)
 }
 
-export const getCurrentStore = () => {
+export const getCurrentStore = (): { value: string; label: string } | undefined => {
   try {
     const res = localStorage.getItem(KEY)
     return res ? JSON.parse(res) : undefined

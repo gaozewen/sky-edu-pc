@@ -82,7 +82,11 @@ export const router = createBrowserRouter([
 ])
 
 export const isLoginRouter = (pathname: string) => {
-  return [PN.LOGIN].includes(pathname)
+  return pathname === PN.LOGIN
+}
+
+export const isStoreRouter = (pathname: string) => {
+  return pathname === PN.STORE
 }
 
 export const Menus: MenuDataItem[] = [

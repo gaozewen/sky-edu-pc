@@ -1,5 +1,6 @@
 import { ApolloClient, ApolloLink, from, HttpLink, InMemoryCache } from '@apollo/client'
 
+import { getCurrentStore } from './currentStore'
 // import { ErrorLink } from '@apollo/client/link/error'
 import { getToken } from './userToken'
 
@@ -8,11 +9,14 @@ const httpLink = new HttpLink({ uri: import.meta.env.VITE_API_URL })
 const authLink = new ApolloLink((operation, forward) => {
   // get the authentication token from local storage if it exists
   const token = getToken()
+  const storeId = getCurrentStore()?.value || ''
   // add the authorization to the headers
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : '',
+      // 当前选中的门店 ID
+      storeId,
     },
   }))
 

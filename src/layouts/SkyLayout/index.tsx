@@ -6,24 +6,23 @@ import {
 } from '@ant-design/icons'
 import { MenuDataItem, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
 import { Dropdown, Space, Tooltip } from 'antd'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 
 import StoreSelect from '@/components/StoreSelect'
 import { IMG } from '@/constants/image'
 import { useGoTo } from '@/hooks/useGoTo'
 import { useLogout } from '@/hooks/useLogout'
 import { useUserContext } from '@/hooks/useUserHooks'
-import { Menus, PN } from '@/router'
+import { isStoreRouter, Menus, PN } from '@/router'
 
 /**
  * 天空教育页面统一 Layout
  */
 const SkyLayout = () => {
   const { store: userStore } = useUserContext()
-
   const { goTo } = useGoTo()
-
   const { onLogout } = useLogout()
+  const { pathname } = useLocation()
 
   return (
     <ProConfigProvider>
@@ -34,7 +33,7 @@ const SkyLayout = () => {
         title={false}
         // 门店选择器
         actionsRender={() => [
-          <StoreSelect key="selector" />,
+          !isStoreRouter(pathname) && <StoreSelect key="selector" />,
           <Tooltip key="storeManage" title="门店管理">
             <ShopOutlined onClick={() => goTo({ pathname: PN.STORE })} />
           </Tooltip>,
@@ -101,7 +100,8 @@ const SkyLayout = () => {
           <Link to={item.path || PN.HOME}>{dom}</Link>
         )}
       >
-        <Outlet />
+        {/* key 的改变会促使对应组件重新渲染，所以切换门店后无需做额外处理 */}
+        <Outlet key={userStore.currentStoreId} />
       </ProLayout>
     </ProConfigProvider>
   )
