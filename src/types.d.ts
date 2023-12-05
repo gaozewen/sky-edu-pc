@@ -107,4 +107,16 @@ export type TCourseQuery = {
     data: ICourse[]
     pageInfo: IPageInfo
   }
+  getCourse: {
+    __typename?: 'CourseResultsVO'
+    data: ICourse
+  }
+}
+
+export type TCourseMutation = {
+  commitCourse?: {
+    __typename?: 'ResultVO'
+    code: number
+    message: string
+  }
 }

@@ -1,8 +1,8 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
-import { GET_COURSES } from '@/graphql/course'
-import { TCourseQuery } from '@/types'
+import { COMMIT_COURSE, GET_COURSE, GET_COURSES } from '@/graphql/course'
+import { ICourse, IResult, TCourseMutation, TCourseQuery } from '@/types'
 
 export const useGetCoursesService = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE) => {
   const [getCourses] = useLazyQuery<TCourseQuery>(GET_COURSES, {
@@ -44,5 +44,45 @@ export const useGetCoursesService = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE) 
 
   return {
     proTableRequest,
+  }
+}
+
+/**
+ * 获取课程信息
+ * @returns {TCourseQuery}
+ */
+export const useGetCourseService = () => {
+  const [getCourse, { loading, data }] = useLazyQuery<TCourseQuery>(GET_COURSE)
+
+  return {
+    getCourse,
+    loading,
+    data: data?.getCourse.data as ICourse,
+  }
+}
+
+/**
+ * 提交课程信息（新建和编辑课程）
+ */
+export const useCommitCourseService = (): {
+  onCommitCourse: (id: string, params: Partial<ICourse>) => Promise<IResult>
+  loading: boolean
+} => {
+  const [commitCourse, { loading }] = useMutation<TCourseMutation>(COMMIT_COURSE)
+
+  const onCommitCourse = async (id: string, params: Partial<ICourse>) => {
+    const res = await commitCourse({
+      variables: {
+        id,
+        params,
+      },
+    })
+    const { code, message } = res.data?.commitCourse || {}
+    return { code, message }
+  }
+
+  return {
+    onCommitCourse,
+    loading,
   }
 }
