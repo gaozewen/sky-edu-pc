@@ -84,7 +84,6 @@ const StoreEdit = (props: IProps) => {
       formRef={formRef}
       loading={loading}
       onFinish={async values => {
-        console.log('gzw====>values', values)
         try {
           const formData = {
             ...values,

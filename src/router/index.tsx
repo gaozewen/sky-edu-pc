@@ -1,4 +1,5 @@
 import {
+  GiftOutlined,
   HomeOutlined,
   PicRightOutlined,
   ShopOutlined,
@@ -15,6 +16,7 @@ import Login from '@/pages/Login'
 import NoStore from '@/pages/NoStore'
 import NotFound from '@/pages/NotFound'
 import Password from '@/pages/Password'
+import Product from '@/pages/Product'
 import Profile from '@/pages/Profile'
 import Store from '@/pages/Store'
 import Student from '@/pages/Student'
@@ -28,6 +30,7 @@ export const PN = {
   STUDENT: '/student',
   NOSTORE: '/nostore',
   COURSE: '/course',
+  PRODUCT: '/product',
 }
 
 export const router = createBrowserRouter([
@@ -70,6 +73,10 @@ export const router = createBrowserRouter([
           {
             path: PN.COURSE,
             element: <Course />,
+          },
+          {
+            path: PN.PRODUCT,
+            element: <Product />,
           },
           {
             path: '*',
@@ -120,6 +127,11 @@ export const Menus: MenuDataItem[] = [
     path: PN.STUDENT,
     name: '学员管理',
     icon: <TeamOutlined />,
+  },
+  {
+    path: PN.PRODUCT,
+    name: '商品管理',
+    icon: <GiftOutlined />,
   },
 ]
 

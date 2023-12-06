@@ -164,3 +164,42 @@ export type TCardMutation = {
     message: string
   }
 }
+
+export interface IProduct {
+  id: string
+  name: string
+  desc: string
+  stock: number
+  curStock?: number
+  sellNumber?: number
+  limitBuyNumber: number
+  coverUrl: string
+  bannerUrl: string
+  originalPrice: number
+  preferentialPrice: number
+}
+
+export type TProductQuery = {
+  getProducts: {
+    __typename?: 'ProductResultsVO'
+    data: IProduct[]
+    pageInfo: IPageInfo
+  }
+  getProduct: {
+    __typename?: 'ProductResultsVO'
+    data: IProduct
+  }
+}
+
+export type TProductMutation = {
+  commitProduct?: {
+    __typename?: 'ResultVO'
+    code: number
+    message: string
+  }
+  deleteProduct?: {
+    __typename?: 'ResultVO'
+    code: number
+    message: string
+  }
+}
