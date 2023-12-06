@@ -83,6 +83,9 @@ const CourseOrder = (props: ICourseOrderProps) => {
             }
             onSaveCurrentDay(newData)
           },
+          onDelete: async rowKey => {
+            onDelete(rowKey as string)
+          },
         }}
       />
 

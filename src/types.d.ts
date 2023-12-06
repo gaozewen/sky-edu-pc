@@ -132,3 +132,35 @@ export type TCourseMutation = {
     message: string
   }
 }
+
+export interface ICard {
+  id: string
+  name: string
+  type: string
+  time: number
+  validateDay: number
+}
+
+export type TCardQuery = {
+  getCards: {
+    __typename?: 'CardResultsVO'
+    data: ICard[]
+  }
+  getCard: {
+    __typename?: 'CardResultsVO'
+    data: ICard
+  }
+}
+
+export type TCardMutation = {
+  commitCard?: {
+    __typename?: 'ResultVO'
+    code: number
+    message: string
+  }
+  deleteCard?: {
+    __typename?: 'ResultVO'
+    code: number
+    message: string
+  }
+}

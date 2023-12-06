@@ -7,6 +7,7 @@ import { DEFAULT_PAGE_SIZE } from '@/constants'
 import { useGetCoursesService } from '@/service/course'
 import { ICourse } from '@/types'
 
+import CourseCard from './components/Card'
 import CourseEdit from './components/Edit'
 import CourseOrder from './components/Order'
 import { genColumns } from './utils'
@@ -20,6 +21,7 @@ const Course = () => {
   const [curCourseId, setCurCourseId] = useState('')
   const actionRef = useRef<ActionType>()
   const [showOrder, setShowOrder] = useState(false)
+  const [showCard, setShowCard] = useState(false)
 
   const onEdit = (id?: string) => {
     setCurCourseId(id || '')
@@ -44,6 +46,11 @@ const Course = () => {
     setShowOrder(true)
   }
 
+  const onCard = (id?: string) => {
+    setCurCourseId(id || '')
+    setShowCard(true)
+  }
+
   return (
     <PageContainer
       header={{
@@ -56,7 +63,7 @@ const Course = () => {
         pagination={{
           pageSize: DEFAULT_PAGE_SIZE,
         }}
-        columns={genColumns({ onEdit, onOrderTime })}
+        columns={genColumns({ onEdit, onOrderTime, onCard })}
         request={proTableRequest}
         toolBarRender={() => [
           <Button
@@ -77,12 +84,9 @@ const Course = () => {
         editSuccessHandler={editSuccessHandler}
       />
 
-      <CourseOrder
-        id={curCourseId}
-        showOrder={showOrder}
-        setShowOrder={setShowOrder}
-        editSuccessHandler={editSuccessHandler}
-      />
+      <CourseOrder id={curCourseId} showOrder={showOrder} setShowOrder={setShowOrder} />
+
+      <CourseCard id={curCourseId} showCard={showCard} setShowCard={setShowCard} />
     </PageContainer>
   )
 }
