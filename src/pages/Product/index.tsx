@@ -8,6 +8,7 @@ import { SUCCESS } from '@/constants/code'
 import { useDeleteProductService, useGetProductsService } from '@/service/product'
 import { IProduct } from '@/types'
 
+import BindCardModal from './components/BindCardModal'
 import ProductEdit from './components/Edit'
 import { genColumns } from './utils'
 
@@ -21,7 +22,7 @@ const Product = () => {
   const [showEdit, setShowEdit] = useState(false)
   const [curProductId, setCurProductId] = useState('')
   const actionRef = useRef<ActionType>()
-  const [showCard, setShowCard] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const onEdit = (id?: string) => {
     setCurProductId(id || '')
@@ -41,9 +42,9 @@ const Product = () => {
     actionRef.current?.reload()
   }
 
-  const onCard = (id?: string) => {
+  const onModal = (id?: string) => {
     setCurProductId(id || '')
-    setShowCard(true)
+    setShowModal(true)
   }
 
   const onDelete = async (id: string) => {
@@ -79,7 +80,7 @@ const Product = () => {
         pagination={{
           pageSize: DEFAULT_PAGE_SIZE,
         }}
-        columns={genColumns({ onEdit, onCard, onDelete })}
+        columns={genColumns({ onEdit, onModal, onDelete })}
         request={proTableRequest}
         toolBarRender={() => [
           <Button
@@ -100,6 +101,8 @@ const Product = () => {
         setShowEdit={setShowEdit}
         editSuccessHandler={editSuccessHandler}
       />
+
+      {showModal && <BindCardModal id={curProductId} setShowModal={setShowModal} />}
     </PageContainer>
   )
 }

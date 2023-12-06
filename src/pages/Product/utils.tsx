@@ -5,15 +5,15 @@ import { IProduct } from '@/types'
 
 interface IProps {
   onEdit: (id: string) => void
-  onCard: (id: string) => void
+  onModal: (id: string) => void
   onDelete: (id: string) => void
 }
 
 export const genColumns: ({
   onEdit,
-  onCard,
+  onModal,
   onDelete,
-}: IProps) => ProColumns<IProduct, 'text'>[] = ({ onEdit, onCard, onDelete }) => [
+}: IProps) => ProColumns<IProduct, 'text'>[] = ({ onEdit, onModal, onDelete }) => [
   {
     fixed: 'left',
     title: 'ID',
@@ -93,7 +93,7 @@ export const genColumns: ({
       <a key="edit" onClick={() => onEdit(record.id)}>
         编辑商品
       </a>,
-      <a key="card" onClick={() => onCard(record.id)}>
+      <a key="card" onClick={() => onModal(record.id)}>
         绑定消费卡
       </a>,
       <Popconfirm

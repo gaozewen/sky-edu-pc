@@ -28,9 +28,9 @@ const CourseCard = (props: ICourseCardProps) => {
   return (
     <Drawer
       width="78vw"
-      onClose={() => setShowCard(false)}
       title="关联消费卡"
       open={showCard}
+      onClose={() => setShowCard(false)}
     >
       {contextHolder}
 

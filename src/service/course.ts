@@ -48,6 +48,32 @@ export const useGetCoursesService = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE) 
 }
 
 /**
+ * 根据课程名称获取前十个课程列表
+ * @returns {TCourseQuery}
+ */
+export const useGetCoursesByNameService = () => {
+  const [getCourses, { loading, data }] = useLazyQuery<TCourseQuery>(GET_COURSES)
+
+  const getCoursesByName = (name: string) => {
+    getCourses({
+      variables: {
+        name,
+        pageInfo: {
+          pageNum: 1,
+          pageSize: DEFAULT_PAGE_SIZE,
+        },
+      },
+    })
+  }
+
+  return {
+    getCoursesByName,
+    loading,
+    data: data?.getCourses.data,
+  }
+}
+
+/**
  * 获取课程信息
  * @returns {TCourseQuery}
  */

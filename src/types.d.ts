@@ -135,10 +135,11 @@ export type TCourseMutation = {
 
 export interface ICard {
   id: string
-  name: string
-  type: string
-  time: number
-  validateDay: number
+  name?: string
+  type?: string
+  time?: number
+  validateDay?: number
+  course?: ICourse
 }
 
 export type TCardQuery = {
@@ -177,6 +178,8 @@ export interface IProduct {
   bannerUrl: string
   originalPrice: number
   preferentialPrice: number
+  cards: ICard[]
+  cardIds: string[]
 }
 
 export type TProductQuery = {

@@ -40,13 +40,24 @@ export const GET_PRODUCT = gql`
         bannerUrl
         originalPrice
         preferentialPrice
+        cards {
+          id
+          name
+          type
+          time
+          validateDay
+          course {
+            id
+            name
+          }
+        }
       }
     }
   }
 `
 
 export const COMMIT_PRODUCT = gql`
-  mutation commitProduct($params: ProductDTO!, $id: String) {
+  mutation commitProduct($params: PartialProductDTO!, $id: String) {
     commitProduct(params: $params, id: $id) {
       code
       message
