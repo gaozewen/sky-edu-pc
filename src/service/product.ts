@@ -1,10 +1,11 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
 import {
   COMMIT_PRODUCT,
   DELETE_PRODUCT,
   GET_PRODUCT,
+  GET_PRODUCT_CATEGORIES,
   GET_PRODUCTS,
 } from '@/graphql/product'
 import { IProduct, IResult, TProductMutation, TProductQuery } from '@/types'
@@ -115,6 +116,18 @@ export const useDeleteProductService = (): {
 
   return {
     onDeleteProduct,
+    loading,
+  }
+}
+
+/**
+ * 获取商品品类
+ */
+export const useGetProductCategoriesService = () => {
+  const { loading, data } = useQuery<TProductQuery>(GET_PRODUCT_CATEGORIES)
+
+  return {
+    data: data?.getProductCategories.data || [],
     loading,
   }
 }

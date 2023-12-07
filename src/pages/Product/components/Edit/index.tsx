@@ -3,6 +3,7 @@ import {
   ProForm,
   ProFormDigit,
   ProFormInstance,
+  ProFormSelect,
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
@@ -11,7 +12,11 @@ import { useEffect, useRef } from 'react'
 
 import ImageUpload from '@/components/ImageUpload'
 import { SUCCESS } from '@/constants/code'
-import { useCommitProductService, useGetProductService } from '@/service/product'
+import {
+  useCommitProductService,
+  useGetProductCategoriesService,
+  useGetProductService,
+} from '@/service/product'
 import { IProduct } from '@/types'
 
 interface IProps {
@@ -27,6 +32,7 @@ const ProductEdit = (props: IProps) => {
   const formRef = useRef<ProFormInstance>()
   const { getProduct, loading, data } = useGetProductService()
   const { onCommitProduct, loading: commitProductLoading } = useCommitProductService()
+  const { data: categories } = useGetProductCategoriesService()
 
   useEffect(() => {
     // 商品编辑抽屉打开状态，且 id 存在时才获取商品接口数据
@@ -117,6 +123,15 @@ const ProductEdit = (props: IProps) => {
       />
 
       {/* 3 */}
+      <ProFormSelect
+        name="category"
+        label="商品品类"
+        placeholder="请选择商品品类"
+        options={categories?.map(c => ({ label: c.title, value: c.key }))}
+        rules={[{ required: true }]}
+      />
+
+      {/* 4 */}
       <ProForm.Group>
         <ProFormDigit
           width={358}
@@ -137,7 +152,7 @@ const ProductEdit = (props: IProps) => {
         />
       </ProForm.Group>
 
-      {/* 4 */}
+      {/* 5 */}
       <ProForm.Group>
         <ProFormDigit
           width={358}
@@ -156,7 +171,7 @@ const ProductEdit = (props: IProps) => {
         />
       </ProForm.Group>
 
-      {/* 5 */}
+      {/* 6 */}
       <ProForm.Group>
         <Form.Item
           style={{ width: 358 }}

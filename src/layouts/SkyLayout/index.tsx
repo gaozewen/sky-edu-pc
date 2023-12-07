@@ -8,7 +8,7 @@ import { MenuDataItem, ProConfigProvider, ProLayout } from '@ant-design/pro-comp
 import { Dropdown, Space, Tooltip } from 'antd'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 
-import StoreSelect from '@/components/StoreSelect'
+import StoreSelector from '@/components/StoreSelector'
 import { IMG } from '@/constants/image'
 import { useGoTo } from '@/hooks/useGoTo'
 import { useLogout } from '@/hooks/useLogout'
@@ -33,7 +33,7 @@ const SkyLayout = () => {
         title={false}
         // 门店选择器
         actionsRender={() => [
-          !isStoreRouter(pathname) && <StoreSelect key="selector" />,
+          !isStoreRouter(pathname) && <StoreSelector key="selector" />,
           <Tooltip key="storeManage" title="门店管理">
             <ShopOutlined onClick={() => goTo({ pathname: PN.STORE })} />
           </Tooltip>,

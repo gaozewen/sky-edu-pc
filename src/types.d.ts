@@ -174,6 +174,7 @@ export interface IProduct {
   name: string
   desc: string
   status: ProductStatus
+  category: string
   stock: number
   curStock?: number
   sellNumber?: number
@@ -186,6 +187,11 @@ export interface IProduct {
   cardIds: string[]
 }
 
+export interface IProductCategory {
+  key: string
+  title: string
+}
+
 export type TProductQuery = {
   getProducts: {
     __typename?: 'ProductResultsVO'
@@ -195,6 +201,12 @@ export type TProductQuery = {
   getProduct: {
     __typename?: 'ProductResultsVO'
     data: IProduct
+  }
+  getProductCategories: {
+    __typename?: 'ProductResultsVO'
+    data: IProductCategory[]
+    code: number
+    message: string
   }
 }
 

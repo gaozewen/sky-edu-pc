@@ -12,7 +12,7 @@ import { getCurrentStore, setCurrentStore } from '@/utils/currentStore'
 /**
  * 门店选择器
  */
-const StoreSelect = () => {
+const StoreSelector = () => {
   const { data: stores, refetch } = useGetStoreSelectStoresService()
   const { setStore } = useUserContext()
   const currentStore = getCurrentStore()
@@ -60,4 +60,4 @@ const StoreSelect = () => {
   )
 }
 
-export default StoreSelect
+export default StoreSelector

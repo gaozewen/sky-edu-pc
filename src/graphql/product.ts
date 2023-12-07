@@ -9,6 +9,7 @@ export const GET_PRODUCTS = gql`
         id
         name
         desc
+        category
         status
         stock
         limitBuyNumber
@@ -35,6 +36,7 @@ export const GET_PRODUCT = gql`
         id
         name
         desc
+        category
         status
         stock
         limitBuyNumber
@@ -72,6 +74,19 @@ export const DELETE_PRODUCT = gql`
     deleteProduct(id: $id) {
       code
       message
+    }
+  }
+`
+
+export const GET_PRODUCT_CATEGORIES = gql`
+  query getProductCategories {
+    getProductCategories {
+      code
+      message
+      data {
+        key
+        title
+      }
     }
   }
 `
