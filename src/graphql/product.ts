@@ -9,6 +9,7 @@ export const GET_PRODUCTS = gql`
         id
         name
         desc
+        status
         stock
         limitBuyNumber
         coverUrl
@@ -34,6 +35,7 @@ export const GET_PRODUCT = gql`
         id
         name
         desc
+        status
         stock
         limitBuyNumber
         coverUrl

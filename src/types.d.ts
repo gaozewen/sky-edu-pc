@@ -1,3 +1,6 @@
+import { Week } from './pages/Course/components/Order/utils'
+import { ProductStatus } from './pages/Product/utils'
+
 export interface IUser {
   id: string
   avatar: string
@@ -170,6 +173,7 @@ export interface IProduct {
   id: string
   name: string
   desc: string
+  status: ProductStatus
   stock: number
   curStock?: number
   sellNumber?: number

@@ -1,25 +1,32 @@
 import { ProColumns } from '@ant-design/pro-components'
-import { Image, Popconfirm } from 'antd'
+import { Image, Popconfirm, Space } from 'antd'
 
 import { IProduct } from '@/types'
 
 interface IProps {
+  onStatusChange: (id: string, status: ProductStatus) => void
   onEdit: (id: string) => void
   onModal: (id: string) => void
   onDelete: (id: string) => void
 }
 
-export const genColumns: ({
+export enum ProductStatus {
+  LIST = 'list', // 上架
+  UN_LIST = 'un_list', // 下架
+}
+
+export const genColumns: (props: IProps) => ProColumns<IProduct, 'text'>[] = ({
+  onStatusChange,
   onEdit,
   onModal,
   onDelete,
-}: IProps) => ProColumns<IProduct, 'text'>[] = ({ onEdit, onModal, onDelete }) => [
+}) => [
   {
     fixed: 'left',
     title: 'ID',
     dataIndex: 'id',
     align: 'center',
-    width: 88,
+    width: 38,
     ellipsis: true,
     copyable: true,
     search: false,
@@ -28,13 +35,14 @@ export const genColumns: ({
     title: '商品封面',
     dataIndex: 'coverUrl',
     align: 'center',
-    width: 100,
+    width: 58,
     search: false,
     render: (_, record) => <Image src={record.coverUrl} />,
   },
   {
     title: '商品名称',
     dataIndex: 'name',
+    width: 128,
     copyable: true,
     ellipsis: true,
     formItemProps: {
@@ -88,22 +96,73 @@ export const genColumns: ({
     title: '操作',
     valueType: 'option',
     align: 'center',
-    width: 188,
-    render: (text, record) => [
-      <a key="edit" onClick={() => onEdit(record.id)}>
-        编辑商品
-      </a>,
-      <a key="card" onClick={() => onModal(record.id)}>
-        绑定消费卡
-      </a>,
-      <Popconfirm
-        key="delete"
-        title="提醒"
-        description="确认要删除吗？"
-        onConfirm={() => onDelete(record.id)}
-      >
-        <a style={{ color: 'red' }}>删除</a>
-      </Popconfirm>,
-    ],
+    width: 98,
+    render: (text, record) => (
+      <div>
+        <div>
+          <Space>
+            {record.status === ProductStatus.UN_LIST ? (
+              <a
+                key="list"
+                style={{ color: 'green' }}
+                onClick={() => onStatusChange(record.id, ProductStatus.LIST)}
+              >
+                上架
+              </a>
+            ) : (
+              <Popconfirm
+                key="unList"
+                title="提醒"
+                description="确认要下架吗？"
+                onConfirm={() => onStatusChange(record.id, ProductStatus.UN_LIST)}
+              >
+                <a style={{ color: 'red' }}>下架</a>
+              </Popconfirm>
+            )}
+
+            <Popconfirm
+              key="delete"
+              title="提醒"
+              description="确认要删除吗？"
+              onConfirm={() => onDelete(record.id)}
+            >
+              <a style={{ color: 'red' }}>删除</a>
+            </Popconfirm>
+          </Space>
+        </div>
+        <div>
+          <Space>
+            <a key="edit" onClick={() => onEdit(record.id)}>
+              编辑商品
+            </a>
+            <a key="card" onClick={() => onModal(record.id)}>
+              绑定消费卡
+            </a>
+          </Space>
+        </div>
+      </div>
+    ),
+    // render: (text, record) => [
+    //   <a key="list" onClick={() => onEdit(record.id)}>
+    //     上架
+    //   </a>,
+    //   <a key="unList" onClick={() => onEdit(record.id)}>
+    //     下架
+    //   </a>,
+    //   <a key="edit" onClick={() => onEdit(record.id)}>
+    //     编辑商品
+    //   </a>,
+    //   <a key="card" onClick={() => onModal(record.id)}>
+    //     绑定消费卡
+    //   </a>,
+    //   <Popconfirm
+    //     key="delete"
+    //     title="提醒"
+    //     description="确认要删除吗？"
+    //     onConfirm={() => onDelete(record.id)}
+    //   >
+    //     <a style={{ color: 'red' }}>删除</a>
+    //   </Popconfirm>,
+    // ],
   },
 ]

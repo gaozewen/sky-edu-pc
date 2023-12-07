@@ -5,12 +5,16 @@ import { useRef, useState } from 'react'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
 import { SUCCESS } from '@/constants/code'
-import { useDeleteProductService, useGetProductsService } from '@/service/product'
+import {
+  useCommitProductService,
+  useDeleteProductService,
+  useGetProductsService,
+} from '@/service/product'
 import { IProduct } from '@/types'
 
 import BindCardModal from './components/BindCardModal'
 import ProductEdit from './components/Edit'
-import { genColumns } from './utils'
+import { genColumns, ProductStatus } from './utils'
 
 /**
  *  商品管理页
@@ -23,6 +27,7 @@ const Product = () => {
   const [curProductId, setCurProductId] = useState('')
   const actionRef = useRef<ActionType>()
   const [showModal, setShowModal] = useState(false)
+  const { onCommitProduct } = useCommitProductService()
 
   const onEdit = (id?: string) => {
     setCurProductId(id || '')
@@ -63,6 +68,22 @@ const Product = () => {
     }
   }
 
+  const onStatusChange = async (id: string, status: ProductStatus) => {
+    try {
+      const { code, message } = await onCommitProduct(id, { status })
+      if (code === SUCCESS) {
+        // 刷新当前商品列表页
+        actionRef.current?.reload()
+        messageApi.success(message)
+        return
+      }
+      messageApi.error(message)
+    } catch (error) {
+      messageApi.error('操作失败，服务器忙，请稍后再试')
+      console.error('【onCommitProduct】Error：', error)
+    }
+  }
+
   return (
     <PageContainer
       header={{
@@ -80,7 +101,7 @@ const Product = () => {
         pagination={{
           pageSize: DEFAULT_PAGE_SIZE,
         }}
-        columns={genColumns({ onEdit, onModal, onDelete })}
+        columns={genColumns({ onStatusChange, onEdit, onModal, onDelete })}
         request={proTableRequest}
         toolBarRender={() => [
           <Button
