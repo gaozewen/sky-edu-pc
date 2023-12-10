@@ -28,6 +28,7 @@ export const GET_COURSE = gql`
       message
       data {
         id
+        coverUrl
         name
         desc
         group

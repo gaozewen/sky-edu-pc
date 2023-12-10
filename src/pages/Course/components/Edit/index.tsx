@@ -6,9 +6,10 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { message } from 'antd'
+import { Form, message } from 'antd'
 import { useEffect, useRef } from 'react'
 
+import ImageUpload from '@/components/ImageUpload'
 import { SUCCESS } from '@/constants/code'
 import { useCommitCourseService, useGetCourseService } from '@/service/course'
 import { ICourse } from '@/types'
@@ -44,7 +45,10 @@ const CourseEdit = (props: IProps) => {
   useEffect(() => {
     // 设置表单初始值
     if (data) {
-      formRef.current?.setFieldsValue(data)
+      formRef.current?.setFieldsValue({
+        ...data,
+        coverUrl: data.coverUrl ? [{ url: data.coverUrl }] : [],
+      })
     }
   }, [data])
 
@@ -73,6 +77,7 @@ const CourseEdit = (props: IProps) => {
         try {
           const formData = {
             ...values,
+            coverUrl: values.coverUrl[0].url || '',
           } as ICourse
           const { code, message } = await onCommitCourse(id, formData)
           if (code === SUCCESS) {
@@ -88,6 +93,15 @@ const CourseEdit = (props: IProps) => {
       }}
     >
       {contextHolder}
+
+      <Form.Item
+        style={{ width: 358 }}
+        name="coverUrl"
+        label="课程封面图（图片比例需为 2:1）"
+        rules={[{ required: true, message: '课程封面图（图片比例需为 2:1）' }]}
+      >
+        <ImageUpload imgCropAspect={2 / 1} />
+      </Form.Item>
 
       {/* 1 */}
       <ProFormText

@@ -103,6 +103,7 @@ export interface IWeekOrderTime {
 
 export interface ICourse {
   id: string
+  coverUrl: string // 课程封面图
   name: string // 标题
   desc?: string
   group?: string // 适龄人群
@@ -199,7 +200,7 @@ export type TProductQuery = {
     pageInfo: IPageInfo
   }
   getProduct: {
-    __typename?: 'ProductResultsVO'
+    __typename?: 'ProductResultVO'
     data: IProduct
   }
   getProductCategories: {
