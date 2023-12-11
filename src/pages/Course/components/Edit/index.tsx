@@ -7,12 +7,14 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { Form, message } from 'antd'
+import _ from 'lodash'
 import { useEffect, useRef } from 'react'
 
 import ImageUpload from '@/components/ImageUpload'
+import TeacherSelector from '@/components/TeacherSelector'
 import { SUCCESS } from '@/constants/code'
 import { useCommitCourseService, useGetCourseService } from '@/service/course'
-import { ICourse } from '@/types'
+import { IAntDOption, ICourse } from '@/types'
 
 interface IProps {
   showEdit: boolean
@@ -47,6 +49,7 @@ const CourseEdit = (props: IProps) => {
     if (data) {
       formRef.current?.setFieldsValue({
         ...data,
+        teachers: data.teachers?.map(t => ({ label: t.nickname, value: t.id })),
         coverUrl: data.coverUrl ? [{ url: data.coverUrl }] : [],
       })
     }
@@ -75,10 +78,12 @@ const CourseEdit = (props: IProps) => {
       loading={loading}
       onFinish={async values => {
         try {
-          const formData = {
+          let formData = {
             ...values,
+            teacherIds: values.teachers?.map((t: IAntDOption) => t.value),
             coverUrl: values.coverUrl[0].url || '',
           } as ICourse
+          formData = _.omit(formData, 'teachers')
           const { code, message } = await onCommitCourse(id, formData)
           if (code === SUCCESS) {
             editSuccessHandler()
@@ -103,7 +108,6 @@ const CourseEdit = (props: IProps) => {
         <ImageUpload imgCropAspect={2 / 1} />
       </Form.Item>
 
-      {/* 1 */}
       <ProFormText
         name="name"
         label="课程名称"
@@ -111,7 +115,10 @@ const CourseEdit = (props: IProps) => {
         rules={[{ required: true }]}
       />
 
-      {/* 2 */}
+      <Form.Item name="teachers" label="任课老师" rules={[{ required: true }]}>
+        <TeacherSelector />
+      </Form.Item>
+
       <ProFormTextArea
         name="desc"
         label="课程描述"
@@ -119,7 +126,6 @@ const CourseEdit = (props: IProps) => {
         rules={[{ required: true }]}
       />
 
-      {/* 3 */}
       <ProForm.Group>
         <ProFormDigit
           width={318}
@@ -142,7 +148,6 @@ const CourseEdit = (props: IProps) => {
         />
       </ProForm.Group>
 
-      {/* 4 */}
       <ProFormText
         name="group"
         label="适龄人群"
@@ -150,7 +155,6 @@ const CourseEdit = (props: IProps) => {
         rules={[{ required: true }]}
       />
 
-      {/* 5 */}
       <ProFormText
         name="baseAbility"
         label="基础能力"
@@ -158,7 +162,6 @@ const CourseEdit = (props: IProps) => {
         rules={[{ required: true }]}
       />
 
-      {/* 6 */}
       <ProFormTextArea
         name="reserveInfo"
         label="预约信息"
@@ -166,7 +169,6 @@ const CourseEdit = (props: IProps) => {
         rules={[{ required: true }]}
       />
 
-      {/* 7 */}
       <ProFormTextArea
         name="refundInfo"
         label="退款信息"
@@ -174,7 +176,6 @@ const CourseEdit = (props: IProps) => {
         rules={[{ required: true }]}
       />
 
-      {/* 8 */}
       <ProFormTextArea name="otherInfo" label="其他信息" placeholder="请输入其他信息" />
     </DrawerForm>
   )

@@ -115,6 +115,8 @@ export interface ICourse {
   otherInfo?: string
   // 持续一周的可预约时间
   weeklyOrderTimes: IWeekOrderTime[]
+  teachers?: ITeacher[]
+  teacherIds?: string[] // DTO 参数
 }
 
 export type TCourseQuery = {
@@ -252,4 +254,9 @@ export type TTeacherMutation = {
     code: number
     message: string
   }
+}
+
+export interface IAntDOption {
+  label: string
+  value: string
 }

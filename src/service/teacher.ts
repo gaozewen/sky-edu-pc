@@ -54,7 +54,7 @@ export const useGetTeachersService = (pageNum = 1, pageSize = DEFAULT_PAGE_SIZE)
 export const useGetTeachersByNameService = () => {
   const [getTeachers, { loading, data }] = useLazyQuery<TTeacherQuery>(GET_TEACHERS)
 
-  const getCoursesByName = (name: string) => {
+  const getTeachersByName = (name: string) => {
     getTeachers({
       variables: {
         name,
@@ -67,7 +67,7 @@ export const useGetTeachersByNameService = () => {
   }
 
   return {
-    getCoursesByName,
+    getTeachersByName,
     loading,
     data: data?.getTeachers.data,
   }
