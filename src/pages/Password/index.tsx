@@ -101,11 +101,17 @@ const Password = () => {
             name="confirm"
             label="确认重置密码"
             placeholder={'请再次输入重置密码'}
+            // password 变化会触发 confirm 的校验
+            dependencies={['password']}
             rules={[
-              {
-                required: true,
-                message: '请再次输入重置密码！',
-              },
+              { required: true, message: '请再次输入重置密码' },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value)
+                    return Promise.resolve()
+                  else return Promise.reject(new Error('两次密码不一致'))
+                },
+              }),
             ]}
           />
         </ProForm>

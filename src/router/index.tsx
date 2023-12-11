@@ -2,6 +2,7 @@ import {
   GiftOutlined,
   HomeOutlined,
   PicRightOutlined,
+  RobotOutlined,
   ShopOutlined,
   TeamOutlined,
 } from '@ant-design/icons'
@@ -20,6 +21,7 @@ import Product from '@/pages/Product'
 import Profile from '@/pages/Profile'
 import Store from '@/pages/Store'
 import Student from '@/pages/Student'
+import Teacher from '@/pages/Teacher'
 // PN: pathname
 export const PN = {
   HOME: '/',
@@ -31,6 +33,7 @@ export const PN = {
   NOSTORE: '/nostore',
   COURSE: '/course',
   PRODUCT: '/product',
+  TEACHER: '/teacher',
 }
 
 export const router = createBrowserRouter([
@@ -77,6 +80,10 @@ export const router = createBrowserRouter([
           {
             path: PN.PRODUCT,
             element: <Product />,
+          },
+          {
+            path: PN.TEACHER,
+            element: <Teacher />,
           },
           {
             path: '*',
@@ -132,6 +139,11 @@ export const Menus: MenuDataItem[] = [
     path: PN.PRODUCT,
     name: '商品管理',
     icon: <GiftOutlined />,
+  },
+  {
+    path: PN.TEACHER,
+    name: '教师管理',
+    icon: <RobotOutlined />,
   },
 ]
 

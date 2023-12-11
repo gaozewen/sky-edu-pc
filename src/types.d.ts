@@ -124,7 +124,7 @@ export type TCourseQuery = {
     pageInfo: IPageInfo
   }
   getCourse: {
-    __typename?: 'CourseResultsVO'
+    __typename?: 'CourseResultVO'
     data: ICourse
   }
 }
@@ -218,6 +218,36 @@ export type TProductMutation = {
     message: string
   }
   deleteProduct?: {
+    __typename?: 'ResultVO'
+    code: number
+    message: string
+  }
+}
+
+export interface ITeacher {
+  id: string
+  account: string
+  password: string
+  tel: string
+  avatar: string
+  nickname: string
+  store: IStore
+}
+
+export type TTeacherQuery = {
+  getTeachers: {
+    __typename?: 'TeacherResultsVO'
+    data: ITeacher[]
+    pageInfo: IPageInfo
+  }
+  getTeacher: {
+    __typename?: 'TeacherResultVO'
+    data: ITeacher
+  }
+}
+
+export type TTeacherMutation = {
+  commitTeacher?: {
     __typename?: 'ResultVO'
     code: number
     message: string
