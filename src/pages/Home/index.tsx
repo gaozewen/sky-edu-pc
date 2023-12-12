@@ -2,7 +2,7 @@ import { PageContainer } from '@ant-design/pro-components'
 import { Button, Calendar, Card, Col, DatePicker, message, Row } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { DAY_FORMAT } from '@/constants'
 import { SUCCESS } from '@/constants/code'
@@ -10,7 +10,7 @@ import { useUserContext } from '@/hooks/useUserHooks'
 import { useAutoCreateScheduleService } from '@/service/dashborad'
 import { useGetStoreService } from '@/service/store'
 
-import Schedule from './components/Schedule'
+import Schedule, { IRefProps } from './components/Schedule'
 import styles from './index.module.scss'
 
 const { RangePicker } = DatePicker
@@ -25,6 +25,7 @@ const Home = () => {
   const [messageApi, contextHolder] = message.useMessage()
   const { onAutoCreateSchedule, loading } = useAutoCreateScheduleService()
   const [today, setToday] = useState<string>(dayjs().format(DAY_FORMAT))
+  const scheduleRef = useRef<IRefProps>(null)
 
   useEffect(() => {
     if (store.currentStoreId) {
@@ -52,6 +53,7 @@ const Home = () => {
       const { code, message } = await onAutoCreateSchedule(...range)
       if (code === SUCCESS) {
         messageApi.success(message)
+        scheduleRef.current?.refetch()
         return
       }
       messageApi.success(message)
@@ -88,7 +90,7 @@ const Home = () => {
               </span>
             }
           >
-            <Schedule today={today} />
+            <Schedule ref={scheduleRef} today={today} />
           </Card>
         </Col>
         <Col flex="300px">

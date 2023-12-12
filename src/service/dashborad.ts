@@ -24,7 +24,8 @@ export const useAutoCreateScheduleService = () => {
 }
 
 export const useGetTodaySchedulesService = () => {
-  const [get, { loading, data }] = useLazyQuery<TScheduleQuery>(GET_TODAY_SCHEDULES)
+  const [get, { loading, data, refetch }] =
+    useLazyQuery<TScheduleQuery>(GET_TODAY_SCHEDULES)
 
   const getTodaySchedules = (today: string) => {
     get({ variables: { today } })
@@ -34,5 +35,6 @@ export const useGetTodaySchedulesService = () => {
     loading,
     data: data?.getTodaySchedules?.data,
     getTodaySchedules,
+    refetch,
   }
 }

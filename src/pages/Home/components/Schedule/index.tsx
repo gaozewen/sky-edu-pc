@@ -1,6 +1,6 @@
 import { Avatar, Descriptions, Empty, Space, Spin, Steps } from 'antd'
 import dayjs from 'dayjs'
-import { useEffect } from 'react'
+import { forwardRef, useEffect, useImperativeHandle } from 'react'
 
 import { H_M_S_FORMAT } from '@/constants'
 import { useGetTodaySchedulesService } from '@/service/dashborad'
@@ -10,17 +10,31 @@ interface IProps {
   today: string
 }
 
+export interface IRefProps {
+  refetch: () => void
+}
+
 /**
  * 某一天的课程表课程表
  */
-const Schedule = ({ today }: IProps) => {
-  const { getTodaySchedules, data, loading } = useGetTodaySchedulesService()
+const Schedule = forwardRef<IRefProps, IProps>(({ today }, ref) => {
+  const { getTodaySchedules, data, loading, refetch } = useGetTodaySchedulesService()
 
   useEffect(() => {
     if (today) {
       getTodaySchedules(today)
     }
   }, [today])
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      refetch: () => {
+        refetch()
+      },
+    }),
+    [refetch]
+  )
 
   if (!loading && (!data || data.length === 0))
     return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无排课" />
@@ -97,6 +111,5 @@ const Schedule = ({ today }: IProps) => {
       />
     </Spin>
   )
-}
-
+})
 export default Schedule
