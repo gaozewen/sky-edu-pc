@@ -14,6 +14,7 @@ import { useGoTo } from '@/hooks/useGoTo'
 import { useLogout } from '@/hooks/useLogout'
 import { useUserContext } from '@/hooks/useUserHooks'
 import { isStoreRouter, Menus, PN } from '@/router'
+import { ImgUtils } from '@/utils'
 
 /**
  * 天空教育页面统一 Layout
@@ -28,7 +29,17 @@ const SkyLayout = () => {
     <ProConfigProvider>
       <ProLayout
         layout="mix"
-        logo={<img src={IMG.LOGO_TEXT} style={{ height: 40, marginLeft: 24 }} />}
+        logo={
+          <img
+            onClick={() => goTo({ pathname: PN.HOME })}
+            src={ImgUtils.getThumb({
+              url: IMG.LOGO_TEXT,
+              w: 108,
+              h: 40,
+            })}
+            style={{ height: 40, marginLeft: 24 }}
+          />
+        }
         // logo 右侧的文字
         title={false}
         // 门店选择器
@@ -40,7 +51,12 @@ const SkyLayout = () => {
         ]}
         // 用户信息
         avatarProps={{
-          src: userStore.avatar,
+          src: ImgUtils.getThumb({
+            url: userStore.avatar,
+            w: 100,
+            h: 100,
+            isAvatar: true,
+          }),
           // 优先展示昵称，昵称没有展示手机号
           title: userStore.nickname || userStore.tel,
           size: 'small',

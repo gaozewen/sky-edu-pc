@@ -1,9 +1,9 @@
 import { PageContainer } from '@ant-design/pro-components'
 import { Card, Pagination, Space } from 'antd'
 
-import { IMG } from '@/constants/image'
 import { useGetStudentsService } from '@/service/student'
 import { IStudent } from '@/types'
+import { ImgUtils } from '@/utils'
 
 import styles from './index.module.scss'
 
@@ -36,7 +36,12 @@ const Student = () => {
               cover={
                 <img
                   className={styles.avatar}
-                  src={item.avatar || IMG.AVATAR_DEFAULT}
+                  src={ImgUtils.getThumb({
+                    url: item.avatar,
+                    w: 200,
+                    h: 200,
+                    isAvatar: true,
+                  })}
                 />
               }
             >

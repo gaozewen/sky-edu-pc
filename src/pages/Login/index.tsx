@@ -12,6 +12,7 @@ import { IMG } from '@/constants/image'
 import { ADMIN_LOGIN } from '@/graphql/auth'
 import { useTitle } from '@/hooks/useTitle'
 import { useUserContext } from '@/hooks/useUserHooks'
+import { ImgUtils } from '@/utils'
 import { setToken } from '@/utils/userToken'
 
 import AccountLoginForm from './components/AccountLoginForm'
@@ -79,7 +80,11 @@ const Page = () => {
       {contextHolder}
       <div className={styles.container}>
         <LoginFormPage
-          logo={IMG.LOGO}
+          logo={ImgUtils.getThumb({
+            url: IMG.LOGO,
+            w: 229,
+            h: 184,
+          })}
           backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
           containerStyle={{
             backgroundColor: 'rgba(0, 0, 0,0.65)',

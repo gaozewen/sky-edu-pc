@@ -260,3 +260,28 @@ export interface IAntDOption {
   label: string
   value: string
 }
+
+export interface ISchedule {
+  id: string
+  startTime: string
+  endTime: string
+  limitNumber: number
+  course: ICourse
+  store: IStore
+}
+
+export type TScheduleMutation = {
+  autoCreateSchedule?: {
+    __typename?: 'ResultVO'
+    code: number
+    message: string
+  }
+}
+
+export type TScheduleQuery = {
+  getTodaySchedules?: {
+    code: number
+    message: string
+    data: ISchedule[]
+  }
+}
