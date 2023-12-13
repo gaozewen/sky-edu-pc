@@ -2,6 +2,8 @@ import { ApolloClient, ApolloLink, from, HttpLink, InMemoryCache } from '@apollo
 import { ErrorLink } from '@apollo/client/link/error'
 import { message } from 'antd'
 
+import { PN } from '@/router'
+
 import { getCurrentStore } from './currentStore'
 // import { ErrorLink } from '@apollo/client/link/error'
 import { getToken } from './userToken'
@@ -27,6 +29,7 @@ const authLink = new ApolloLink((operation, forward) => {
 
 // token 失效跳转交由 useLoadUserData 这个 hooks 来处理
 const errorLink = new ErrorLink(({ graphQLErrors = [], networkError }) => {
+  if (location.pathname === PN.LOGIN) return
   if (graphQLErrors[0]) {
     message.error('请求参数或返回的数据格式不正确')
     graphQLErrors?.forEach(gqlErr => {
