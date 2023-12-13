@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import { forwardRef, useEffect, useImperativeHandle } from 'react'
 
 import { H_M_S_FORMAT } from '@/constants'
+import { ScheduleRecordStatus } from '@/constants/enum'
 import { useGetTodaySchedulesService } from '@/service/dashborad'
 import { ImgUtils } from '@/utils'
 
@@ -37,7 +38,9 @@ const Schedule = forwardRef<IRefProps, IProps>(({ today }, ref) => {
   )
 
   if (!loading && (!data || data.length === 0))
-    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无排课" />
+    return (
+      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无排课，快去排课吧" />
+    )
 
   return (
     <Spin spinning={loading}>
@@ -55,6 +58,11 @@ const Schedule = forwardRef<IRefProps, IProps>(({ today }, ref) => {
           } else if (curTime.isAfter(dayjs(s.endTime, H_M_S_FORMAT))) {
             status = 'finish'
           }
+
+          const unCanceledScheduleRecords = s.scheduleRecords?.filter(
+            sr => sr.status !== ScheduleRecordStatus.CANCEL
+          )
+
           return {
             status,
             title: `${s.startTime} - ${s.endTime} ${s.course.name}`,
@@ -87,22 +95,26 @@ const Schedule = forwardRef<IRefProps, IProps>(({ today }, ref) => {
                     lineHeight: 0,
                   }}
                 >
-                  <Avatar.Group
-                    maxCount={10}
-                    maxStyle={{ color: '#fff', backgroundColor: '#00c6a8' }}
-                  >
-                    {s.course.teachers?.map(t => (
-                      <Avatar
-                        key={t.id}
-                        src={ImgUtils.getThumb({
-                          url: t.avatar,
-                          w: 100,
-                          h: 100,
-                          isAvatar: true,
-                        })}
-                      />
-                    ))}
-                  </Avatar.Group>
+                  {unCanceledScheduleRecords.length === 0 ? (
+                    '暂无'
+                  ) : (
+                    <Avatar.Group
+                      maxCount={10}
+                      maxStyle={{ color: '#fff', backgroundColor: '#00c6a8' }}
+                    >
+                      {unCanceledScheduleRecords.map(sr => (
+                        <Avatar
+                          key={sr.id}
+                          src={ImgUtils.getThumb({
+                            url: sr.student.avatar,
+                            w: 100,
+                            h: 100,
+                            isAvatar: true,
+                          })}
+                        />
+                      ))}
+                    </Avatar.Group>
+                  )}
                 </Descriptions.Item>
               </Descriptions>
             ),

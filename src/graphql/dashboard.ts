@@ -19,6 +19,15 @@ export const GET_TODAY_SCHEDULES = gql`
         startTime
         endTime
         limitNumber
+        scheduleRecords {
+          id
+          status
+          student {
+            id
+            nickname
+            avatar
+          }
+        }
         course {
           id
           name

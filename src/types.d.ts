@@ -1,3 +1,4 @@
+import { CardRecordStatus, ScheduleRecordStatus } from './constants/enum'
 import { Week } from './pages/Course/components/Order/utils'
 import { ProductStatus } from './pages/Product/utils'
 
@@ -261,6 +262,27 @@ export interface IAntDOption {
   value: string
 }
 
+export interface ICardRecord {
+  id: string
+  startTime: string
+  endTime: string
+  buyTime: string
+  remainTime: number
+  status: CardRecordStatus
+  card: ICard
+  store: IStore
+}
+
+export interface IScheduleRecord {
+  id: string
+  status: ScheduleRecordStatus
+  student: IStudent
+  cardRecord: ICardRecord
+  schedule: ISchedule
+  course: ICourse
+  store: IStore
+}
+
 export interface ISchedule {
   id: string
   startTime: string
@@ -268,6 +290,7 @@ export interface ISchedule {
   limitNumber: number
   course: ICourse
   store: IStore
+  scheduleRecords: IScheduleRecord[]
 }
 
 export type TScheduleMutation = {
