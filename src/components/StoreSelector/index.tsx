@@ -14,7 +14,7 @@ import { getCurrentStore, setCurrentStore } from '@/utils/currentStore'
  */
 const StoreSelector = () => {
   const { data: stores, refetch } = useGetStoreSelectStoresService()
-  const { setStore } = useUserContext()
+  const { store: userStore, setStore } = useUserContext()
   const currentStore = getCurrentStore()
 
   const { goTo } = useGoTo()
@@ -26,9 +26,12 @@ const StoreSelector = () => {
       })
       return
     }
-    // 跳转门店选择页
-    goTo({ pathname: PN.NOSTORE })
-  }, [])
+    // 用户已登录
+    if (userStore.id) {
+      // 跳转门店选择页
+      goTo({ pathname: PN.NOSTORE })
+    }
+  }, [currentStore, userStore.id])
 
   const onSearch = _.debounce((name: string) => {
     refetch({ name })

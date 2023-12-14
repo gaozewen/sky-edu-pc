@@ -50,7 +50,7 @@ const MobileForm = (props: IProps) => {
         ) : null,
       }}
       // TODO: 开发用，上线注释掉
-      initialValue="13815013866"
+      // initialValue="13815013866"
       // 默认不传 undefined 等了页用的长度
       width={width}
       name={name}

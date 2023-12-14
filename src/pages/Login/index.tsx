@@ -54,7 +54,6 @@ const Page = () => {
         },
       })
       if (res.data.adminLogin.code === SUCCESS) {
-        // TODO: 登出之后也要做同样的处理
         // https://www.apollographql.com/docs/react/networking/authentication
         // 登录成功后清空阿波罗之前的缓存
         await client.clearStore()
