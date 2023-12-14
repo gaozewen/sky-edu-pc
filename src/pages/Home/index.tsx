@@ -37,7 +37,7 @@ const Home = () => {
 
   if (!data) return null
 
-  const onRangeChange = (days: null | (Dayjs | null)[], dayStrs: string[]) => {
+  const onRangeChange = (_days: null | (Dayjs | null)[], dayStrs: string[]) => {
     if (dayStrs && dayStrs.length === 2) {
       setRange([dayStrs[0], dayStrs[1]])
     }

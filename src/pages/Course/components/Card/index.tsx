@@ -50,7 +50,7 @@ const CourseCard = (props: ICourseCardProps) => {
         value={data}
         columns={getColumns(onDelete)}
         editable={{
-          onSave: async (rowKey, d) => {
+          onSave: async (_rowKey, d) => {
             onSave(d)
           },
           onDelete: async rowKey => {

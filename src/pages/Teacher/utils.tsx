@@ -40,6 +40,6 @@ export const genColumns: ({ onEdit }: IProps) => ProColumns<ITeacher, 'text'>[] 
     dataIndex: 'id',
     align: 'center',
     width: 88,
-    render: (text, entity) => <a onClick={() => onEdit(entity.id)}>编辑</a>,
+    render: (_text, entity) => <a onClick={() => onEdit(entity.id)}>编辑</a>,
   },
 ]

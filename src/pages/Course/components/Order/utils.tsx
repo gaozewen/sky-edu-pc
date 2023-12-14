@@ -75,7 +75,7 @@ export const getColumns = (onDelete: (id: string) => void): ProColumns[] => [
     valueType: 'option',
     width: 150,
     align: 'center',
-    render: (text, record, _, action) => (
+    render: (_text, record, _, action) => (
       <Space>
         <a
           key="edit"

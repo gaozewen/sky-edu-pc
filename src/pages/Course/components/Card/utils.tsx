@@ -25,7 +25,7 @@ export const getColumns = (onDelete: (id: string) => void): ProColumns[] => [
     editable: false,
     align: 'center',
     // ellipsis: true,
-    render: (text, record, index) => index + 1,
+    render: (_text, _record, index) => index + 1,
   },
   {
     title: '消费卡名称',
@@ -68,7 +68,7 @@ export const getColumns = (onDelete: (id: string) => void): ProColumns[] => [
     valueType: 'option',
     width: 150,
     align: 'center',
-    render: (text, record, _, action) => (
+    render: (_text, record, _, action) => (
       <Space>
         <a
           key="edit"

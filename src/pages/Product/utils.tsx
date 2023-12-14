@@ -97,7 +97,7 @@ export const genColumns: (props: IProps) => ProColumns<IProduct, 'text'>[] = ({
     valueType: 'option',
     align: 'center',
     width: 98,
-    render: (text, record) => (
+    render: (_text, record) => (
       <div>
         <div>
           <Space>

@@ -60,7 +60,7 @@ const SkyLayout = () => {
           // 优先展示昵称，昵称没有展示手机号
           title: userStore.nickname || userStore.tel,
           size: 'small',
-          render(props, defaultDom) {
+          render(_props, defaultDom) {
             return (
               <Dropdown
                 menu={{

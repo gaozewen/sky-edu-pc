@@ -113,7 +113,7 @@ const Store = () => {
           },
           actions: {
             cardActionProps: 'actions',
-            render: (text, row) => [
+            render: (_text, row) => [
               <a key="edit" onClick={() => onEdit(row.id)}>
                 编辑
               </a>,

@@ -36,7 +36,7 @@ export const genColumns: ({
     dataIndex: 'id',
     align: 'center',
     width: 218,
-    render: (text, entity) => [
+    render: (_text, entity) => [
       <a key="edit" onClick={() => onEdit(entity.id)}>
         编辑课程
       </a>,
