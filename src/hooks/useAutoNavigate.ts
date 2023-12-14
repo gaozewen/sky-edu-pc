@@ -41,7 +41,7 @@ const useAutoNavigate = (loadingUserData: boolean) => {
     // 如果当前路由需要登录，则自动跳转登录页
     goTo({
       pathname: PN.LOGIN,
-      search: `orgUrl=${pathname}`,
+      search: `orgUrl=${encodeURIComponent(pathname)}`,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadingUserData, store.tel, pathname])
