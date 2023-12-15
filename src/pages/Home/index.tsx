@@ -19,6 +19,7 @@ const { RangePicker } = DatePicker
  *  首页
  */
 const Home = () => {
+  console.log('gzw====> Home =====> in', new Date().getTime())
   const { store } = useUserContext()
   const { data, getStore } = useGetStoreService()
   const [range, setRange] = useState<[string, string]>(['', ''])
@@ -28,6 +29,7 @@ const Home = () => {
   const scheduleRef = useRef<IRefProps>(null)
 
   useEffect(() => {
+    console.log('gzw====> Home ===> useEffect =====> in', new Date().getTime())
     if (store.currentStoreId) {
       getStore({
         variables: { id: store.currentStoreId },

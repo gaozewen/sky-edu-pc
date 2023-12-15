@@ -7,21 +7,24 @@ import {
   TeamOutlined,
 } from '@ant-design/icons'
 import { MenuDataItem } from '@ant-design/pro-components'
+import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
-import SkyLayout from '@/layouts/SkyLayout'
 import UserInfoLayout from '@/layouts/UserInfoLayout'
-import Course from '@/pages/Course'
-import Home from '@/pages/Home'
-import Login from '@/pages/Login'
-import NoStore from '@/pages/NoStore'
-import NotFound from '@/pages/NotFound'
-import Password from '@/pages/Password'
-import Product from '@/pages/Product'
-import Profile from '@/pages/Profile'
-import Store from '@/pages/Store'
-import Student from '@/pages/Student'
-import Teacher from '@/pages/Teacher'
+
+const SkyLayout = lazy(() => import('@/layouts/SkyLayout'))
+const Course = lazy(() => import('@/pages/Course'))
+const Home = lazy(() => import('@/pages/Home'))
+const Login = lazy(() => import('@/pages/Login'))
+const NoStore = lazy(() => import('@/pages/NoStore'))
+const NotFound = lazy(() => import('@/pages/NotFound'))
+const Password = lazy(() => import('@/pages/Password'))
+const Product = lazy(() => import('@/pages/Product'))
+const Profile = lazy(() => import('@/pages/Profile'))
+const Store = lazy(() => import('@/pages/Store'))
+const Student = lazy(() => import('@/pages/Student'))
+const Teacher = lazy(() => import('@/pages/Teacher'))
+
 // PN: pathname
 export const PN = {
   HOME: '/',

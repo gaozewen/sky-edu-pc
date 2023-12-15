@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
 
 import { isLoginRouter, PN } from '@/router'
+import { getToken } from '@/utils/userToken'
 
 import { useGoTo } from './useGoTo'
 import { useUserContext } from './useUserHooks'
@@ -12,8 +13,26 @@ const useAutoNavigate = (loadingUserData: boolean) => {
   const [params] = useSearchParams()
   const { store } = useUserContext()
   const { goTo } = useGoTo()
+  console.log('gzw====>useAutoNavigate =====> in', new Date().getTime())
 
   useEffect(() => {
+    console.log(
+      'gzw====>useAutoNavigate ===> useEffect =====> in',
+      new Date().getTime()
+    )
+    if (!getToken()) {
+      // token 不存在，则自动跳转登录页
+      goTo({
+        pathname: PN.LOGIN,
+        search: `orgUrl=${pathname}`,
+      })
+      return
+    }
+
+    console.log(
+      'gzw====>useAutoNavigate ===> useEffect ==== after =====> in',
+      new Date().getTime()
+    )
     // console.log('gzw===>loadingUserData', loadingUserData)
     // console.log('gzw===>store.tel', store.tel)
     // console.log('gzw===>pathname', pathname)

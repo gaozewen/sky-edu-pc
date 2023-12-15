@@ -19,7 +19,8 @@ module.exports = {
     'simple-import-sort/exports': 'error',
     // 使用单引号
     quotes: ['error', 'single'],
-    'react/display-name': 0
+    'react/display-name': 0,
+    'react-refresh/only-export-components': 0,
   },
   settings: {
     react: {
