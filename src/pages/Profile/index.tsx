@@ -70,7 +70,7 @@ const Profile = () => {
               }
               messageApi.error(message)
             } catch (error) {
-              console.log('【updateUserProfile】Error:', error)
+              console.error('【updateUserProfile】Error:', error)
               messageApi.error('更新失败')
             }
           }}

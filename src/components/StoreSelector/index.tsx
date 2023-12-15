@@ -1,6 +1,7 @@
 import { Select, Space } from 'antd'
 import _ from 'lodash'
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { useGoTo } from '@/hooks/useGoTo'
 import { useUserContext } from '@/hooks/useUserHooks'
@@ -16,8 +17,12 @@ const StoreSelector = () => {
   const { data: stores, refetch } = useGetStoreSelectStoresService()
   const { store: userStore, setStore } = useUserContext()
   const currentStore = getCurrentStore()
-
+  const { pathname } = useLocation()
   const { goTo } = useGoTo()
+
+  const isNoNavToNOSTORE = () => {
+    return [PN.PROFILE, PN.PASSWORD].includes(pathname)
+  }
 
   useEffect(() => {
     if (currentStore) {
@@ -28,10 +33,11 @@ const StoreSelector = () => {
     }
     // 用户已登录
     if (userStore.id) {
+      if (isNoNavToNOSTORE()) return
       // 跳转门店选择页
       goTo({ pathname: PN.NOSTORE })
     }
-  }, [currentStore, userStore.id])
+  }, [currentStore, userStore.id, pathname])
 
   const onSearch = _.debounce((name: string) => {
     refetch({ name })

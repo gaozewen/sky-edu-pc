@@ -13,35 +13,17 @@ const useAutoNavigate = (loadingUserData: boolean) => {
   const [params] = useSearchParams()
   const { store } = useUserContext()
   const { goTo } = useGoTo()
-  console.log('gzw====>useAutoNavigate =====> in', new Date().getTime())
 
   useEffect(() => {
-    console.log(
-      'gzw====>useAutoNavigate ===> useEffect =====> in',
-      new Date().getTime()
-    )
-    if (!getToken()) {
-      // token 不存在，则自动跳转登录页
-      goTo({
-        pathname: PN.LOGIN,
-        search: `orgUrl=${pathname}`,
-      })
-      return
-    }
-
-    console.log(
-      'gzw====>useAutoNavigate ===> useEffect ==== after =====> in',
-      new Date().getTime()
-    )
     // console.log('gzw===>loadingUserData', loadingUserData)
     // console.log('gzw===>store.tel', store.tel)
     // console.log('gzw===>pathname', pathname)
     // 还在加载用户数据则不处理
     if (loadingUserData) return
 
-    // 已登陆
-    if (store.tel) {
-      // 如果当前路由是登录页时，跳转 orgUrl 页，否则跳转主页
+    // 已登陆 or token 存在
+    if (store.tel || getToken()) {
+      // 当前是 Login 页，跳转 orgUrl 页，否则跳转主页
       if (isLoginRouter(pathname)) {
         const orgUrlPathname = params.get('orgUrl')
         if (orgUrlPathname === PN.PASSWORD) {
@@ -50,7 +32,10 @@ const useAutoNavigate = (loadingUserData: boolean) => {
           return
         }
         goTo({ pathname: orgUrlPathname || PN.HOME })
+        return
       }
+
+      // 其他页面不做任何跳转，直接 return
       return
     }
 
@@ -58,6 +43,7 @@ const useAutoNavigate = (loadingUserData: boolean) => {
     // 如果当前路由是登录页，则不处理
     if (isLoginRouter(pathname)) return
     // 如果当前路由需要登录，则自动跳转登录页
+    // console.log('gzw==before to login=>pathname', pathname)
     goTo({
       pathname: PN.LOGIN,
       search: `orgUrl=${pathname}`,

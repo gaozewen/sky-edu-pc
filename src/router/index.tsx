@@ -6,8 +6,8 @@ import {
   ShopOutlined,
   TeamOutlined,
 } from '@ant-design/icons'
-import { MenuDataItem } from '@ant-design/pro-components'
-import { lazy } from 'react'
+import { MenuDataItem, PageLoading } from '@ant-design/pro-components'
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
 import UserInfoLayout from '@/layouts/UserInfoLayout'
@@ -46,47 +46,91 @@ export const router = createBrowserRouter([
     children: [
       {
         path: PN.LOGIN,
-        element: <Login />,
+        element: (
+          <Suspense fallback={<PageLoading />}>
+            <Login />
+          </Suspense>
+        ),
       },
       {
         path: '/',
-        element: <SkyLayout />,
+        element: (
+          <Suspense fallback={<PageLoading />}>
+            <SkyLayout />
+          </Suspense>
+        ),
         children: [
           {
             path: PN.HOME,
-            element: <Home />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <Home />
+              </Suspense>
+            ),
           },
           {
             path: PN.PROFILE,
-            element: <Profile />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <Profile />
+              </Suspense>
+            ),
           },
           {
             path: PN.PASSWORD,
-            element: <Password />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <Password />
+              </Suspense>
+            ),
           },
           {
             path: PN.STORE,
-            element: <Store />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <Store />
+              </Suspense>
+            ),
           },
           {
             path: PN.STUDENT,
-            element: <Student />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <Student />
+              </Suspense>
+            ),
           },
           {
             path: PN.NOSTORE,
-            element: <NoStore />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <NoStore />
+              </Suspense>
+            ),
           },
           {
             path: PN.COURSE,
-            element: <Course />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <Course />
+              </Suspense>
+            ),
           },
           {
             path: PN.PRODUCT,
-            element: <Product />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <Product />
+              </Suspense>
+            ),
           },
           {
             path: PN.TEACHER,
-            element: <Teacher />,
+            element: (
+              <Suspense fallback={<PageLoading />}>
+                <Teacher />
+              </Suspense>
+            ),
           },
           {
             path: '*',

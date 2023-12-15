@@ -70,7 +70,7 @@ const Password = () => {
               }
               messageApi.error(message)
             } catch (error) {
-              console.log('resetPwd:', error)
+              console.error('【resetPwd】Error:', error)
               messageApi.error('更新失败')
             }
           }}

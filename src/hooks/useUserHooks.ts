@@ -17,7 +17,6 @@ export const useUserContext = () => useContextFactory<IUser>(KEY)
 // 通过 api 接口获取用户数据
 export const useLoadUserData = () => {
   const { setStore, resetStore } = useUserContext()
-  console.log('gzw====>useLoadUserData =====> in', new Date().getTime())
   const { loading, refetch } = useQuery<{ getUserByJWT: IUser }>(GET_USER_BY_JWT, {
     // 需要加上这个参数，onCompleted 和 onError 才会在每次 refetch 时确保触发
     notifyOnNetworkStatusChange: true,
@@ -41,6 +40,5 @@ export const useLoadUserData = () => {
       // 路由跳转交由 useAutoNavigate 统一控制
     },
   })
-  console.log('gzw====>useAutoNavigate =====> before', new Date().getTime())
   useAutoNavigate(loading)
 }
