@@ -24,7 +24,9 @@ const useBeforeGoTo = () => {
 
   // 要跳的页面是否是 不需要基于 当前门店
   const isNotBasedOnCurrentStoreRouter = (goToPathname: string) => {
-    return [PN.SELECT_STORE_GUIDE, PN.STORE, PN.PROFILE, PN.PASSWORD].includes(goToPathname)
+    return [PN.SELECT_STORE_GUIDE, PN.STORE, PN.PROFILE, PN.PASSWORD].includes(
+      goToPathname
+    )
   }
 
   const showWarning = (goToPathname: string) => {
