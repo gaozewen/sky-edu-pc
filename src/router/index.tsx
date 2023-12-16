@@ -12,11 +12,11 @@ import { createBrowserRouter } from 'react-router-dom'
 
 import UserInfoLayout from '@/layouts/UserInfoLayout'
 import Jump from '@/pages/Jump'
+import Login from '@/pages/Login'
 
 const SkyLayout = lazy(() => import('@/layouts/SkyLayout'))
 const Course = lazy(() => import('@/pages/Course'))
 const Home = lazy(() => import('@/pages/Home'))
-const Login = lazy(() => import('@/pages/Login'))
 const SelectStoreGuide = lazy(() => import('@/pages/SelectStoreGuide'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 const Password = lazy(() => import('@/pages/Password'))
@@ -104,11 +104,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: PN.LOGIN,
-        element: (
-          <Suspense fallback={<PageLoading />}>
-            <Login />
-          </Suspense>
-        ),
+        element: <Login />,
       },
       {
         path: '/',

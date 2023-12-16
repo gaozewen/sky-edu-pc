@@ -23,7 +23,7 @@ const AccountLoginForm = () => {
       <ProFormText.Password
         name="password"
         fieldProps={{
-          size: 'large',
+          size: SizeType.LARGE,
           prefix: (
             <LockOutlined
               style={{

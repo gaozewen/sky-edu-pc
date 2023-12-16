@@ -15,6 +15,7 @@ import { useUserContext } from '@/hooks/useUserHooks'
 import { ImgUtils } from '@/utils'
 import { setToken } from '@/utils/userToken'
 
+import Stars from './components/Stars'
 import AccountLoginForm from './components/AccountLoginForm'
 import Actions from './components/Actions'
 import MobileLoginForm from './components/MobileLoginForm'
@@ -83,11 +84,6 @@ const Page = () => {
             w: 229,
             h: 184,
           })}
-          backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
-          containerStyle={{
-            backgroundColor: 'rgba(0, 0, 0,0.65)',
-            backdropFilter: 'blur(4px)',
-          }}
           actions={<Actions />}
           onFinish={async (values: IValue) => {
             await onFinish(values)
@@ -127,6 +123,8 @@ const Page = () => {
           </div>
         </LoginFormPage>
       </div>
+      {/* 星空背景 */}
+      <Stars />
     </>
   )
 }

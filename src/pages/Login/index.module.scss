@@ -1,6 +1,6 @@
 .container {
   height: 100vh;
-  background-color: rgba(21, 30, 48);
+  background: rgba(0, 0, 0, 0.9);
   // 将登录表单居中
   :global(.ant-pro-form-login-page-notice) {
     display: none;
@@ -17,6 +17,12 @@
     width: 160px;
     height: 150px;
     margin: 0;
+  }
+
+  // 表单容器样式
+  :global(.ant-pro-form-login-page-container) {
+    background-color: transparent;
+    backdrop-filter: blur(0);
   }
 
   .forgetPwd {
