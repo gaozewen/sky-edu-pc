@@ -67,56 +67,67 @@ const Schedule = forwardRef<IRefProps, IProps>(({ today }, ref) => {
             status,
             title: `${s.startTime} - ${s.endTime} ${s.course.name}`,
             description: (
-              <Descriptions bordered>
-                <Descriptions.Item span={3} label="讲师" labelStyle={{ width: 80 }}>
-                  <Space>
-                    {s.course.teachers?.map(t => (
-                      <Space key={t.id} align="center">
-                        <Avatar
-                          shape="square"
-                          size="small"
-                          src={ImgUtils.getThumb({
-                            url: t.avatar,
-                            w: 100,
-                            h: 100,
-                            isAvatar: true,
-                          })}
-                        />
-                        {t.nickname}
+              <Descriptions
+                bordered
+                column={1}
+                items={[
+                  {
+                    key: 'teacher',
+                    label: '讲师',
+                    labelStyle: { width: 80 },
+                    children: (
+                      <Space>
+                        {s.course.teachers?.map(t => (
+                          <Space key={t.id} align="center">
+                            <Avatar
+                              shape="square"
+                              size="small"
+                              src={ImgUtils.getThumb({
+                                url: t.avatar,
+                                w: 100,
+                                h: 100,
+                                isAvatar: true,
+                              })}
+                            />
+                            {t.nickname}
+                          </Space>
+                        ))}
                       </Space>
-                    ))}
-                  </Space>
-                </Descriptions.Item>
-
-                <Descriptions.Item
-                  span={3}
-                  label="学员"
-                  contentStyle={{
-                    lineHeight: 0,
-                  }}
-                >
-                  {unCanceledScheduleRecords.length === 0 ? (
-                    '暂无'
-                  ) : (
-                    <Avatar.Group
-                      maxCount={10}
-                      maxStyle={{ color: '#fff', backgroundColor: '#00c6a8' }}
-                    >
-                      {unCanceledScheduleRecords.map(sr => (
-                        <Avatar
-                          key={sr.id}
-                          src={ImgUtils.getThumb({
-                            url: sr.student.avatar,
-                            w: 100,
-                            h: 100,
-                            isAvatar: true,
-                          })}
-                        />
-                      ))}
-                    </Avatar.Group>
-                  )}
-                </Descriptions.Item>
-              </Descriptions>
+                    ),
+                  },
+                  {
+                    key: 'student',
+                    label: '学员',
+                    contentStyle: {
+                      lineHeight: 0,
+                    },
+                    children: (
+                      <>
+                        {unCanceledScheduleRecords.length === 0 ? (
+                          '暂无'
+                        ) : (
+                          <Avatar.Group
+                            maxCount={10}
+                            maxStyle={{ color: '#fff', backgroundColor: '#00c6a8' }}
+                          >
+                            {unCanceledScheduleRecords.map(sr => (
+                              <Avatar
+                                key={sr.id}
+                                src={ImgUtils.getThumb({
+                                  url: sr.student.avatar,
+                                  w: 100,
+                                  h: 100,
+                                  isAvatar: true,
+                                })}
+                              />
+                            ))}
+                          </Avatar.Group>
+                        )}
+                      </>
+                    ),
+                  },
+                ]}
+              ></Descriptions>
             ),
           }
         })}

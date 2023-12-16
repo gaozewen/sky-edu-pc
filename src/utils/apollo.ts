@@ -2,7 +2,7 @@ import { ApolloClient, ApolloLink, from, HttpLink, InMemoryCache } from '@apollo
 import { ErrorLink } from '@apollo/client/link/error'
 import { message } from 'antd'
 
-import { getCurrentStore } from './currentStore'
+import { getLocalStore } from './currentStore'
 import { getToken } from './userToken'
 
 const httpLink = new HttpLink({ uri: import.meta.env.VITE_API_URL })
@@ -10,7 +10,7 @@ const httpLink = new HttpLink({ uri: import.meta.env.VITE_API_URL })
 const authLink = new ApolloLink((operation, forward) => {
   // get the authentication token from local storage if it exists
   const token = getToken()
-  const storeId = getCurrentStore()?.value || ''
+  const storeId = getLocalStore()?.value || ''
   // add the authorization to the headers
   operation.setContext(({ headers = {} }) => ({
     headers: {

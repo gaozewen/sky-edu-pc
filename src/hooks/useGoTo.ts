@@ -14,6 +14,7 @@ export const useGoTo = () => {
 
   const goTo = (params: IGoToParams) => {
     const { pathname = PN.HOME, search = '', replace = false } = params || {}
+
     nav(
       {
         pathname,

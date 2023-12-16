@@ -19,12 +19,4 @@ export default defineConfig({
       },
     ],
   },
-  build: {
-    rollupOptions: {
-      output: {
-        entryFileNames: '[name]-[hash].js', // 入口文件名格式
-        chunkFileNames: '[name]-[hash].js', // chunk 文件名格式
-      },
-    },
-  },
 })
