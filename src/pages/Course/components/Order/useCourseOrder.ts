@@ -1,4 +1,4 @@
-import { message } from 'antd'
+import { App } from 'antd'
 import { useEffect, useMemo, useState } from 'react'
 
 import { SUCCESS } from '@/constants/code'
@@ -10,7 +10,7 @@ import { DAYS, IDay, isWorkDay } from './utils'
 
 export const useCourseOrder = (props: ICourseOrderProps) => {
   const { showOrder, setShowOrder, id } = props
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const { getCourse, loading, data, refetch } = useGetCourseService()
   const { onCommitCourse, loading: commitCourseLoading } = useCommitCourseService()
   const [currentDay, setCurrentDay] = useState<IDay>(DAYS[0])
@@ -37,17 +37,17 @@ export const useCourseOrder = (props: ICourseOrderProps) => {
 
   const onSaveWeeklyOrderTime = async (newWeeklyOrderTimes: IWeekOrderTime[]) => {
     try {
-      const { code, message } = await onCommitCourse(id, {
+      const { code, message: msg } = await onCommitCourse(id, {
         weeklyOrderTimes: newWeeklyOrderTimes,
       })
       if (code === SUCCESS) {
         refetch()
-        messageApi.success(message)
+        message.success(msg)
         return
       }
-      messageApi.error(message)
+      message.error(msg)
     } catch (error) {
-      messageApi.error('操作失败，服务器忙，请稍后再试')
+      message.error('操作失败，服务器忙，请稍后再试')
       console.error('【onCommitCourse】Error：', error)
     }
   }
@@ -102,7 +102,6 @@ export const useCourseOrder = (props: ICourseOrderProps) => {
   return {
     setShowOrder,
     showOrder,
-    contextHolder,
     onChangeTab,
     currentDay,
     loading,

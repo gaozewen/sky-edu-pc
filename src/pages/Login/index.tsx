@@ -4,7 +4,7 @@ import {
   ProFormCheckbox,
 } from '@ant-design/pro-components'
 import { useMutation } from '@apollo/client'
-import { ConfigProvider, message, Tabs } from 'antd'
+import { App, ConfigProvider, Tabs } from 'antd'
 import { useState } from 'react'
 
 import { SUCCESS } from '@/constants/code'
@@ -37,7 +37,7 @@ const Page = () => {
   useTitle('登录')
   const [loginType, setLoginType] = useState<LoginType>(LoginType.MOBILE)
   const [adminLogin, { loading, client }] = useMutation(ADMIN_LOGIN)
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const { store: userStore } = useUserContext()
 
   const onFinish = async (value: IValue) => {
@@ -64,19 +64,18 @@ const Page = () => {
         // 所以需要们手动触发
         userStore.refetchHandler()
         // 路由跳转交由 useAutoNavigate 统一控制
-        messageApi.success(res.data.adminLogin.message)
+        message.success(res.data.adminLogin.message)
         return
       }
-      messageApi.error(res.data.adminLogin.message)
+      message.error(res.data.adminLogin.message)
     } catch (error) {
-      messageApi.error('服务器忙，请稍后再试')
+      message.error('服务器忙，请稍后再试')
       console.error('【adminLogin】Error：', error)
     }
   }
 
   return (
     <>
-      {contextHolder}
       <div className={styles.container}>
         <LoginFormPage
           logo={ImgUtils.getThumb({

@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { ActionType, PageContainer, ProTable } from '@ant-design/pro-components'
-import { Button, message } from 'antd'
+import { App, Button } from 'antd'
 import { useRef, useState } from 'react'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
@@ -22,7 +22,7 @@ import { genColumns, ProductStatus } from './utils'
 const Product = () => {
   const { proTableRequest } = useGetProductsService()
   const { onDeleteProduct } = useDeleteProductService()
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const [showEdit, setShowEdit] = useState(false)
   const [curProductId, setCurProductId] = useState('')
   const actionRef = useRef<ActionType>()
@@ -54,32 +54,32 @@ const Product = () => {
 
   const onDelete = async (id: string) => {
     try {
-      const { code, message } = await onDeleteProduct(id)
+      const { code, message: msg } = await onDeleteProduct(id)
       if (code === SUCCESS) {
         // 刷新当前商品列表页
         actionRef.current?.reload()
-        messageApi.success(message)
+        message.success(msg)
         return
       }
-      messageApi.error(message)
+      message.error(msg)
     } catch (error) {
-      messageApi.error('操作失败，服务器忙，请稍后再试')
+      message.error('操作失败，服务器忙，请稍后再试')
       console.error('【onDeleteCard】Error：', error)
     }
   }
 
   const onStatusChange = async (id: string, status: ProductStatus) => {
     try {
-      const { code, message } = await onCommitProduct(id, { status })
+      const { code, message: msg } = await onCommitProduct(id, { status })
       if (code === SUCCESS) {
         // 刷新当前商品列表页
         actionRef.current?.reload()
-        messageApi.success(message)
+        message.success(msg)
         return
       }
-      messageApi.error(message)
+      message.error(msg)
     } catch (error) {
-      messageApi.error('操作失败，服务器忙，请稍后再试')
+      message.error('操作失败，服务器忙，请稍后再试')
       console.error('【onCommitProduct】Error：', error)
     }
   }
@@ -90,8 +90,6 @@ const Product = () => {
         title: '当前门店售卖的商品',
       }}
     >
-      {contextHolder}
-
       <ProTable<IProduct>
         rowKey="id"
         form={{

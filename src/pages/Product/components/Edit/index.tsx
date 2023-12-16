@@ -7,7 +7,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Form, message } from 'antd'
+import { App, Form } from 'antd'
 import { useEffect, useRef } from 'react'
 
 import ImageUpload from '@/components/ImageUpload'
@@ -28,7 +28,7 @@ interface IProps {
 
 const ProductEdit = (props: IProps) => {
   const { showEdit, setShowEdit, id, editSuccessHandler } = props
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const formRef = useRef<ProFormInstance>()
   const { getProduct, loading, data } = useGetProductService()
   const { onCommitProduct, loading: commitProductLoading } = useCommitProductService()
@@ -90,21 +90,19 @@ const ProductEdit = (props: IProps) => {
             coverUrl: values.coverUrl[0].url,
             bannerUrl: values.bannerUrl[0].url,
           } as IProduct
-          const { code, message } = await onCommitProduct(id, formData)
+          const { code, message: msg } = await onCommitProduct(id, formData)
           if (code === SUCCESS) {
             editSuccessHandler()
-            messageApi.success(message)
+            message.success(msg)
             return
           }
-          messageApi.error(message)
+          message.error(msg)
         } catch (error) {
-          messageApi.error('操作失败，服务器忙，请稍后再试')
+          message.error('操作失败，服务器忙，请稍后再试')
           console.error('【onCommitProduct】Error：', error)
         }
       }}
     >
-      {contextHolder}
-
       {/* 1 */}
       <ProFormText
         name="name"

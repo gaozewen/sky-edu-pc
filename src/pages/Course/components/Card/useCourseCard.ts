@@ -1,4 +1,4 @@
-import { message } from 'antd'
+import { App } from 'antd'
 import { useEffect } from 'react'
 
 import { SUCCESS } from '@/constants/code'
@@ -13,7 +13,7 @@ import { ICourseCardProps } from '.'
 
 export const useCourseCard = (props: ICourseCardProps) => {
   const { setShowCard, showCard, id: courseId } = props
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const { getCards, loading, data, refetch } = useGetCardsService()
   const { onCommitCard, loading: commitCardLoading } = useCommitCardService()
   const { onDeleteCard, loading: deleteLoading } = useDeleteCardService()
@@ -28,7 +28,7 @@ export const useCourseCard = (props: ICourseCardProps) => {
 
   const onSave = async (c: ICard) => {
     try {
-      const { code, message } = await onCommitCard(
+      const { code, message: msg } = await onCommitCard(
         c.id === 'new' ? '' : c.id,
         {
           name: c.name,
@@ -40,27 +40,27 @@ export const useCourseCard = (props: ICourseCardProps) => {
       )
       if (code === SUCCESS) {
         refetch()
-        messageApi.success(message)
+        message.success(msg)
         return
       }
-      messageApi.error(message)
+      message.error(msg)
     } catch (error) {
-      messageApi.error('操作失败，服务器忙，请稍后再试')
+      message.error('操作失败，服务器忙，请稍后再试')
       console.error('【onCommitCard】Error：', error)
     }
   }
 
   const onDelete = async (id: string) => {
     try {
-      const { code, message } = await onDeleteCard(id)
+      const { code, message: msg } = await onDeleteCard(id)
       if (code === SUCCESS) {
         refetch()
-        messageApi.success(message)
+        message.success(msg)
         return
       }
-      messageApi.error(message)
+      message.error(msg)
     } catch (error) {
-      messageApi.error('操作失败，服务器忙，请稍后再试')
+      message.error('操作失败，服务器忙，请稍后再试')
       console.error('【onDeleteCard】Error：', error)
     }
   }
@@ -68,7 +68,6 @@ export const useCourseCard = (props: ICourseCardProps) => {
   return {
     setShowCard,
     showCard,
-    contextHolder,
     loading,
     commitCardLoading,
     deleteLoading,

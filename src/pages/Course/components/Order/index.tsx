@@ -20,7 +20,6 @@ const CourseOrder = (props: ICourseOrderProps) => {
   const {
     setShowOrder,
     showOrder,
-    contextHolder,
     onChangeTab,
     currentDay,
     loading,
@@ -39,7 +38,6 @@ const CourseOrder = (props: ICourseOrderProps) => {
       title="预约时间设置"
       open={showOrder}
     >
-      {contextHolder}
       <div
         style={{
           display: 'flex',

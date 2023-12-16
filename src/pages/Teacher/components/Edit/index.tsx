@@ -1,5 +1,5 @@
 import { DrawerForm, ProFormInstance, ProFormText } from '@ant-design/pro-components'
-import { Form, message } from 'antd'
+import { App, Form } from 'antd'
 import { Rule } from 'antd/es/form'
 import { useEffect, useRef } from 'react'
 
@@ -17,7 +17,7 @@ interface IProps {
 
 const TeacherEdit = (props: IProps) => {
   const { showEdit, setShowEdit, id, editSuccessHandler } = props
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const formRef = useRef<ProFormInstance>()
   const { getTeacher, loading, data } = useGetTeacherService()
   const { onCommitTeacher, loading: commitTeacherLoading } = useCommitTeacherService()
@@ -97,21 +97,19 @@ const TeacherEdit = (props: IProps) => {
           if (values.password && values.confirm && values.password === values.confirm) {
             formData.password = values.password
           }
-          const { code, message } = await onCommitTeacher(id, formData)
+          const { code, message: msg } = await onCommitTeacher(id, formData)
           if (code === SUCCESS) {
             editSuccessHandler()
-            messageApi.success(message)
+            message.success(msg)
             return
           }
-          messageApi.error(message)
+          message.error(msg)
         } catch (error) {
-          messageApi.error('操作失败，服务器忙，请稍后再试')
+          message.error('操作失败，服务器忙，请稍后再试')
           console.error('【onCommitTeacher】Error：', error)
         }
       }}
     >
-      {contextHolder}
-
       <ProFormText
         name="nickname"
         label="昵称"

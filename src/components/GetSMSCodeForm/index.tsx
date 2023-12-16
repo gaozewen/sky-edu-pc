@@ -1,7 +1,7 @@
 import { LockOutlined } from '@ant-design/icons'
 import { ProFormCaptcha } from '@ant-design/pro-components'
 import { useMutation } from '@apollo/client'
-import { message, theme } from 'antd'
+import { App, theme } from 'antd'
 
 import { AUTH_SMS_NOT_EXPIRED, GET_AUTH_SMS_FAILED, SUCCESS } from '@/constants/code'
 import { SizeType } from '@/constants/enum'
@@ -27,12 +27,10 @@ const GetSMSCodeForm = (props: IProps) => {
     name = 'code',
   } = props || {}
   const { token } = theme.useToken()
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const [sendAuthSMS] = useMutation(SEND_AUTH_SMS)
   return (
     <>
-      {contextHolder}
-
       <ProFormCaptcha
         label={showLabel ? '验证码' : ''}
         fieldProps={{
@@ -73,17 +71,17 @@ const GetSMSCodeForm = (props: IProps) => {
             })
             const { code, message: msg } = res.data.sendAuthSMS
             if (code === SUCCESS) {
-              messageApi.success('获取验证码成功！')
+              message.success('获取验证码成功！')
             } else if (code === AUTH_SMS_NOT_EXPIRED) {
-              messageApi.warning('验证码尚未过期！')
+              message.warning('验证码尚未过期！')
             } else if (code === GET_AUTH_SMS_FAILED) {
-              messageApi.error('获取验证码失败！')
+              message.error('获取验证码失败！')
             } else {
-              messageApi.error(msg)
+              message.error(msg)
             }
           } catch (error) {
             console.error('【sendAuthSMS】Error:')
-            messageApi.error('获取验证码失败！服务器忙，请稍后再试！')
+            message.error('获取验证码失败！服务器忙，请稍后再试！')
           }
         }}
       />

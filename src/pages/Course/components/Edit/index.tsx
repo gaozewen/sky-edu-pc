@@ -6,7 +6,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Form, message } from 'antd'
+import { App, Form } from 'antd'
 import { omit } from 'lodash-es'
 import { useEffect, useRef } from 'react'
 
@@ -25,7 +25,7 @@ interface IProps {
 
 const CourseEdit = (props: IProps) => {
   const { showEdit, setShowEdit, id, editSuccessHandler } = props
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const formRef = useRef<ProFormInstance>()
   const { getCourse, loading, data } = useGetCourseService()
   const { onCommitCourse, loading: commitCourseLoading } = useCommitCourseService()
@@ -84,21 +84,19 @@ const CourseEdit = (props: IProps) => {
             coverUrl: values.coverUrl[0].url || '',
           } as ICourse
           formData = omit(formData, 'teachers')
-          const { code, message } = await onCommitCourse(id, formData)
+          const { code, message: msg } = await onCommitCourse(id, formData)
           if (code === SUCCESS) {
             editSuccessHandler()
-            messageApi.success(message)
+            message.success(msg)
             return
           }
-          messageApi.error(message)
+          message.error(msg)
         } catch (error) {
-          messageApi.error('操作失败，服务器忙，请稍后再试')
+          message.error('操作失败，服务器忙，请稍后再试')
           console.error('【onCommitCourse】Error：', error)
         }
       }}
     >
-      {contextHolder}
-
       <Form.Item
         style={{ width: 358 }}
         name="coverUrl"

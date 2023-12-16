@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-components'
-import { Button, Calendar, Card, Col, DatePicker, message, Row } from 'antd'
+import { App, Button, Calendar, Card, Col, DatePicker, Row } from 'antd'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import { useEffect, useRef, useState } from 'react'
@@ -22,7 +22,7 @@ const Home = () => {
   const { store } = useUserContext()
   const { data, getStore } = useGetStoreService()
   const [range, setRange] = useState<[string, string]>(['', ''])
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const { onAutoCreateSchedule, loading } = useAutoCreateScheduleService()
   const [today, setToday] = useState<string>(dayjs().format(DAY_FORMAT))
   const scheduleRef = useRef<IRefProps>(null)
@@ -45,20 +45,20 @@ const Home = () => {
 
   const onStartCurseScheduling = async () => {
     if (!range[0]) {
-      messageApi.error('请先选择时间区间')
+      message.error('请先选择时间区间')
       return
     }
 
     try {
-      const { code, message } = await onAutoCreateSchedule(...range)
+      const { code, message: msg } = await onAutoCreateSchedule(...range)
       if (code === SUCCESS) {
-        messageApi.success(message)
+        message.success(msg)
         scheduleRef.current?.refetch()
         return
       }
-      messageApi.success(message)
+      message.success(msg)
     } catch (error) {
-      messageApi.success('排课失败，服务器忙，请稍后再试')
+      message.success('排课失败，服务器忙，请稍后再试')
       console.error('【onAutoCreateSchedule】Error:', error)
     }
   }
@@ -74,8 +74,6 @@ const Home = () => {
       }}
       content={data.address}
     >
-      {contextHolder}
-
       <Row gutter={18}>
         <Col flex="auto">
           <Card

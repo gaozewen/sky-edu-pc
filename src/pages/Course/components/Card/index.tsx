@@ -16,7 +16,6 @@ const CourseCard = (props: ICourseCardProps) => {
   const {
     setShowCard,
     showCard,
-    contextHolder,
     loading,
     commitCardLoading,
     deleteLoading,
@@ -32,8 +31,6 @@ const CourseCard = (props: ICourseCardProps) => {
       open={showCard}
       onClose={() => setShowCard(false)}
     >
-      {contextHolder}
-
       <EditableProTable<ICard>
         headerTitle="请管理该课程的消费卡"
         loading={loading || commitCardLoading || deleteLoading}

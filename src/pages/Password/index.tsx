@@ -5,7 +5,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components'
 import { useMutation } from '@apollo/client'
-import { message } from 'antd'
+import { App } from 'antd'
 import { useEffect, useRef } from 'react'
 
 import GetSMSCodeForm from '@/components/GetSMSCodeForm'
@@ -20,7 +20,7 @@ import styles from './index.module.scss'
  *  密码修改页
  */
 const Password = () => {
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const { store } = useUserContext()
   const formRef = useRef<ProFormInstance>()
   const [resetPwd] = useMutation(RESET_PWD)
@@ -38,7 +38,6 @@ const Password = () => {
   return (
     <PageContainer>
       <div className={styles.container}>
-        {contextHolder}
         <ProForm
           formRef={formRef}
           submitter={{
@@ -60,18 +59,18 @@ const Password = () => {
                   },
                 },
               })
-              const { code, message } = res.data.resetPwd
+              const { code, message: msg } = res.data.resetPwd
               if (code === SUCCESS) {
-                messageApi.success('修改成功，请重新登录！')
+                message.success('修改成功，请重新登录！')
                 setTimeout(() => {
                   onLogout()
                 }, 1000)
                 return
               }
-              messageApi.error(message)
+              message.error(msg)
             } catch (error) {
               console.error('【resetPwd】Error:', error)
-              messageApi.error('更新失败')
+              message.error('更新失败')
             }
           }}
         >

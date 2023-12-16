@@ -6,7 +6,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { Divider, Form, message, UploadFile } from 'antd'
+import { App, Divider, Form, UploadFile } from 'antd'
 import { useEffect, useRef } from 'react'
 
 import ImageUpload from '@/components/ImageUpload'
@@ -24,7 +24,7 @@ interface IProps {
 
 const StoreEdit = (props: IProps) => {
   const { showEdit, setShowEdit, id, editSuccessHandler } = props
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const formRef = useRef<ProFormInstance>()
   const { getStore, loading, data } = useGetStoreService()
   const { onCommitStore, loading: commitStoreLoading } = useCommitStoreService()
@@ -102,21 +102,19 @@ const StoreEdit = (props: IProps) => {
               url: item.url,
             })),
           } as IStore
-          const { code, message } = await onCommitStore(id, formData)
+          const { code, message: msg } = await onCommitStore(id, formData)
           if (code === SUCCESS) {
             editSuccessHandler()
-            messageApi.success(message)
+            message.success(msg)
             return
           }
-          messageApi.error(message)
+          message.error(msg)
         } catch (error) {
-          messageApi.error('操作失败，服务器忙，请稍后再试')
+          message.error('操作失败，服务器忙，请稍后再试')
           console.error('【onCommitStore】Error：', error)
         }
       }}
     >
-      {contextHolder}
-
       {/* 1 */}
       <ProForm.Group>
         <Form.Item

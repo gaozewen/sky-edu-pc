@@ -6,7 +6,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { useMutation } from '@apollo/client'
-import { Form, message } from 'antd'
+import { App, Form } from 'antd'
 import { useEffect, useRef } from 'react'
 
 import AvatarUpload from '@/components/AvatarUpload'
@@ -20,7 +20,7 @@ import styles from './index.module.scss'
  *  个人信息页
  */
 const Profile = () => {
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const { store } = useUserContext()
   const formRef = useRef<ProFormInstance>()
   const [updateUserProfile] = useMutation(UPDATE_USER_PROFILE)
@@ -39,7 +39,6 @@ const Profile = () => {
   return (
     <PageContainer>
       <div className={styles.container}>
-        {contextHolder}
         <ProForm
           formRef={formRef}
           submitter={{
@@ -61,17 +60,17 @@ const Profile = () => {
                   },
                 },
               })
-              const { code, message } = res.data.updateUserProfile
+              const { code, message: msg } = res.data.updateUserProfile
               if (code === SUCCESS) {
                 // 刷新用户信息
                 store.refetchHandler()
-                messageApi.success(message)
+                message.success(msg)
                 return
               }
-              messageApi.error(message)
+              message.error(msg)
             } catch (error) {
               console.error('【updateUserProfile】Error:', error)
-              messageApi.error('更新失败')
+              message.error('更新失败')
             }
           }}
         >

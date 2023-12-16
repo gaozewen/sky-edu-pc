@@ -1,5 +1,5 @@
 import { PageContainer, ProList } from '@ant-design/pro-components'
-import { Button, message, Popconfirm, Result, Space, Tag } from 'antd'
+import { App, Button, Popconfirm, Result, Space, Tag } from 'antd'
 import { useState } from 'react'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
@@ -28,7 +28,7 @@ const Store = () => {
 
   const [curStoreId, setCurStoreId] = useState('')
 
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
 
   const { goTo } = useGoTo()
 
@@ -43,12 +43,12 @@ const Store = () => {
       if (res.code === SUCCESS) {
         // 刷新当前列表页
         refetch()
-        messageApi.success(res.message)
+        message.success(res.message)
         return
       }
-      messageApi.error(res.message)
+      message.error(res.message)
     } catch (error) {
-      messageApi.error('删除失败，服务器忙，请稍后再试')
+      message.error('删除失败，服务器忙，请稍后再试')
       console.error('【onDeleteStore】Error:', error)
     }
   }
@@ -105,8 +105,6 @@ const Store = () => {
         </Button>,
       ]}
     >
-      {contextHolder}
-
       {!loading && (!storeList || storeList.length === 0) && (
         <Result
           status="warning"

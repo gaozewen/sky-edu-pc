@@ -51,14 +51,14 @@ const MobileForm = (props: IProps) => {
       }}
       // TODO: 开发用，上线注释掉
       // initialValue="13815013866"
-      // 默认不传 undefined 等了页用的长度
+      // 默认不传 undefined
       width={width}
       name={name}
-      placeholder={`请输入${placeholder}`}
+      placeholder={placeholder}
       rules={[
         {
           required: true,
-          message: `请输入${placeholder}！`,
+          message: placeholder,
         },
         {
           pattern: /^1\d{10}$/,

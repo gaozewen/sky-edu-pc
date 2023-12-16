@@ -15,7 +15,6 @@ export interface IBindCardModalProps {
 const BindCardModal = (props: IBindCardModalProps) => {
   const {
     setShowModal,
-    contextHolder,
     selectedCards,
     setSelectedCards,
     getProductLoading,
@@ -33,7 +32,6 @@ const BindCardModal = (props: IBindCardModalProps) => {
       onCancel={() => setShowModal(false)}
       onOk={onSave}
     >
-      {contextHolder}
       <Row justify="end">
         <CourseSearch onSelected={onSelected} />
       </Row>

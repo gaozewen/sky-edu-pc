@@ -1,4 +1,4 @@
-import { Modal } from 'antd'
+import { App } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 import { ALL_ROUTE, PN } from '@/router'
@@ -11,6 +11,7 @@ import { useUserContext } from './useUserHooks'
 const useBeforeGoTo = () => {
   const { store } = useUserContext()
   const nav = useNavigate()
+  const { modal } = App.useApp()
 
   // 是否已登录
   const isLoggedIn = () => {
@@ -30,7 +31,7 @@ const useBeforeGoTo = () => {
   }
 
   const showWarning = (goToPathname: string) => {
-    Modal.confirm({
+    modal.confirm({
       title: `${ALL_ROUTE[goToPathname].name || '该页面'}基于当前门店`,
       content: '请先选择您要管理的门店',
       cancelText: '知道了',

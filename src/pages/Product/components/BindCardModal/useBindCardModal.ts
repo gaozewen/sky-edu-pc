@@ -1,4 +1,4 @@
-import { message } from 'antd'
+import { App } from 'antd'
 import { unionBy } from 'lodash-es'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -10,7 +10,7 @@ import { IBindCardModalProps } from '.'
 
 export const useBindCardModal = (props: IBindCardModalProps) => {
   const { setShowModal, id: productId } = props
-  const [messageApi, contextHolder] = message.useMessage()
+  const { message } = App.useApp()
   const [selectedCards, setSelectedCards] = useState<string[]>([])
   const {
     getProduct,
@@ -41,24 +41,23 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
 
   const onSave = async () => {
     try {
-      const { code, message } = await onCommitProduct(productId, {
+      const { code, message: msg } = await onCommitProduct(productId, {
         cardIds: selectedCards,
       })
       if (code === SUCCESS) {
         setShowModal(false)
-        messageApi.success(message)
+        message.success(msg)
         return
       }
-      messageApi.error(message)
+      message.error(msg)
     } catch (error) {
-      messageApi.error('操作失败，服务器忙，请稍后再试')
+      message.error('操作失败，服务器忙，请稍后再试')
       console.error('【onCommitProduct】Error：', error)
     }
   }
 
   return {
     setShowModal,
-    contextHolder,
     selectedCards,
     setSelectedCards,
     getProductLoading,
