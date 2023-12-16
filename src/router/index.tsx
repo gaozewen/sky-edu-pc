@@ -11,6 +11,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
 import UserInfoLayout from '@/layouts/UserInfoLayout'
+import Jump from '@/pages/Jump'
 
 const SkyLayout = lazy(() => import('@/layouts/SkyLayout'))
 const Course = lazy(() => import('@/pages/Course'))
@@ -27,7 +28,8 @@ const Teacher = lazy(() => import('@/pages/Teacher'))
 
 // PN: pathname
 export const PN = {
-  HOME: '/',
+  INDEX: '/',
+  HOME: '/home',
   LOGIN: '/login',
   PROFILE: '/profile',
   PASSWORD: '/password',
@@ -92,6 +94,10 @@ export const ALL_ROUTE: AllRouteType = {
 }
 
 export const router = createBrowserRouter([
+  {
+    path: PN.INDEX,
+    element: <Jump />,
+  },
   {
     path: '/',
     element: <UserInfoLayout />,

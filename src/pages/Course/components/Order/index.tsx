@@ -1,7 +1,7 @@
 import { ChromeOutlined, RedoOutlined } from '@ant-design/icons'
 import { EditableProTable } from '@ant-design/pro-components'
 import { Button, Col, Drawer, Row, Space, Tabs } from 'antd'
-import _ from 'lodash'
+import { omit } from 'lodash-es'
 import { nanoid } from 'nanoid'
 
 import { IOrderTime } from '@/types'
@@ -75,11 +75,11 @@ const CourseOrder = (props: ICourseOrderProps) => {
             // 修改
             if (orderTimes.findIndex(item => item.id === id) > -1) {
               newData = orderTimes?.map(item =>
-                item.id === id ? _.omit(d, 'index') : { ...item }
+                item.id === id ? omit(d, 'index') : { ...item }
               )
             } else {
               // 新增
-              newData = [...orderTimes, _.omit(d, 'index')]
+              newData = [...orderTimes, omit(d, 'index')]
             }
             onSaveCurrentDay(newData)
           },

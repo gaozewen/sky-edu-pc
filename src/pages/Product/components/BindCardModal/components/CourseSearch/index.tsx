@@ -1,5 +1,5 @@
 import { Select } from 'antd'
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 
 import { useGetCoursesByNameService } from '@/service/course'
 
@@ -13,7 +13,7 @@ interface IProps {
 const CourseSearch = ({ onSelected }: IProps) => {
   const { getCoursesByName, loading, data } = useGetCoursesByNameService()
 
-  const onSearch = _.debounce((name: string) => {
+  const onSearch = debounce((name: string) => {
     getCoursesByName(name)
   }, 500)
 

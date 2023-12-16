@@ -1,5 +1,5 @@
 import { message } from 'antd'
-import _ from 'lodash'
+import { unionBy } from 'lodash-es'
 import { useEffect, useMemo, useState } from 'react'
 
 import { SUCCESS } from '@/constants/code'
@@ -27,7 +27,7 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
   }, [])
 
   const newCards = useMemo(
-    () => _.unionBy(product?.cards || [], cards || [], 'id'),
+    () => unionBy(product?.cards || [], cards || [], 'id'),
     [product?.cards, cards]
   )
 

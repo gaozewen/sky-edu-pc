@@ -1,5 +1,5 @@
 import { Select } from 'antd'
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 import { useEffect } from 'react'
 
 import { useGetTeachersByNameService } from '@/service/teacher'
@@ -20,7 +20,7 @@ const TeacherSelector = ({ onChange = () => {}, value = [] }: IProps) => {
     getTeachersByName('')
   }, [])
 
-  const onSearch = _.debounce((name: string) => {
+  const onSearch = debounce((name: string) => {
     getTeachersByName(name)
   }, 500)
 

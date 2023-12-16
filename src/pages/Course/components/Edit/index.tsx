@@ -7,7 +7,7 @@ import {
   ProFormTextArea,
 } from '@ant-design/pro-components'
 import { Form, message } from 'antd'
-import _ from 'lodash'
+import { omit } from 'lodash-es'
 import { useEffect, useRef } from 'react'
 
 import ImageUpload from '@/components/ImageUpload'
@@ -83,7 +83,7 @@ const CourseEdit = (props: IProps) => {
             teacherIds: values.teachers?.map((t: IAntDOption) => t.value),
             coverUrl: values.coverUrl[0].url || '',
           } as ICourse
-          formData = _.omit(formData, 'teachers')
+          formData = omit(formData, 'teachers')
           const { code, message } = await onCommitCourse(id, formData)
           if (code === SUCCESS) {
             editSuccessHandler()
