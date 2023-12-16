@@ -16,7 +16,7 @@ const SkyLayout = lazy(() => import('@/layouts/SkyLayout'))
 const Course = lazy(() => import('@/pages/Course'))
 const Home = lazy(() => import('@/pages/Home'))
 const Login = lazy(() => import('@/pages/Login'))
-const NoStore = lazy(() => import('@/pages/NoStore'))
+const SelectStoreGuide = lazy(() => import('@/pages/SelectStoreGuide'))
 const NotFound = lazy(() => import('@/pages/NotFound'))
 const Password = lazy(() => import('@/pages/Password'))
 const Product = lazy(() => import('@/pages/Product'))
@@ -33,10 +33,62 @@ export const PN = {
   PASSWORD: '/password',
   STORE: '/store',
   STUDENT: '/student',
-  NOSTORE: '/nostore',
+  SELECT_STORE_GUIDE: '/select-store-guide',
   COURSE: '/course',
   PRODUCT: '/product',
   TEACHER: '/teacher',
+}
+
+type AllRouteValueType = {
+  path: string
+  name: string
+}
+
+type AllRouteType = {
+  [key: string]: AllRouteValueType
+}
+
+export const ALL_ROUTE: AllRouteType = {
+  [PN.HOME]: {
+    path: PN.HOME,
+    name: '首页',
+  },
+  [PN.LOGIN]: {
+    path: PN.LOGIN,
+    name: '登录',
+  },
+  [PN.PROFILE]: {
+    path: PN.PROFILE,
+    name: '个人信息',
+  },
+  [PN.PASSWORD]: {
+    path: PN.PASSWORD,
+    name: '修改密码',
+  },
+  [PN.STORE]: {
+    path: PN.STORE,
+    name: '门店管理',
+  },
+  [PN.STUDENT]: {
+    path: PN.STUDENT,
+    name: '学员管理',
+  },
+  [PN.SELECT_STORE_GUIDE]: {
+    path: PN.SELECT_STORE_GUIDE,
+    name: '未选择门店',
+  },
+  [PN.COURSE]: {
+    path: PN.COURSE,
+    name: '课程管理',
+  },
+  [PN.PRODUCT]: {
+    path: PN.PRODUCT,
+    name: '商品管理',
+  },
+  [PN.TEACHER]: {
+    path: PN.TEACHER,
+    name: '教师管理',
+  },
 }
 
 export const router = createBrowserRouter([
@@ -101,10 +153,10 @@ export const router = createBrowserRouter([
             ),
           },
           {
-            path: PN.NOSTORE,
+            path: PN.SELECT_STORE_GUIDE,
             element: (
               <Suspense fallback={<PageLoading />}>
-                <NoStore />
+                <SelectStoreGuide />
               </Suspense>
             ),
           },

@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
 
 import { isLoginRouter, PN } from '@/router'
-import { getLocalStore } from '@/utils/currentStore'
 import { getToken } from '@/utils/userToken'
 
+import useBeforeGoTo from './useBeforeGoTo'
 import { useGoTo } from './useGoTo'
 import { useUserContext } from './useUserHooks'
 
@@ -14,22 +14,14 @@ const useAutoNavigate = (loadingUserData: boolean) => {
   const [params] = useSearchParams()
   const { store } = useUserContext()
   const { goTo } = useGoTo()
-
-  // 是否还没有选择当前门店
-  const isNotSelectCurrentStore = () => {
-    return !store.currentStoreId && !getLocalStore()
-  }
-
-  const isNoNavToNOSTORE = () => {
-    return [PN.PROFILE, PN.PASSWORD].includes(pathname)
-  }
+  const { isNotSelectCurrentStore, isNotBasedOnCurrentStoreRouter } = useBeforeGoTo()
 
   useEffect(() => {
     // 1. 还在加载用户数据则不处理
     if (loadingUserData) return
 
     // 2. 用户数据加载完成，开始处理
-    // 2.1 已登陆 or token 存在
+    // 2.1 已登陆
     if (store.tel || getToken()) {
       // 2.1.1 当前是 Login 页，跳转 orgUrl 页，否则跳转主页
       if (isLoginRouter(pathname)) {
@@ -46,18 +38,17 @@ const useAutoNavigate = (loadingUserData: boolean) => {
         return
       }
 
-      // 2.1.2 如果是非登录页，且还未选择门店
+      // 2.1.2 当前是 非登录 页，且还未选择门店
       if (isNotSelectCurrentStore()) {
-        // 当前页面不需要使用当前门店数据，则不做任何处理
-        if (isNoNavToNOSTORE()) return
+        // 当前页面不基于当前门店数据，则不做任何处理
+        if (isNotBasedOnCurrentStoreRouter(pathname)) return
         // 如果需要当前门店数据，则跳转门店选择页
-        goTo({ pathname: PN.NOSTORE })
+        goTo({ pathname: PN.SELECT_STORE_GUIDE })
       }
 
       // 2.1.3 其他页面不做任何跳转，直接 return
       return
     }
-
     // 2.2 未登录
     // 2.2.1 如果当前路由是登录页，则不处理
     if (isLoginRouter(pathname)) return

@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { PN } from '@/router'
 
+import useBeforeGoTo from './useBeforeGoTo'
+
 interface IGoToParams {
   pathname: string
   search?: string
@@ -11,9 +13,12 @@ interface IGoToParams {
 // 统一处理页面跳转，方便打点
 export const useGoTo = () => {
   const nav = useNavigate()
+  const { isAllowedGoTo } = useBeforeGoTo()
 
   const goTo = (params: IGoToParams) => {
     const { pathname = PN.HOME, search = '', replace = false } = params || {}
+
+    if (!isAllowedGoTo(pathname)) return
 
     nav(
       {

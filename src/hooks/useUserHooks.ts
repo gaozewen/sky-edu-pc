@@ -4,6 +4,7 @@ import { GET_USER_BY_JWT } from '@/graphql/user'
 import { IUser } from '@/types'
 import { connectFactory, useContextFactory } from '@/utils/contextFactory'
 import { getLocalStore } from '@/utils/currentStore'
+import { getToken } from '@/utils/userToken'
 
 import useAutoNavigate from './useAutoNavigate'
 
@@ -32,8 +33,9 @@ export const useLoadUserData = () => {
         setStore({ id, avatar, tel, nickname, desc, refetchHandler: refetch })
         // 1.1.2 设置用户已选择的当前门店（因为用户所有操作基本都基于门店）
         const currentStore = getLocalStore()
-        if (currentStore) {
-          setStore({ currentStoreId: currentStore.value })
+        // 门店的 token 和 当前用户的 token 一致
+        if (currentStore.token && currentStore.token === getToken()) {
+          setStore({ currentStoreId: currentStore.id })
           return
         }
 

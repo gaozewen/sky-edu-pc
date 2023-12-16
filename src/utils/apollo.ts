@@ -10,7 +10,7 @@ const httpLink = new HttpLink({ uri: import.meta.env.VITE_API_URL })
 const authLink = new ApolloLink((operation, forward) => {
   // get the authentication token from local storage if it exists
   const token = getToken()
-  const storeId = getLocalStore()?.value || ''
+  const storeId = getLocalStore().id || ''
   // add the authorization to the headers
   operation.setContext(({ headers = {} }) => ({
     headers: {

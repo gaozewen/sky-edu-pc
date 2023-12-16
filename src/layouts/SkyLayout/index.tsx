@@ -6,16 +6,17 @@ import {
 } from '@ant-design/icons'
 import { MenuDataItem, ProConfigProvider, ProLayout } from '@ant-design/pro-components'
 import { Dropdown, Space, Tooltip } from 'antd'
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
-import StoreSelector from '@/components/StoreSelector'
 import { IMG } from '@/constants/image'
 import { useGoTo } from '@/hooks/useGoTo'
 import { useLogout } from '@/hooks/useLogout'
 import { useUserContext } from '@/hooks/useUserHooks'
-import { isStoreRouter, Menus, PN } from '@/router'
+import { Menus, PN } from '@/router'
 import { ImgUtils } from '@/utils'
+import { getLocalStore } from '@/utils/currentStore'
 
+import styles from './index.module.scss'
 /**
  * 天空教育页面统一 Layout
  */
@@ -23,11 +24,12 @@ const SkyLayout = () => {
   const { store: userStore } = useUserContext()
   const { goTo } = useGoTo()
   const { onLogout } = useLogout()
-  const { pathname } = useLocation()
+  const { name: storeName } = getLocalStore()
 
   return (
     <ProConfigProvider>
       <ProLayout
+        className={styles.container}
         layout="mix"
         logo={
           <img
@@ -44,9 +46,11 @@ const SkyLayout = () => {
         title={false}
         // 门店选择器
         actionsRender={() => [
-          !isStoreRouter(pathname) && <StoreSelector key="selector" />,
-          <Tooltip key="storeManage" title="门店管理">
-            <ShopOutlined onClick={() => goTo({ pathname: PN.STORE })} />
+          <Tooltip key="storeManage" title="选择门店">
+            {/* <Space onClick={() => goTo({ pathname: PN.STORE })}> */}
+            <ShopOutlined />
+            <span>{storeName}</span>
+            {/* </Space> */}
           </Tooltip>,
         ]}
         // 用户信息
@@ -113,7 +117,13 @@ const SkyLayout = () => {
         }}
         // 左侧菜单路由跳转
         menuItemRender={(item: MenuDataItem, dom) => (
-          <Link to={item.path || PN.HOME}>{dom}</Link>
+          <div
+            onClick={() => {
+              goTo({ pathname: item.path || PN.HOME })
+            }}
+          >
+            {dom}
+          </div>
         )}
       >
         {/* key 的改变会促使对应组件重新渲染，所以切换门店后无需做额外处理 */}
