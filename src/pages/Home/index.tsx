@@ -33,7 +33,7 @@ const Home = () => {
         variables: { id: store.currentStoreId },
       })
     }
-  }, [])
+  }, [store.currentStoreId])
 
   if (!data) return null
 
