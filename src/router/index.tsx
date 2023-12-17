@@ -240,6 +240,7 @@ export const Menus: MenuDataItem[] = [
     path: PN.STUDENT,
     name: '学员管理',
     icon: <TeamOutlined />,
+    hideInMenu: true,
   },
   {
     path: PN.PRODUCT,

@@ -38,9 +38,7 @@ const Schedule = forwardRef<IRefProps, IProps>(({ today }, ref) => {
   )
 
   if (!loading && (!data || data.length === 0))
-    return (
-      <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无排课，快去排课吧" />
-    )
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
 
   return (
     <Spin spinning={loading}>

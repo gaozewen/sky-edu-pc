@@ -45,10 +45,10 @@ const SkyLayout = () => {
         // 门店选择器
         actionsRender={() => [
           <Tooltip key="storeManage" title="选择门店">
-            <div onClick={() => goTo({ pathname: PN.STORE })}>
+            <Space onClick={() => goTo({ pathname: PN.STORE })}>
               <ShopOutlined />
               <span>{userStore.currentStoreName || ''}</span>
-            </div>
+            </Space>
           </Tooltip>,
         ]}
         // 用户信息

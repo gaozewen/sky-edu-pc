@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-components'
-import { Card, Pagination, Space } from 'antd'
+import { Card, Empty, Pagination, Space } from 'antd'
 
 import { useGetStudentsService } from '@/service/student'
 import { IStudent } from '@/types'
@@ -18,6 +18,9 @@ const Student = () => {
       },
     })
   }
+
+  if (!loading && (!data || data.length === 0))
+    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
 
   return (
     <div className={styles.container}>
