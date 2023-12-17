@@ -31,7 +31,7 @@ const Teacher = lazy(() => import('@/pages/Teacher'))
 // PN: pathname
 export const PN = {
   INDEX: '/',
-  HOME: '/home',
+  HOME: '/dashboard',
   LOGIN: '/login',
   PROFILE: '/profile',
   PASSWORD: '/password',
