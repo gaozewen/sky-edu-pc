@@ -7,13 +7,15 @@ import {
   TeamOutlined,
 } from '@ant-design/icons'
 import { MenuDataItem, PageLoading } from '@ant-design/pro-components'
+// import { Spin } from 'antd'
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
+import Stars from '@/components/Stars'
 import UserInfoLayout from '@/layouts/UserInfoLayout'
 import Jump from '@/pages/Jump'
-import Login from '@/pages/Login'
 
+const Login = lazy(() => import('@/pages/Login'))
 const SkyLayout = lazy(() => import('@/layouts/SkyLayout'))
 const Course = lazy(() => import('@/pages/Course'))
 const Home = lazy(() => import('@/pages/Home'))
@@ -104,7 +106,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: PN.LOGIN,
-        element: <Login />,
+        element: (
+          <Suspense fallback={<Stars showLoading={true} />}>
+            <Login />
+          </Suspense>
+        ),
       },
       {
         path: '/',

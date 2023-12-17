@@ -1,3 +1,4 @@
+import { Spin } from 'antd'
 import { useEffect, useState } from 'react'
 import React from 'react'
 
@@ -10,10 +11,13 @@ interface IStar {
   delay: number
 }
 
+interface IProps {
+  showLoading?: boolean
+}
 /**
  * 星空背景
  */
-const Stars = () => {
+const Stars = ({ showLoading = false }: IProps) => {
   const [stars, setStars] = useState<IStar[]>([])
 
   useEffect(() => {
@@ -45,6 +49,7 @@ const Stars = () => {
       {stars.map(({ top, left, size, delay }, i) => (
         <Star key={i} top={top} left={left} size={size} delay={delay} />
       ))}
+      {showLoading && <Spin spinning fullscreen></Spin>}
     </div>
   )
 }

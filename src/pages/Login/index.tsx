@@ -15,7 +15,7 @@ import { useUserContext } from '@/hooks/useUserHooks'
 import { ImgUtils } from '@/utils'
 import { setToken } from '@/utils/userToken'
 
-import Stars from './components/Stars'
+import Stars from '../../components/Stars'
 import AccountLoginForm from './components/AccountLoginForm'
 import Actions from './components/Actions'
 import MobileLoginForm from './components/MobileLoginForm'
