@@ -25,7 +25,6 @@ export default defineConfig(({ command }) => {
       },
     }
   } else {
-    // command === 'build'
     return {
       // build 独有配置
       plugins: [
@@ -50,6 +49,7 @@ export default defineConfig(({ command }) => {
         ],
       },
       build: {
+        sourcemap: true,
         rollupOptions: {
           // 由于使用了 importToCDN ，所以不需要再写
           // 确保外部化处理那些你不想打包进库的依赖

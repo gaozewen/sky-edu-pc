@@ -7,12 +7,13 @@ import { useMutation } from '@apollo/client'
 import { App, ConfigProvider, Tabs } from 'antd'
 import { useState } from 'react'
 
+import LOGO from '@/assets/images/logo_sky_edu_login_pc.png'
 import { SUCCESS } from '@/constants/code'
-import { IMG } from '@/constants/image'
+// import { IMG } from '@/constants/image'
 import { ADMIN_LOGIN } from '@/graphql/auth'
 import { useTitle } from '@/hooks/useTitle'
 import { useUserContext } from '@/hooks/useUserHooks'
-import { ImgUtils } from '@/utils'
+// import { ImgUtils } from '@/utils'
 import { setToken } from '@/utils/userToken'
 
 import Stars from '../../components/Stars'
@@ -79,11 +80,12 @@ const Page = () => {
     <>
       <div className={styles.container}>
         <LoginFormPage
-          logo={ImgUtils.getThumb({
-            url: IMG.LOGO,
-            w: 229,
-            h: 184,
-          })}
+          // logo={ImgUtils.getThumb({
+          //   url: IMG.LOGO,
+          //   w: 229,
+          //   h: 184,
+          // })}
+          logo={<img src={LOGO} alt="logo" />}
           actions={<Actions />}
           onFinish={async (values: IValue) => {
             await onFinish(values)
