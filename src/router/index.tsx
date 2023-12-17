@@ -7,7 +7,6 @@ import {
   TeamOutlined,
 } from '@ant-design/icons'
 import { MenuDataItem, PageLoading } from '@ant-design/pro-components'
-// import { Spin } from 'antd'
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
@@ -30,8 +29,8 @@ const Teacher = lazy(() => import('@/pages/Teacher'))
 
 // PN: pathname
 export const PN = {
-  INDEX: '/',
-  HOME: '/dashboard',
+  JUMP: '/',
+  HOME: '/home',
   LOGIN: '/login',
   PROFILE: '/profile',
   PASSWORD: '/password',
@@ -97,7 +96,7 @@ export const ALL_ROUTE: AllRouteType = {
 
 export const router = createBrowserRouter([
   {
-    path: PN.INDEX,
+    path: PN.JUMP,
     element: <Jump />,
   },
   {

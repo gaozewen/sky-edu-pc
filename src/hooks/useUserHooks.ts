@@ -3,8 +3,7 @@ import { useQuery } from '@apollo/client'
 import { GET_USER_BY_JWT } from '@/graphql/user'
 import { IUser } from '@/types'
 import { connectFactory, useContextFactory } from '@/utils/contextFactory'
-import { getLocalStore } from '@/utils/currentStore'
-import { getToken } from '@/utils/userToken'
+import { getLocalStore, removeLocalStore } from '@/utils/currentStore'
 
 import useAutoNavigate from './useAutoNavigate'
 
@@ -32,10 +31,18 @@ export const useLoadUserData = () => {
         // 1.1.1 将用户信息存入 userContext 的 store 中
         setStore({ id, avatar, tel, nickname, desc, refetchHandler: refetch })
         // 1.1.2 设置用户已选择的当前门店（因为用户所有操作基本都基于门店）
-        const currentStore = getLocalStore()
-        // 门店的 token 和 当前用户的 token 一致
-        if (currentStore.token && currentStore.token === getToken()) {
-          setStore({ currentStoreId: currentStore.id })
+        const localCurrentStore = getLocalStore()
+        if (localCurrentStore.userId) {
+          // localStorage 中门店的 userId 和 当前用户的 id 一致, 则使用 localStorage 中的当前门店
+          if (localCurrentStore.userId === id) {
+            setStore({
+              currentStoreId: localCurrentStore.id,
+              currentStoreName: localCurrentStore.name,
+            })
+            return
+          }
+          // 不一致，则删除 localCurrentStore
+          removeLocalStore()
           return
         }
 

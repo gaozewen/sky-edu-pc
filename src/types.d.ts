@@ -10,6 +10,7 @@ export interface IUser {
   desc: string
   refetchHandler: () => void
   currentStoreId?: string
+  currentStoreName?: string
 }
 
 export interface IPageInfo {

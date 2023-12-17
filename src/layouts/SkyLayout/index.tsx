@@ -14,7 +14,6 @@ import { useLogout } from '@/hooks/useLogout'
 import { useUserContext } from '@/hooks/useUserHooks'
 import { Menus, PN } from '@/router'
 import { ImgUtils } from '@/utils'
-import { getLocalStore } from '@/utils/currentStore'
 
 import styles from './index.module.scss'
 /**
@@ -24,7 +23,6 @@ const SkyLayout = () => {
   const { store: userStore } = useUserContext()
   const { goTo } = useGoTo()
   const { onLogout } = useLogout()
-  const { name: storeName } = getLocalStore()
 
   return (
     <ProConfigProvider>
@@ -49,7 +47,7 @@ const SkyLayout = () => {
           <Tooltip key="storeManage" title="选择门店">
             <div onClick={() => goTo({ pathname: PN.STORE })}>
               <ShopOutlined />
-              <span>{storeName}</span>
+              <span>{userStore.currentStoreName || ''}</span>
             </div>
           </Tooltip>,
         ]}

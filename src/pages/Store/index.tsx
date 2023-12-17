@@ -10,7 +10,6 @@ import { PN } from '@/router'
 import { useDeleteStoreService, useGetStoresService } from '@/service/store'
 import { IStore } from '@/types'
 import { setLocalStore } from '@/utils/currentStore'
-import { getToken } from '@/utils/userToken'
 
 import StoreEdit from './components/Edit'
 
@@ -22,7 +21,7 @@ const Store = () => {
 
   const { loading: deleteLoading, onDeleteStore } = useDeleteStoreService()
 
-  const { setStore } = useUserContext()
+  const { setStore, store: userStore } = useUserContext()
 
   const [showEdit, setShowEdit] = useState(false)
 
@@ -54,15 +53,17 @@ const Store = () => {
   }
 
   const onSelect = (row: IStore) => {
-    // 设置 store 中的 currentStoreId
-    setStore({ currentStoreId: row.id })
+    // 设置 store 中的 currentStoreId 和 currentStoreName
+    setStore({
+      currentStoreId: row.id,
+      currentStoreName: row.name,
+    })
     // 将其存储到 localStorage
     setLocalStore(
       JSON.stringify({
         id: row.id,
         name: row.name,
-        // 用户 token
-        token: getToken(),
+        userId: userStore.id,
       })
     )
     // 跳转到首页
