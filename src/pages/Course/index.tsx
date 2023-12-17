@@ -1,10 +1,13 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { ActionType, PageContainer, ProTable } from '@ant-design/pro-components'
-import { Button } from 'antd'
-import { useRef, useState } from 'react'
+import { App, Button } from 'antd'
+import { useEffect, useRef, useState } from 'react'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
+import { useGoTo } from '@/hooks/useGoTo'
+import { PN } from '@/router'
 import { useGetCoursesService } from '@/service/course'
+import { useGetTeachersService } from '@/service/teacher'
 import { ICourse } from '@/types'
 
 import CourseCard from './components/Card'
@@ -17,15 +20,43 @@ import { genColumns } from './utils'
  */
 const Course = () => {
   const { proTableRequest } = useGetCoursesService()
+  const { proTableRequest: getTeachers } = useGetTeachersService()
   const [showEdit, setShowEdit] = useState(false)
   const [curCourseId, setCurCourseId] = useState('')
   const actionRef = useRef<ActionType>()
   const [showOrder, setShowOrder] = useState(false)
   const [showCard, setShowCard] = useState(false)
+  const [isExistTeachers, setIsExistTeachers] = useState(false)
+  const { modal } = App.useApp()
+  const { goTo } = useGoTo()
+
+  const initIsExistTeachers = async () => {
+    const { total } = await getTeachers({})
+    if (total && total > 0) {
+      setIsExistTeachers(true)
+    }
+  }
+
+  useEffect(() => {
+    initIsExistTeachers()
+  }, [])
 
   const onEdit = (id?: string) => {
-    setCurCourseId(id || '')
-    setShowEdit(true)
+    if (isExistTeachers) {
+      setCurCourseId(id || '')
+      setShowEdit(true)
+      return
+    }
+    // 不存在在老师，引导去创建
+    modal.confirm({
+      title: `课程${id ? '编辑' : '新建'}基于教师`,
+      content: '请先去创建门店教师',
+      cancelText: '知道了',
+      okText: '去创建',
+      onOk: () => {
+        goTo({ pathname: PN.TEACHER })
+      },
+    })
   }
 
   const editSuccessHandler = () => {

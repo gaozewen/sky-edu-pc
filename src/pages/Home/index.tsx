@@ -56,9 +56,9 @@ const Home = () => {
         scheduleRef.current?.refetch()
         return
       }
-      message.success(msg)
+      message.error(msg)
     } catch (error) {
-      message.success('排课失败，服务器忙，请稍后再试')
+      message.error('排课失败，服务器忙，请稍后再试')
       console.error('【onAutoCreateSchedule】Error:', error)
     }
   }
@@ -77,7 +77,7 @@ const Home = () => {
       <Row gutter={18}>
         <Col flex="auto">
           <Card
-            title={`${today} 的课程`}
+            title={`${today} 的课程表`}
             className={styles.container}
             extra={
               <span>

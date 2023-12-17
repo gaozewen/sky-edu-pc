@@ -54,7 +54,7 @@ type AllRouteType = {
 export const ALL_ROUTE: AllRouteType = {
   [PN.HOME]: {
     path: PN.HOME,
-    name: '首页',
+    name: '课程表',
   },
   [PN.LOGIN]: {
     path: PN.LOGIN,
@@ -212,7 +212,7 @@ export const isStoreRouter = (pathname: string) => {
 export const Menus: MenuDataItem[] = [
   {
     path: PN.HOME,
-    name: '首页',
+    name: '课程表',
     icon: <HomeOutlined />,
   },
   {
@@ -232,15 +232,14 @@ export const Menus: MenuDataItem[] = [
     hideInMenu: true,
   },
   {
+    path: PN.TEACHER,
+    name: '教师管理',
+    icon: <RobotOutlined />,
+  },
+  {
     path: PN.COURSE,
     name: '课程管理',
     icon: <PicRightOutlined />,
-  },
-  {
-    path: PN.STUDENT,
-    name: '学员管理',
-    icon: <TeamOutlined />,
-    hideInMenu: true,
   },
   {
     path: PN.PRODUCT,
@@ -248,9 +247,10 @@ export const Menus: MenuDataItem[] = [
     icon: <GiftOutlined />,
   },
   {
-    path: PN.TEACHER,
-    name: '教师管理',
-    icon: <RobotOutlined />,
+    path: PN.STUDENT,
+    name: '学员管理',
+    icon: <TeamOutlined />,
+    hideInMenu: true,
   },
 ]
 
