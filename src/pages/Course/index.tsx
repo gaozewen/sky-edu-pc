@@ -47,7 +47,7 @@ const Course = () => {
       setShowEdit(true)
       return
     }
-    // 不存在在老师，引导去创建
+    // 不存在老师，引导去创建
     modal.confirm({
       title: `课程${id ? '编辑' : '新建'}基于教师`,
       content: '请先去创建门店教师',

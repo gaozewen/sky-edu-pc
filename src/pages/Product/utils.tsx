@@ -142,27 +142,5 @@ export const genColumns: (props: IProps) => ProColumns<IProduct, 'text'>[] = ({
         </div>
       </div>
     ),
-    // render: (text, record) => [
-    //   <a key="list" onClick={() => onEdit(record.id)}>
-    //     上架
-    //   </a>,
-    //   <a key="unList" onClick={() => onEdit(record.id)}>
-    //     下架
-    //   </a>,
-    //   <a key="edit" onClick={() => onEdit(record.id)}>
-    //     编辑商品
-    //   </a>,
-    //   <a key="card" onClick={() => onModal(record.id)}>
-    //     绑定消费卡
-    //   </a>,
-    //   <Popconfirm
-    //     key="delete"
-    //     title="提醒"
-    //     description="确认要删除吗？"
-    //     onConfirm={() => onDelete(record.id)}
-    //   >
-    //     <a style={{ color: 'red' }}>删除</a>
-    //   </Popconfirm>,
-    // ],
   },
 ]

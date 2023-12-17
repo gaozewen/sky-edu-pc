@@ -38,7 +38,9 @@ export const useCourseOrder = (props: ICourseOrderProps) => {
   const onSaveWeeklyOrderTime = async (newWeeklyOrderTimes: IWeekOrderTime[]) => {
     try {
       const { code, message: msg } = await onCommitCourse(id, {
-        weeklyOrderTimes: newWeeklyOrderTimes,
+        weeklyOrderTimes: newWeeklyOrderTimes.filter(
+          item => item.orderTimes && item.orderTimes.length > 0
+        ),
       })
       if (code === SUCCESS) {
         refetch()

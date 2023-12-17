@@ -40,6 +40,11 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
   }
 
   const onSave = async () => {
+    // 如果未选择消费卡，直接点击保存，即不做任何操作，直接关闭弹窗
+    if (!selectedCards || selectedCards.length === 0) {
+      setShowModal(false)
+      return
+    }
     try {
       const { code, message: msg } = await onCommitProduct(productId, {
         cardIds: selectedCards,

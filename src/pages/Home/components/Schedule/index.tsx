@@ -2,7 +2,7 @@ import { Avatar, Descriptions, Empty, Space, Spin, Steps } from 'antd'
 import dayjs from 'dayjs'
 import { forwardRef, useEffect, useImperativeHandle } from 'react'
 
-import { H_M_S_FORMAT } from '@/constants'
+import { DAY_FORMAT, H_M_S_FORMAT } from '@/constants'
 import { ScheduleRecordStatus } from '@/constants/enum'
 import { useGetTodaySchedulesService } from '@/service/dashborad'
 import { ImgUtils } from '@/utils'
@@ -46,14 +46,17 @@ const Schedule = forwardRef<IRefProps, IProps>(({ today }, ref) => {
         direction="vertical"
         items={data?.map(s => {
           let status: 'wait' | 'process' | 'finish' | 'error' = 'wait'
+          // 现在的时间
           const curTime = dayjs()
+          const FORMAT = `${DAY_FORMAT} ${H_M_S_FORMAT}`
+          // 课程开始时间
+          const courseStartTime = dayjs(`${today} ${s.startTime}`, FORMAT)
+          //  课程结束时间
+          const courseEndTime = dayjs(`${today} ${s.endTime}`, FORMAT)
 
-          if (
-            curTime.isAfter(dayjs(s.startTime, H_M_S_FORMAT)) &&
-            curTime.isBefore(dayjs(s.endTime, H_M_S_FORMAT))
-          ) {
+          if (curTime.isAfter(courseStartTime) && curTime.isBefore(courseEndTime)) {
             status = 'process'
-          } else if (curTime.isAfter(dayjs(s.endTime, H_M_S_FORMAT))) {
+          } else if (curTime.isAfter(courseEndTime)) {
             status = 'finish'
           }
 

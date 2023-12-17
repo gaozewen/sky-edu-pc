@@ -5,8 +5,14 @@ import dayjs from 'dayjs'
 import { useEffect, useRef, useState } from 'react'
 
 import { DAY_FORMAT } from '@/constants'
-import { SUCCESS } from '@/constants/code'
+import {
+  COURSE_NOT_EXIST,
+  SUCCESS,
+  WEEKLY_ORDER_TIMES_NOT_EXIST,
+} from '@/constants/code'
+import { useGoTo } from '@/hooks/useGoTo'
 import { useUserContext } from '@/hooks/useUserHooks'
+import { PN } from '@/router'
 import { useAutoCreateScheduleService } from '@/service/dashborad'
 import { useGetStoreService } from '@/service/store'
 
@@ -22,10 +28,11 @@ const Home = () => {
   const { store } = useUserContext()
   const { data, getStore } = useGetStoreService()
   const [range, setRange] = useState<[string, string]>(['', ''])
-  const { message } = App.useApp()
+  const { message, modal } = App.useApp()
   const { onAutoCreateSchedule, loading } = useAutoCreateScheduleService()
   const [today, setToday] = useState<string>(dayjs().format(DAY_FORMAT))
   const scheduleRef = useRef<IRefProps>(null)
+  const { goTo } = useGoTo()
 
   useEffect(() => {
     if (store.currentStoreId) {
@@ -54,6 +61,32 @@ const Home = () => {
       if (code === SUCCESS) {
         message.success(msg)
         scheduleRef.current?.refetch()
+        return
+      }
+      if (code === COURSE_NOT_EXIST) {
+        // 课程不存在，引导去创建
+        modal.error({
+          title: '课程不存在',
+          content: '排课失败，请先去创建课程',
+          cancelText: '知道了',
+          okText: '去创建',
+          onOk: () => {
+            goTo({ pathname: PN.COURSE })
+          },
+        })
+        return
+      }
+      if (code === WEEKLY_ORDER_TIMES_NOT_EXIST) {
+        // 可约时间不存在，引导去设置
+        modal.error({
+          title: '可约时间不存在',
+          content: '排课失败，请先去课程管理页设置可约时间',
+          cancelText: '知道了',
+          okText: '去设置',
+          onOk: () => {
+            goTo({ pathname: PN.COURSE })
+          },
+        })
         return
       }
       message.error(msg)
