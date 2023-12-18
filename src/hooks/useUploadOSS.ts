@@ -3,13 +3,14 @@ import { nanoid } from 'nanoid'
 import * as qiniu from 'qiniu-js'
 
 import { GET_UPLOAD_TOKEN } from '@/graphql/oss'
+import { ImgUtils } from '@/utils'
 
 export const useUploadOSS = () => {
   // 获取 uploadToken
   const { data } = useQuery(GET_UPLOAD_TOKEN)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const customRequest = (option: any) => {
+  const customRequest = async (option: any) => {
     const { file, onProgress, onError, onSuccess } = option
     const { getUploadToken = {} } = data || {}
     const { uploadToken: token = '' } = getUploadToken || {}
@@ -25,7 +26,11 @@ export const useUploadOSS = () => {
       useCdnDomain: true, // 表示是否使用 cdn 加速域名，为布尔值，true 表示使用，默认为 false。
       region: qiniu.region.cnEast2,
     }
-    const observable = qiniu.upload(file, key, token, putExtra, config)
+
+    // 压缩图片
+    const compressedFile = await ImgUtils.compressImage(file)
+
+    const observable = qiniu.upload(compressedFile, key, token, putExtra, config)
 
     observable.subscribe({
       next: res => {

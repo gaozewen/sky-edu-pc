@@ -16,6 +16,7 @@
     "@apollo/client": "3.8.7",
     "antd": "^5.12.2",
     "antd-img-crop": "^4.17.0",
+    "browser-image-compression": "^2.0.2",
     "dayjs": "^1.11.10",
     "graphql": "^16.8.1",
     "lodash-es": "^4.17.21",
