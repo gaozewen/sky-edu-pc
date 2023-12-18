@@ -119,7 +119,7 @@ const Page = () => {
             }}
           >
             <ProFormCheckbox noStyle name="autoLogin" initialValue={true}>
-              自动登录
+              自动登录2
             </ProFormCheckbox>
             {loginType === 'account' && <a className={styles.forgetPwd}>忘记密码</a>}
           </div>
