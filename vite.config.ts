@@ -2,7 +2,6 @@ import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { defineConfig } from 'vite'
-import { autoComplete, Plugin as importToCDN } from 'vite-plugin-cdn-import'
 // https://cn.vitejs.dev/config/
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
@@ -29,9 +28,6 @@ export default defineConfig(({ command }) => {
       // build 独有配置
       plugins: [
         react(),
-        importToCDN({
-          modules: [autoComplete('react'), autoComplete('react-dom')],
-        }),
         // 传统浏览器可以通过插件 @vitejs/plugin-legacy 来支持，
         // 它将自动生成传统版本的 chunk 及与其相对应 ES 语言特性方面的 polyfill。
         // 兼容版的 chunk 只会在不支持原生 ESM 的浏览器中进行按需加载。

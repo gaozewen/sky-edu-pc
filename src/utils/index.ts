@@ -26,7 +26,7 @@ export const ImgUtils = {
       }
 
       const compressedFile = await imageCompression(file, options)
-      // console.log(`压缩后文件大小：${compressedFile.size / 1024} KMB`)
+      // console.log(`压缩后文件大小：${compressedFile.size / 1024} KB`)
       return compressedFile
     } catch (error) {
       console.error('【imageCompression】Error:', error)
