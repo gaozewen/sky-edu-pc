@@ -14,6 +14,15 @@ export const genColumns: ({
   onCard,
 }: IProps) => ProColumns<ICourse, 'text'>[] = ({ onEdit, onOrderTime, onCard }) => [
   {
+    title: 'ID',
+    dataIndex: 'id',
+    align: 'center',
+    width: 88,
+    ellipsis: true,
+    copyable: true,
+    search: false,
+  },
+  {
     title: '课程标题',
     dataIndex: 'name',
     ellipsis: true,

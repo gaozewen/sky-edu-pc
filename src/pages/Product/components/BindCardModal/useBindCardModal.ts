@@ -3,6 +3,7 @@ import { unionBy } from 'lodash-es'
 import { useEffect, useMemo, useState } from 'react'
 
 import { SUCCESS } from '@/constants/code'
+import { useGoTo } from '@/hooks/useGoTo'
 import { useGetCardsService } from '@/service/card'
 import { useCommitProductService, useGetProductService } from '@/service/product'
 
@@ -10,8 +11,7 @@ import { IBindCardModalProps } from '.'
 
 export const useBindCardModal = (props: IBindCardModalProps) => {
   const { setShowModal, id: productId } = props
-  const { message } = App.useApp()
-  const [selectedCards, setSelectedCards] = useState<string[]>([])
+
   const {
     getProduct,
     loading: getProductLoading,
@@ -19,6 +19,12 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
   } = useGetProductService()
   const { getCards, loading: getCardsLoading, data: cards } = useGetCardsService()
   const { onCommitProduct } = useCommitProductService()
+
+  const [selectedCards, setSelectedCards] = useState<string[]>([])
+  const [selectedCourseId, setSelectedCourseId] = useState<string>('')
+
+  const { message } = App.useApp()
+  const { goTo } = useGoTo()
 
   useEffect(() => {
     // 弹出绑定消费卡 Modal 时，获取商品接口数据
@@ -36,7 +42,10 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
   }, [product?.cards])
 
   const onSelected = (courseId: string) => {
-    getCards({ variables: { courseId } })
+    if (courseId) {
+      setSelectedCourseId(courseId)
+      getCards({ variables: { courseId } })
+    }
   }
 
   const onSave = async () => {
@@ -70,5 +79,7 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
     getCardsLoading,
     newCards,
     onSave,
+    selectedCourseId,
+    goTo,
   }
 }

@@ -1,8 +1,9 @@
 import { CreditCardOutlined } from '@ant-design/icons'
 import { CheckCard } from '@ant-design/pro-components'
-import { Modal, Result, Row, Space, Typography } from 'antd'
+import { Button, Empty, Modal, Result, Row, Space, Typography } from 'antd'
 
 import { getCardTypeTag } from '@/pages/Course/components/Card/utils'
+import { PN } from '@/router'
 
 import CourseSearch from './components/CourseSearch'
 import { useBindCardModal } from './useBindCardModal'
@@ -22,6 +23,8 @@ const BindCardModal = (props: IBindCardModalProps) => {
     getCardsLoading,
     newCards,
     onSave,
+    selectedCourseId,
+    goTo,
   } = useBindCardModal(props)
 
   return (
@@ -36,8 +39,19 @@ const BindCardModal = (props: IBindCardModalProps) => {
         <CourseSearch onSelected={onSelected} />
       </Row>
       <Row justify="center" style={{ padding: 15 }}>
-        {newCards.length === 0 && (
+        {newCards.length === 0 && !selectedCourseId && (
           <Result status="warning" title="请搜索课程并选择对应的消费卡" />
+        )}
+
+        {newCards.length === 0 && !!selectedCourseId && (
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description="该门店未关联消费卡，请搜索其他门店或去该门店进行关联"
+          >
+            <Button type="dashed" onClick={() => goTo({ pathname: PN.COURSE })}>
+              去关联
+            </Button>
+          </Empty>
         )}
 
         <CheckCard.Group

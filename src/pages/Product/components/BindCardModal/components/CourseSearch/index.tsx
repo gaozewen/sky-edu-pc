@@ -1,5 +1,6 @@
 import { Select } from 'antd'
 import { debounce } from 'lodash-es'
+import { useEffect } from 'react'
 
 import { useGetCoursesByNameService } from '@/service/course'
 
@@ -12,6 +13,11 @@ interface IProps {
  */
 const CourseSearch = ({ onSelected }: IProps) => {
   const { getCoursesByName, loading, data } = useGetCoursesByNameService()
+
+  useEffect(() => {
+    // 组件加载是先初始化课程数据
+    getCoursesByName('')
+  }, [])
 
   const onSearch = debounce((name: string) => {
     getCoursesByName(name)
