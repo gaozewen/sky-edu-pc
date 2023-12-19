@@ -19,6 +19,13 @@ FROM nginx:1.25.1
 COPY --from=builder /dist /usr/share/nginx/html
 # 授予 favicon.ico 文件读的权限
 RUN chmod a+r /usr/share/nginx/html/favicon.ico
+# 授予 logo.png 文件读的权限
+RUN chmod a+r /usr/share/nginx/html/logo.png
+# 授予 manifest.json 文件读的权限
+RUN chmod a+r /usr/share/nginx/html/manifest.json
+# 授予 robots.txt 文件读的权限
+RUN chmod a+r /usr/share/nginx/html/robots.txt
+
 # 将 sky-edu-mobile 项目中的 nginx.conf 文件，
 # 拷贝到 nginx 容器中的 /etc/nginx/conf.d/ 目录下，
 # 并命名为 default.conf
