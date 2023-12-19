@@ -45,6 +45,8 @@ export const useApollo = () => {
   })
 
   const apolloClient = new ApolloClient({
+    // 只有在开发模式下才会打开 Apollo 调试工具
+    connectToDevTools: import.meta.env.DEV,
     cache: new InMemoryCache({
       addTypename: false,
     }),
