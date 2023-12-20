@@ -29,7 +29,7 @@ export const useLoadUserData = () => {
       if (user) {
         const { id, avatar, tel, nickname, desc } = user
         // 1.1.1 将用户信息存入 userContext 的 store 中
-        setStore({ id, avatar, tel, nickname, desc, refetchHandler: refetch })
+        resetStore({ id, avatar, tel, nickname, desc, refetchHandler: refetch })
         // 1.1.2 设置用户已选择的当前门店（因为用户所有操作基本都基于门店）
         const localCurrentStore = getLocalStore()
         if (localCurrentStore.userId) {

@@ -65,7 +65,14 @@ const useAutoNavigate = (loadingUserData: boolean) => {
     // 直接 return 不做任何处理
     if (isLoginRouter(pathname)) return
 
-    // 2.2.2 未登录 - 其他情况
+    // 2.2.3 未登录 - 当前是 密码修改 页
+    if (pathname === PN.PASSWORD) {
+      // 则，直接跳转登录页
+      goTo({ pathname: PN.LOGIN })
+      return
+    }
+
+    // 2.2.3 未登录 - 其他情况
     // 则自动跳转登录页
     goTo({
       pathname: PN.LOGIN,
