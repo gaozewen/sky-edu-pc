@@ -37,6 +37,7 @@ const useAutoNavigate = (loadingUserData: boolean) => {
         if (isNotSelectCurrentStore()) {
           // 则跳转门店选择页
           goTo({ pathname: PN.SELECT_STORE_GUIDE })
+          return
         }
 
         // 2.1.1.3 已登录 - 当前是 Login 页 - 其他情况
