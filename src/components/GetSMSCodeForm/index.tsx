@@ -3,7 +3,7 @@ import { ProFormCaptcha } from '@ant-design/pro-components'
 import { useMutation } from '@apollo/client'
 import { App, theme } from 'antd'
 
-import { AUTH_SMS_NOT_EXPIRED, GET_AUTH_SMS_FAILED, SUCCESS } from '@/constants/code'
+import { GET_SMS_FREQUENTLY, SUCCESS } from '@/constants/code'
 import { SizeType } from '@/constants/enum'
 import { SEND_AUTH_SMS } from '@/graphql/auth'
 
@@ -71,14 +71,14 @@ const GetSMSCodeForm = (props: IProps) => {
             })
             const { code, message: msg } = res.data.sendAuthSMS
             if (code === SUCCESS) {
-              message.success('获取验证码成功！')
-            } else if (code === AUTH_SMS_NOT_EXPIRED) {
-              message.warning('验证码尚未过期！')
-            } else if (code === GET_AUTH_SMS_FAILED) {
-              message.error('获取验证码失败！')
-            } else {
-              message.error(msg)
+              message.success(msg)
+              return
             }
+            if (code === GET_SMS_FREQUENTLY) {
+              message.warning(msg)
+              return
+            }
+            message.error(msg)
           } catch (error) {
             console.error('【sendAuthSMS】Error:')
             message.error('获取验证码失败！服务器忙，请稍后再试！')
