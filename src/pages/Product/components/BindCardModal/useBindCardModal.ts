@@ -1,11 +1,12 @@
 import { App } from 'antd'
 import { unionBy } from 'lodash-es'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { SUCCESS } from '@/constants/code'
 import { useGoTo } from '@/hooks/useGoTo'
 import { useGetCardsService } from '@/service/card'
 import { useCommitProductService, useGetProductService } from '@/service/product'
+import { ICard } from '@/types'
 
 import { IBindCardModalProps } from '.'
 
@@ -22,6 +23,7 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
 
   const [selectedCards, setSelectedCards] = useState<string[]>([])
   const [selectedCourseId, setSelectedCourseId] = useState<string>('')
+  const [allCards, setAllCards] = useState<ICard[]>([])
 
   const { message } = App.useApp()
   const { goTo } = useGoTo()
@@ -32,10 +34,11 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const newCards = useMemo(
-    () => unionBy(product?.cards || [], cards || [], 'id'),
-    [product?.cards, cards]
-  )
+  useEffect(() => {
+    setAllCards(oldAllCards =>
+      unionBy(product?.cards || [], [...oldAllCards, ...(cards || [])], 'id')
+    )
+  }, [product?.cards, cards])
 
   useEffect(() => {
     setSelectedCards(product?.cards?.map(c => c.id) || [])
@@ -80,7 +83,7 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
     getProductLoading,
     onSelected,
     getCardsLoading,
-    newCards,
+    allCards,
     onSave,
     selectedCourseId,
     goTo,

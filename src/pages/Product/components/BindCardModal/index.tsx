@@ -22,7 +22,7 @@ const BindCardModal = (props: IBindCardModalProps) => {
     getProductLoading,
     onSelected,
     getCardsLoading,
-    newCards,
+    allCards,
     onSave,
     selectedCourseId,
     goTo,
@@ -44,11 +44,11 @@ const BindCardModal = (props: IBindCardModalProps) => {
             <CourseSearch onSelected={onSelected} />
           </Row>
           <Row justify="center" style={{ padding: 15 }}>
-            {!isLoading && newCards.length === 0 && !selectedCourseId && (
+            {!isLoading && allCards.length === 0 && !selectedCourseId && (
               <Result status="warning" title="请搜索课程并选择对应的消费卡" />
             )}
 
-            {!isLoading && newCards.length === 0 && !!selectedCourseId && (
+            {!isLoading && allCards.length === 0 && !!selectedCourseId && (
               <Empty
                 image={Empty.PRESENTED_IMAGE_SIMPLE}
                 description="该门店未关联消费卡，请搜索其他门店或去该门店进行关联"
@@ -59,7 +59,7 @@ const BindCardModal = (props: IBindCardModalProps) => {
               </Empty>
             )}
 
-            {!isLoading && newCards && newCards.length > 0 && (
+            {!isLoading && allCards && allCards.length > 0 && (
               <CheckCard.Group
                 multiple
                 value={selectedCards}
@@ -67,7 +67,7 @@ const BindCardModal = (props: IBindCardModalProps) => {
                   setSelectedCards(value as string[])
                 }}
               >
-                {newCards?.map(i => (
+                {allCards?.map(i => (
                   <CheckCard
                     key={i.id}
                     value={i.id}
