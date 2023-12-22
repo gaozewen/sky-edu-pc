@@ -1,10 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Modal, Upload } from 'antd'
+import { Avatar, Modal, Upload } from 'antd'
 import type { RcFile, UploadProps } from 'antd/es/upload'
 import type { UploadFile } from 'antd/es/upload/interface'
 import ImgCrop from 'antd-img-crop'
 import React, { useState } from 'react'
 
+import { IMG } from '@/constants/image'
 import { useUploadOSS } from '@/hooks/useUploadOSS'
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -21,6 +22,7 @@ interface IProps {
   max?: number
   multiple?: boolean
   imgCropAspect?: number
+  isAvatar?: boolean
 }
 
 const ImageUpload: React.FC<IProps> = props => {
@@ -30,6 +32,7 @@ const ImageUpload: React.FC<IProps> = props => {
     max = 1,
     multiple = false,
     imgCropAspect = 1 / 1,
+    isAvatar = false,
   } = props
   const { customRequest } = useUploadOSS()
   const [previewOpen, setPreviewOpen] = useState(false)
@@ -57,16 +60,18 @@ const ImageUpload: React.FC<IProps> = props => {
     // 2.更新完状态后同步更新外面表单的 value
     if (file.status === 'done') {
       // 1.将 fileList 中对应 file 状态改成 done
-      willFileList = willFileList?.map((item: UploadFile) => {
-        const isCurrentDoneFile = file.uid === item.uid
-        return {
-          ...item,
-          status: isCurrentDoneFile ? 'done' : item.status,
-          url: isCurrentDoneFile
-            ? item.response.url || ''
-            : item?.url || item?.response?.url || '',
-        }
-      })
+      willFileList = willFileList
+        ?.filter((item: UploadFile) => item.status)
+        ?.map((item: UploadFile) => {
+          const isCurrentDoneFile = file.uid === item.uid
+          return {
+            ...item,
+            status: isCurrentDoneFile ? 'done' : item.status,
+            url: isCurrentDoneFile
+              ? item.response.url || ''
+              : item?.url || item?.response?.url || '',
+          }
+        })
     }
 
     // console.log('gzw==>willFileList', willFileList)
@@ -79,18 +84,29 @@ const ImageUpload: React.FC<IProps> = props => {
       <div style={{ marginTop: 8 }}>上传图片</div>
     </div>
   )
+
   return (
     <>
       <ImgCrop rotationSlider aspect={imgCropAspect}>
         <Upload
-          listType="picture-card"
+          listType={isAvatar ? 'picture-circle' : 'picture-card'}
+          showUploadList={!isAvatar}
           fileList={value || []}
           onPreview={handlePreview}
           onChange={handleChange}
           multiple={multiple}
           customRequest={customRequest}
         >
-          {value?.length >= max ? null : uploadButton}
+          {value?.length >= max ? (
+            isAvatar ? (
+              <Avatar
+                style={{ width: '100%', height: '100%' }}
+                src={value[0].url || IMG.AVATAR_DEFAULT}
+              />
+            ) : null
+          ) : (
+            uploadButton
+          )}
         </Upload>
       </ImgCrop>
       <Modal

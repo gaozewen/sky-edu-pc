@@ -68,7 +68,6 @@ const Home = () => {
         modal.error({
           title: '课程不存在',
           content: '排课失败，请先去创建课程',
-          cancelText: '知道了',
           okText: '去创建',
           onOk: () => {
             goTo({ pathname: PN.COURSE })
@@ -81,7 +80,6 @@ const Home = () => {
         modal.error({
           title: '可约时间不存在',
           content: '排课失败，请先去课程管理页设置可约时间',
-          cancelText: '知道了',
           okText: '去设置',
           onOk: () => {
             goTo({ pathname: PN.COURSE })

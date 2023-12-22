@@ -85,7 +85,6 @@ const Product = () => {
         modal.error({
           title: '无有效排课',
           content: msg,
-          cancelText: '知道了',
           okText: '去排课',
           onOk: () => {
             goTo({ pathname: PN.HOME })

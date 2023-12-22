@@ -9,7 +9,7 @@ import { useMutation } from '@apollo/client'
 import { App, Form } from 'antd'
 import { useEffect, useRef } from 'react'
 
-import AvatarUpload from '@/components/AvatarUpload'
+import ImageUpload from '@/components/ImageUpload'
 import { SUCCESS } from '@/constants/code'
 import { UPDATE_USER_PROFILE } from '@/graphql/user'
 import { useUserContext } from '@/hooks/useUserHooks'
@@ -31,7 +31,7 @@ const Profile = () => {
         tel: store.tel,
         nickname: store.nickname,
         desc: store.desc,
-        avatar: store.avatar,
+        avatar: store.avatar ? [{ url: store.avatar }] : undefined,
       })
     }
   }, [store])
@@ -56,7 +56,7 @@ const Profile = () => {
                   params: {
                     nickname: values.nickname,
                     desc: values.desc,
-                    avatar: values.avatar,
+                    avatar: (values.avatar || [])[0]?.url || '',
                   },
                 },
               })
@@ -75,7 +75,7 @@ const Profile = () => {
           }}
         >
           <Form.Item name="avatar">
-            <AvatarUpload />
+            <ImageUpload isAvatar={true} />
           </Form.Item>
           <ProFormText
             width="md"

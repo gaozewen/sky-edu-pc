@@ -3,7 +3,7 @@ import { App, Form } from 'antd'
 import { Rule } from 'antd/es/form'
 import { useEffect, useRef } from 'react'
 
-import AvatarUpload from '@/components/AvatarUpload'
+import ImageUpload from '@/components/ImageUpload'
 import { SUCCESS } from '@/constants/code'
 import { useCommitTeacherService, useGetTeacherService } from '@/service/teacher'
 import { ITeacher } from '@/types'
@@ -166,7 +166,7 @@ const TeacherEdit = (props: IProps) => {
       />
 
       <Form.Item name="avatar">
-        <AvatarUpload />
+        <ImageUpload isAvatar={true} />
       </Form.Item>
     </DrawerForm>
   )
