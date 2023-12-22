@@ -4,7 +4,9 @@ import { App, Button } from 'antd'
 import { useRef, useState } from 'react'
 
 import { DEFAULT_PAGE_SIZE } from '@/constants'
-import { SUCCESS } from '@/constants/code'
+import { SUCCESS, VALID_SCHEDULE_NOT_EXIST } from '@/constants/code'
+import { useGoTo } from '@/hooks/useGoTo'
+import { PN } from '@/router'
 import {
   useCommitProductService,
   useDeleteProductService,
@@ -22,12 +24,13 @@ import { genColumns, ProductStatus } from './utils'
 const Product = () => {
   const { proTableRequest } = useGetProductsService()
   const { onDeleteProduct } = useDeleteProductService()
-  const { message } = App.useApp()
+  const { message, modal } = App.useApp()
   const [showEdit, setShowEdit] = useState(false)
   const [curProductId, setCurProductId] = useState('')
   const actionRef = useRef<ActionType>()
   const [showModal, setShowModal] = useState(false)
   const { onCommitProduct } = useCommitProductService()
+  const { goTo } = useGoTo()
 
   const onEdit = (id?: string) => {
     setCurProductId(id || '')
@@ -75,6 +78,19 @@ const Product = () => {
         // 刷新当前商品列表页
         actionRef.current?.reload()
         message.success(msg)
+        return
+      }
+      if (code === VALID_SCHEDULE_NOT_EXIST) {
+        // 想要上架商品，未来 7 天却没有有效的排课，引导去排课
+        modal.error({
+          title: '无有效排课',
+          content: msg,
+          cancelText: '知道了',
+          okText: '去排课',
+          onOk: () => {
+            goTo({ pathname: PN.HOME })
+          },
+        })
         return
       }
       message.error(msg)
