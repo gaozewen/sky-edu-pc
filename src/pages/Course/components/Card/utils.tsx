@@ -1,20 +1,9 @@
 import { ProColumns } from '@ant-design/pro-components'
-import { Popconfirm, Space, Tag } from 'antd'
+import { Popconfirm, Space } from 'antd'
 
 export enum CardType {
   TIME = 'time', // 次数卡
   DURATION = 'duration', // 时长卡
-}
-
-export const getCardTypeTag = (type?: string) => {
-  switch (type) {
-    case CardType.TIME:
-      return <Tag color="blue">次数卡</Tag>
-    case CardType.DURATION:
-      return <Tag color="green">时长卡</Tag>
-    default:
-      return '-'
-  }
 }
 
 export const getColumns = (onDelete: (id: string) => void): ProColumns[] => [

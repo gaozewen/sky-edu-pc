@@ -49,8 +49,11 @@ export const useBindCardModal = (props: IBindCardModalProps) => {
   }
 
   const onSave = async () => {
-    // 如果未选择消费卡，直接点击保存，即不做任何操作，直接关闭弹窗
-    if (!selectedCards || selectedCards.length === 0) {
+    // 如果 cards 不存在 && selectedCards 也不存在（即原来和现在都未绑定消费卡），直接点击保存，则不做任何操作，直接关闭弹窗
+    if (
+      (!cards || cards.length === 0) &&
+      (!selectedCards || selectedCards.length === 0)
+    ) {
       setShowModal(false)
       return
     }

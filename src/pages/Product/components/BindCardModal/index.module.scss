@@ -1,0 +1,48 @@
+.modal {
+  height: 60vh;
+  .check-card {
+    width: 350px;
+    .title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      width: 318px;
+      font-size: 15px;
+      .left {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        line-height: 15px;
+        .name {
+          width: 188px;
+          margin-left: 5px;
+          text-wrap: wrap;
+        }
+      }
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      width: 318px;
+      margin-top: 8px;
+      font-size: 13px;
+      line-height: 20px;
+      .course-name {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        margin-bottom: 4px;
+
+        .label {
+          width: 53px;
+        }
+        .value {
+          width: 254px;
+          text-align: justify;
+          text-wrap: wrap;
+        }
+      }
+    }
+  }
+}
