@@ -12,6 +12,8 @@ export const GET_PRODUCTS = gql`
         category
         status
         stock
+        curStock
+        sellNumber
         limitBuyNumber
         coverUrl
         bannerUrl
