@@ -1,5 +1,9 @@
 import { ProColumns } from '@ant-design/pro-components'
 import { Popconfirm, Space } from 'antd'
+import { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
+
+import { H_M_S_FORMAT } from '@/constants'
 
 export enum Week {
   Monday = 'Monday',
@@ -62,6 +66,31 @@ export const getColumns = (onDelete: (id: string) => void): ProColumns[] => [
     valueType: 'time',
     width: 160,
     align: 'center',
+    formItemProps: () => {
+      return {
+        rules: [
+          { required: true },
+          ({ getFieldsValue }) => ({
+            validator: async () => {
+              const {
+                startTime = '',
+                endTime = '',
+              }: { startTime?: string | Dayjs; endTime?: string | Dayjs } =
+                Object.values(getFieldsValue() || {})[0] || {}
+              if (
+                startTime &&
+                startTime instanceof dayjs &&
+                endTime &&
+                (startTime.format(H_M_S_FORMAT) == endTime ||
+                  startTime.isAfter(dayjs(endTime, H_M_S_FORMAT)))
+              ) {
+                throw new Error('开始时间必须小于结束时间')
+              }
+            },
+          }),
+        ],
+      }
+    },
   },
   {
     title: '结束时间',
@@ -69,6 +98,31 @@ export const getColumns = (onDelete: (id: string) => void): ProColumns[] => [
     valueType: 'time',
     width: 160,
     align: 'center',
+    formItemProps: () => {
+      return {
+        rules: [
+          { required: true },
+          ({ getFieldsValue }) => ({
+            validator: async () => {
+              const {
+                startTime = '',
+                endTime = '',
+              }: { startTime?: string | Dayjs; endTime?: string | Dayjs } =
+                Object.values(getFieldsValue() || {})[0] || {}
+              if (
+                startTime &&
+                endTime &&
+                endTime instanceof dayjs &&
+                (endTime.format(H_M_S_FORMAT) == startTime ||
+                  endTime.isBefore(dayjs(startTime, H_M_S_FORMAT)))
+              ) {
+                throw new Error('结束时间必须大于开始时间')
+              }
+            },
+          }),
+        ],
+      }
+    },
   },
   {
     title: '操作',

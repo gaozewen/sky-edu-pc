@@ -6,7 +6,7 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components'
-import { App, Divider, Form, UploadFile } from 'antd'
+import { App, Divider, Form, InputNumber, UploadFile } from 'antd'
 import { useEffect, useRef } from 'react'
 
 import ImageUpload from '@/components/ImageUpload'
@@ -148,21 +148,29 @@ const StoreEdit = (props: IProps) => {
       <ProForm.Group>
         <MobileForm label="手机号" name="tel" width="sm" />
 
-        <ProFormText
-          width="sm"
-          name="longitude"
-          label="经度"
-          placeholder="请输入经度"
-          rules={[{ required: true }]}
-        />
+        <Form.Item name="longitude" label="经度" rules={[{ required: true }]}>
+          <InputNumber
+            style={{ width: 216 }}
+            placeholder="请输入经度"
+            min={-180}
+            max={180}
+            step={0.000001} // 可选，设置步长
+            precision={6} // 可选，设置精度
+            stringMode
+          />
+        </Form.Item>
 
-        <ProFormText
-          width="sm"
-          name="latitude"
-          label="纬度"
-          placeholder="请输入经度"
-          rules={[{ required: true }]}
-        />
+        <Form.Item name="latitude" label="纬度" rules={[{ required: true }]}>
+          <InputNumber
+            style={{ width: 216 }}
+            placeholder="请输入纬度"
+            min={-90}
+            max={90}
+            step={0.000001} // 可选，设置步长
+            precision={6} // 可选，设置精度
+            stringMode
+          />
+        </Form.Item>
       </ProForm.Group>
 
       {/* 3 */}
