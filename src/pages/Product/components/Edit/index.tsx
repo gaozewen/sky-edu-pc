@@ -108,7 +108,28 @@ const ProductEdit = (props: IProps) => {
         name="name"
         label="商品名称"
         placeholder="请输入商品名称"
-        rules={[{ required: true }]}
+        rules={[
+          { required: true },
+          () => ({
+            validator(_, text) {
+              const chineseCharactersCount = text.replace(
+                /[^\u4e00-\u9fa5]/g,
+                ''
+              ).length
+              const englishNumberSpecialCount =
+                text.match(/[a-zA-Z0-9~`!@#$%^&*()_\-+={[}\]|:;"'<,>.?/\\ ]/g)
+                  ?.length || 0
+              const totalChineseCharactersCount =
+                chineseCharactersCount + Math.ceil(englishNumberSpecialCount / 2)
+              if (totalChineseCharactersCount > 23) {
+                return Promise.reject(
+                  '商品名称的中文字符数量不能超过23个(2 个英文/英文标点符号/数字算 1 个中文字符)'
+                )
+              }
+              return Promise.resolve()
+            },
+          }),
+        ]}
       />
 
       {/* 2 */}
